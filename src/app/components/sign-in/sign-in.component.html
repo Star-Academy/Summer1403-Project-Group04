@@ -1,0 +1,18 @@
+<div class="sign-in-container">
+    <main class="sign-in-container__main-content" >
+        <h1 class="sign-in-container__main-content__title">Sign In</h1>
+        <form action="" class="sign-in-container__main-content__auth-form" data-testid="auth-form">
+            <input type="text" placeholder="User-name" class="sign-in-container__main-content__auth-form__input">
+            <input type="password" placeholder="Password" class="sign-in-container__main-content__auth-form__input">
+            <button class="sign-in-container__main-content__auth-form__button">
+                <span class="front">
+                    Sign In
+                </span>
+            </button>
+        </form>
+    </main>
+    <p class="sign-in-container__message">
+        <span class="sign-in-container__message__text">don’t have an account?</span>
+        <a [routerLink]="['/authentication', 'sign-up']" class="sign-in-container__message__link">Sign up</a>
+    </p>
+</div>
