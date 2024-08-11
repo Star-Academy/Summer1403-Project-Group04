@@ -22,7 +22,7 @@ ENV CHROME_BIN="/usr/bin/google-chrome"
 
 COPY . .
 
-# RUN npm run lint
+RUN npm run lint
 
 RUN ng test --watch=false --browsers=ChromeHeadlessNoSandbox  
 
@@ -34,7 +34,7 @@ FROM nginx:1.27
 RUN groupadd -g 10001 appuser && \
     useradd -u 10001 -g appuser -m appuser  
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+# COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build --chown=appuser:appuser /app/dist/book-store/browser /usr/share/nginx/html
 
