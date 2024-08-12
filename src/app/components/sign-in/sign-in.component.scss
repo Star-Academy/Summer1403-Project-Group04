@@ -5,6 +5,24 @@
   align-items: center;
 }
 
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .sign-in-container {
   @include center();
   height: calc-size(auto);
@@ -31,35 +49,51 @@
     }
 
     &__auth-form {
+      inline-size: 100%;
       @include center();
       gap: 2.5rem;
 
-      &__input {
-        background-color: transparent;
-        padding-inline: 2rem;
-        padding-block: 1.2rem;
-        outline: 0;
-        font-size: 2.4rem;
-        border: 3px solid #565656;
-        border-radius: 1.2rem;
-        color: #1b1b1b;
-        width: 75%;
-        &::placeholder {
-          color: #777;
-        }
-        &--invalid {
-            border-color: red;
-        }
-      }
+      &__input-container {
+        @include center();
+        gap: 0.5rem;
 
-      &__error-container{
-        inline-size: 85%;
-        &__error {
-            
+        &__input {
+          background-color: transparent;
+          padding-inline: 2rem;
+          padding-block: 1.2rem;
+          outline: 0;
+          font-size: 2.4rem;
+          border: 3px solid #565656;
+          border-radius: 1.2rem;
+          color: #1b1b1b;
+
+          &::placeholder {
+            color: #777;
           }
-      }
 
-      
+          &--invalid {
+            border-color: #c91e1e;
+            animation: shake 0.2s ease;
+          }
+
+          &--default {
+            border-color: #565656;
+          }
+        }
+
+        &__error-container {
+          inline-size: 100%;
+
+          &__error {
+            color: #c91e1e;
+            font-size: 1.6rem;
+            font-weight: bold;
+          }
+
+          // chetore????
+          //serve nemisheeee w8
+        }
+      }
 
       &__button {
         inline-size: 40rem;
