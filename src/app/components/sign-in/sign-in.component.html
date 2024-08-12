@@ -28,10 +28,11 @@
               *ngIf="signInForm.get(control.name)?.hasError('minlength')"
               class="sign-in-container__main-content__auth-form__input-container__error-container__error"
             >
-              *Input should be at least {{ control.minLength }} characters
+              *At least {{ control.minLength }} characters        
             </span>
           </p>
           <input
+            #inputField
             [type]="control.type"
             [formControlName]="control.name"
             [placeholder]="control.placeholder"
@@ -41,7 +42,8 @@
                 signInForm.get(control.name)?.invalid &&
                 signInForm.get(control.name)?.touched,
               'sign-in-container__main-content__auth-form__input-container__input--default':
-                !signInForm.get(control.name)?.touched
+                !signInForm.get(control.name)?.touched,
+              shake: isSubmitted && signInForm.get(control.name)?.invalid
             }"
           />
         </div>

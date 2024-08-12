@@ -57,6 +57,8 @@
         @include center();
         gap: 0.5rem;
 
+        //okeye? 👎👎👎👎
+
         &__input {
           background-color: transparent;
           padding-inline: 2rem;
@@ -73,11 +75,14 @@
 
           &--invalid {
             border-color: #c91e1e;
-            animation: shake 0.2s ease;
           }
 
           &--default {
             border-color: #565656;
+          }
+
+          &.shake {
+            animation: shake 0.2s ease;
           }
         }
 
@@ -89,9 +94,6 @@
             font-size: 1.6rem;
             font-weight: bold;
           }
-
-          // chetore????
-          //serve nemisheeee w8
         }
       }
 
