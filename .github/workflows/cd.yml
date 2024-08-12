@@ -1,4 +1,5 @@
-name: Bump version  
+name: CD  
+
 on:
   push:
     branches:
@@ -25,7 +26,8 @@ jobs:
       - name: Build the Docker image
         id: build_image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/negar:latest . 
+          docker build -t test/negar-frontend:latest .
+          # docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/negar-frontend:latest . 
           
       - name: Bump version and push tag
         if: steps.build_image.outcome == 'success'
@@ -37,5 +39,5 @@ jobs:
       # - name: Push the Docker image
       #   if: steps.tag_version.outputs.new_tag != ''
       #   run: |
-      #     docker tag ${{ secrets.DOCKERHUB_USERNAME }}/mygoapp:latest ${{ secrets.DOCKERHUB_USERNAME }}/mygoapp:${{ steps.tag_version.outputs.new_tag }}
-      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/mygoapp:${{ steps.tag_version.outputs.new_tag }}
+      #     docker tag ${{ secrets.DOCKERHUB_USERNAME }}/negar-frontend:latest ${{ secrets.DOCKERHUB_USERNAME }}/negar-frontend:${{ steps.tag_version.outputs.new_tag }}
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/negar-frontend:${{ steps.tag_version.outputs.new_tag }}
