@@ -1,20 +1,26 @@
 .auth-page-container {
-    background: rgb(14,18,41);
-    background: linear-gradient(45deg, rgba(14,18,41,1) 0%, rgba(24,36,103,1) 100%);
+    background: rgb(236,237,246);
+    background: linear-gradient(225deg, rgba(236,237,246,1) 0%, rgba(185,185,190,1) 100%);
     min-block-size: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    &__dark-circle {
+    &__circle-container {
+        inline-size: 73rem;
         position: absolute;
-        inset-inline-end: 32%;
-        inset-block-start: 7rem;
-    }
+        inset-block-start: 8rem;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
 
-    &__blue-circle {
-        position: absolute;
-        inset-inline-start: 27%;
-        inset-block-start: 3rem;
+        &__dark-circle {
+            transform: translate(-10%, -15%);
+        }
+    
+        &__blue-circle {
+            transform: translate(-10%, 0);
+        }
     }
 }

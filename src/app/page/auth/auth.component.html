@@ -1,10 +1,7 @@
 <div class="auth-page-container">
-    <img src="/auth/blue-circle.svg" alt="circle" class="auth-page-container__blue-circle">
-    <img src="/auth/dark-circle.svg" alt="circle" class="auth-page-container__dark-circle">
-    @if (action === 'sign-up') {
-        <app-sign-up></app-sign-up>
-    }
-    @else {
-        <app-sign-in></app-sign-in>
-    }
+    <div class="auth-page-container__circle-container">
+        <img src="/auth/blue-circle.svg" alt="circle" class="auth-page-container__circle-container__blue-circle">
+        <img src="/auth/dark-circle.svg" alt="circle" class="auth-page-container__circle-container__dark-circle">
+    </div>
+    <app-sign-in></app-sign-in>
 </div>
