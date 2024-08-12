@@ -1,14 +1,44 @@
 <div class="sign-in-container">
-    <main class="sign-in-container__main-content" >
-        <h1 class="sign-in-container__main-content__title">Log In</h1>
-        <form action="" class="sign-in-container__main-content__auth-form" data-testid="auth-form">
-            <input type="text" placeholder="User-name" class="sign-in-container__main-content__auth-form__input" required minlength="3">
-            <input type="password" placeholder="Password" class="sign-in-container__main-content__auth-form__input">
-            <button class="sign-in-container__main-content__auth-form__button">
-                <span class="front">
-                    Log In
-                </span>
-            </button>
-        </form>
-    </main>
+  <main class="sign-in-container__main-content">
+    <h1 class="sign-in-container__main-content__title">Log In</h1>
+    <form
+      [formGroup]="signInForm"
+      (ngSubmit)="onSubmit()"
+      class="sign-in-container__main-content__auth-form"
+      data-testid="auth-form"
+    >
+      <input
+        type="text"
+        formControlName="username"
+        placeholder="User-name"
+        class="sign-in-container__main-content__auth-form__input"
+        [ngClass]="{
+            '': signInForm.get('username')?.valid && signInForm.get('username')?.touched,
+            'input--invalid': signInForm.get('username')?.invalid && signInForm.get('username')?.touched,
+        }"
+      />
+      <div class="sign-in-container__main-content__auth-form__error-container" *ngIf="signInForm.get('username')?.touched && signInForm.get('username')?.invalid">
+        <span class="sign-in-container__main-content__auth-form__error-container__error" *ngIf="signInForm.get('username')?.hasError('required')"
+          >Required</span
+        >
+        <span class="sign-in-container__main-content__auth-form__error" *ngIf="signInForm.get('username')?.hasError('minlength')"
+          >Min</span
+        >
+      </div>
+
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        class="sign-in-container__main-content__auth-form__input"
+      />
+
+      <button
+        type="submit"
+        class="sign-in-container__main-content__auth-form__button"
+      >
+        <span class="front">Log In</span>
+      </button>
+    </form>
+  </main>
 </div>
