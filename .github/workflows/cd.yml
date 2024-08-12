@@ -1,4 +1,4 @@
-name: Bump version  
+name: CD  
 on:
   push:
     branches:
@@ -25,7 +25,8 @@ jobs:
       - name: Build the Docker image
         id: build_image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/negar:latest . 
+          docker build -t test/negar-frontend:latest .
+          # docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/negar:latest . 
           
       - name: Bump version and push tag
         if: steps.build_image.outcome == 'success'
