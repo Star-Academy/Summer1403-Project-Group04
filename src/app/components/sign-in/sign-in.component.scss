@@ -1,0 +1,112 @@
+@mixin center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-in-container {
+    @include center();
+    padding-inline: 6.2rem;
+    padding-block: 7rem;
+    gap: 1.5rem;
+    background: rgba( 156, 157, 160, 0.1 );
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    backdrop-filter: blur( 6px );
+    -webkit-backdrop-filter: blur( 6px );
+    border-radius: 10px;
+    border-radius: 15px;
+    border: 1px solid rgba( 255, 255, 255, 0.1 );
+    
+    &__main-content {
+        @include center();
+        gap: 3rem;
+
+        &__title {
+            color: #1b1b1b;
+            font-weight: bold;
+            font-size: 4.8rem;
+        }
+    
+        &__auth-form {
+            @include center();
+            gap: 2.5rem;
+    
+            &__input {
+                background-color: transparent;
+                padding-inline: 2rem;
+                padding-block: 1.2rem;
+                outline: 0;
+                font-size: 2.4rem;
+                border: 3px solid #565656;
+                border-radius: 1.2rem;
+                color: #1b1b1b;
+                width: 75%;
+                &::placeholder{
+                    color: #777;
+                }
+            }
+    
+            &__button{
+                inline-size: 40rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                outline: 0;
+                border: 0;
+                background: rgb(30,54,145);
+                border-radius: 1rem;
+                cursor: pointer;
+                
+                .front {
+                    inline-size: 40rem;
+                    will-change: transform;
+                    transition: transform 250ms;
+                    display: block;
+                    padding-block: 1.5rem 0.9rem;
+                    border-radius: 1.3rem;
+                    font-size: 1.25rem;
+                    background: rgb(32,61,165);
+                    background: linear-gradient(90deg, rgba(32,61,165,1) 0%, rgba(61,88,183,1) 100%);
+                    color: white;
+                    font-size: 2.4rem;
+                    font-weight: bold;
+                    transform: translateY(-4px);
+                }
+            
+                &:hover .front {
+                    transform: translateY(-5px);
+                }
+                
+                &:active .front {
+                    transform: translateY(-2px);
+                }
+    
+                &:focus:not(:focus-visible) {
+                    outline: none;
+                }
+            }
+        }  
+    }
+
+    &__message {
+        inline-size: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        color: #fff;
+
+        &__text {
+            font-size: 2rem;
+            font-weight: 200;
+        }
+
+        &__link {
+            color: #fff;
+            font-size: 2rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    }
+}
