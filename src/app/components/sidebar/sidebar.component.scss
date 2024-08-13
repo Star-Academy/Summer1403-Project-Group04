@@ -14,27 +14,55 @@
 
 .sidebar-logo {
   position: relative;
-  height: 64px;
-  padding-left: 24px;
+  // height: 64px;
   overflow: hidden;
   line-height: 64px;
-  background: #001529;
+  // background: #001529;
   transition: all 0.3s;
+
+  &__title-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  background-color: #fff;
+
+    &__title{
+      font-size: 2rem;
+      color: #000;
+      font-weight: bold;
+    }
+  }
+
+  &__profile-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding-block: 2rem;
+    // background-color: #000c17;
+    color: #454c53;
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    &__img {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+    }
+
+    &__name {
+      font-size: 2rem;
+    }
+  }
+
 }
 
-.sidebar-logo img {
-  display: inline-block;
-  height: 32px;
-  width: 32px;
-  vertical-align: middle;
-}
-
-.sidebar-logo h1 {
-  display: inline-block;
-  margin: 0 0 0 20px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
-  vertical-align: middle;
-}
+// .sidebar-logo h1 {
+//   display: inline-block;
+//   margin: 0 0 0 20px;
+//   color: #fff;
+//   font-weight: 600;
+//   font-size: 14px;
+//   font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+//   vertical-align: middle;
+// }
