@@ -5,3 +5,4 @@ export const routes: Routes = [{
     path: '',
     component: AuthComponent
 }];
+export const routes: Routes = [];

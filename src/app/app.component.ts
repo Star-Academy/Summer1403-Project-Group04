@@ -6,6 +6,7 @@ import { AuthComponent } from "./page/auth/auth.component";
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, AuthComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
