@@ -1,14 +1,60 @@
 <div class="sign-in-container">
-    <main class="sign-in-container__main-content" >
-        <h1 class="sign-in-container__main-content__title">Log In</h1>
-        <form action="" class="sign-in-container__main-content__auth-form" data-testid="auth-form">
-            <input type="text" placeholder="User-name" class="sign-in-container__main-content__auth-form__input" required minlength="3">
-            <input type="password" placeholder="Password" class="sign-in-container__main-content__auth-form__input">
-            <button class="sign-in-container__main-content__auth-form__button">
-                <span class="front">
-                    Log In
-                </span>
-            </button>
-        </form>
-    </main>
+  <main class="sign-in-container__main-content">
+    <h1 class="sign-in-container__main-content__title">Log In</h1>
+    <form
+      [formGroup]="signInForm"
+      (ngSubmit)="onSubmit()"
+      class="sign-in-container__main-content__auth-form"
+      data-testid="auth-form"
+    >
+      <ng-container *ngFor="let control of formControls">
+        <div
+          class="sign-in-container__main-content__auth-form__input-container"
+        >
+          <p
+            *ngIf="
+              signInForm.get(control.name)?.touched &&
+              signInForm.get(control.name)?.invalid
+            "
+            class="sign-in-container__main-content__auth-form__input-container__error-container"
+          >
+            <span
+              *ngIf="signInForm.get(control.name)?.hasError('required')"
+              class="sign-in-container__main-content__auth-form__input-container__error-container__error"
+            >
+              *Required
+            </span>
+            <span
+              *ngIf="signInForm.get(control.name)?.hasError('minlength')"
+              class="sign-in-container__main-content__auth-form__input-container__error-container__error"
+            >
+              *At least {{ control.minLength }} characters        
+            </span>
+          </p>
+          <input
+            #inputField
+            [type]="control.type"
+            [formControlName]="control.name"
+            [placeholder]="control.placeholder"
+            class="sign-in-container__main-content__auth-form__input-container__input"
+            [ngClass]="{
+              'sign-in-container__main-content__auth-form__input-container__input--invalid':
+                signInForm.get(control.name)?.invalid &&
+                signInForm.get(control.name)?.touched,
+              'sign-in-container__main-content__auth-form__input-container__input--default':
+                !signInForm.get(control.name)?.touched,
+              shake: isSubmitted && signInForm.get(control.name)?.invalid
+            }"
+          />
+        </div>
+      </ng-container>
+
+      <button
+        type="submit"
+        class="sign-in-container__main-content__auth-form__button"
+      >
+        <span class="front">Log In</span>
+      </button>
+    </form>
+  </main>
 </div>
