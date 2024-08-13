@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SignInComponent } from "../../components/sign-in/sign-in.component";
-import { ActivatedRoute } from '@angular/router';
+import {Component} from '@angular/core';
+import {SignInComponent} from "../../components/sign-in/sign-in.component";
 
 @Component({
   selector: 'app-auth',
