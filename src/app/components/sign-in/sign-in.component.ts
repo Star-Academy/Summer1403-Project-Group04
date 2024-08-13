@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { NgIf, NgFor } from '@angular/common';
 import { NgClass } from '@angular/common';
 import { SanitizerService } from '../../services/sanitizer/sanitizer.service';
+import {LoginService} from "../../services/login/login.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -31,7 +32,7 @@ export class SignInComponent {
       name: 'password',
       type: 'password',
       placeholder: 'Password',
-      minLength: 8,
+      minLength: 4,
     },
   ];
   @ViewChildren('inputField') inputFields!: QueryList<ElementRef>;
@@ -39,11 +40,12 @@ export class SignInComponent {
 
   constructor(
     private fb: FormBuilder,
-    private sanitizationService: SanitizerService
+    private sanitizationService: SanitizerService,
+    private loginService : LoginService
   ) {
     this.signInForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
@@ -52,11 +54,9 @@ export class SignInComponent {
     if (this.signInForm.valid) {
       const rawValues = this.signInForm.value;
 
-      const sanitizedValues = {
-        username: rawValues.username,
-        password: rawValues.password,
-      };
-      console.log(sanitizedValues);
+      this.loginService.login(rawValues.username, rawValues.password).subscribe((msg) => {
+        console.log(msg);
+      })
     } else {
       this.signInForm.markAllAsTouched();
       this.triggerShakeAnimation();
