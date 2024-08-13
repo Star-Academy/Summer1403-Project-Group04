@@ -12,11 +12,16 @@
       <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
       <h1>Ant Design Of Angular</h1>
     </a> -->
-    <nz-header class="sidebar-logo__title-container" nzTheme="light">
-      <h1 class="sidebar-logo__title-container__title">
-        <span nz-icon nzType="node-index" nzTheme="outline"></span>Negar
-      </h1>
-    </nz-header>
+    <div class="sidebar-logo__title-container" nzTheme="light">
+      <span
+        sidebar-logo__title-container__logo
+        nz-icon
+        nzType="node-index"
+        nzTheme="outline"
+        class="sidebar-logo__title-container__logo"
+      ></span>
+      <h1 class="sidebar-logo__title-container__title">Negar</h1>
+    </div>
     <nz-content class="sidebar-logo__profile-container" nzTheme="light">
       <img
         src="https://qph.cf2.quoracdn.net/main-thumb-1529331129-200-uunyepjnxqzgkjnouvmqaovdaddgmgec.jpeg"
@@ -27,10 +32,32 @@
       <span class="sidebar-logo__profile-container__name">A.moradi</span>
     </nz-content>
   </nz-layout>
-  <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-    <li nz-menu-item nzOpen nzTitle="Manage Users" nzIcon="team">
-      <span nz-icon nzType="team"></span>
-      <span>Manage Users</span>
+  <ul
+    class="menu-sidebar__list"
+    nz-menu
+    nzTheme="light"
+    nzMode="inline"
+    [nzInlineCollapsed]="isCollapsed"
+  >
+    <li
+      class="menu-sidebar__list__item"
+      nz-menu-item
+      nzOpen
+      nzTitle="Dashboard"
+      nzIcon="dashboard"
+    >
+      <span nz-icon nzType="dashboard" class="menu-sidebar__icon"></span>
+      <span class="menu-sidebar__icon-message">Dashboard</span>
+    </li>
+    <li
+      class="menu-sidebar__list__item"
+      nz-menu-item
+      nzOpen
+      nzTitle="Manage Users"
+      nzIcon="team"
+    >
+      <span nz-icon nzType="team" class="menu-sidebar__icon"></span>
+      <span class="menu-sidebar__icon-message">Manage Users</span>
     </li>
   </ul>
 </nz-sider>

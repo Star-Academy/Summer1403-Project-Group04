@@ -10,6 +10,10 @@
   z-index: 10;
   min-height: 100vh;
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+
+  &__icon {
+    font-size: 2rem;
+  }
 }
 
 .sidebar-logo {
@@ -20,20 +24,27 @@
   // background: #001529;
   transition: all 0.3s;
 
-  &__title-container{
+  &__title-container {
     display: flex;
     justify-content: center;
     align-items: center;
-  background-color: #fff;
+    background-color: #fff;
+    padding: 1rem;
 
-    &__title{
+    &__title {
       font-size: 2rem;
       color: #000;
       font-weight: bold;
     }
+
+    &__logo {
+      font-size: 2rem;
+      font-weight: bold;
+      transition: all 0.2s linear;
+    }
   }
 
-  &__profile-container{
+  &__profile-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,21 +59,55 @@
       width: 5rem;
       height: 5rem;
       border-radius: 50%;
+      cursor: pointer;
     }
 
     &__name {
       font-size: 2rem;
     }
   }
-
 }
 
-// .sidebar-logo h1 {
-//   display: inline-block;
-//   margin: 0 0 0 20px;
-//   color: #fff;
-//   font-weight: 600;
-//   font-size: 14px;
-//   font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
-//   vertical-align: middle;
-// }
+.ant-layout-sider-collapsed {
+  .sidebar-logo__title-container__title {
+    display: none;
+  }
+
+  .sidebar-logo__title-container__logo {
+    font-size: 3rem;
+
+    cursor: pointer;
+  }
+
+  .sidebar-logo__profile-container__name {
+    display: none;
+    padding: 2.5rem;
+  }
+
+  .sidebar-logo__title-container {
+    padding-block: 2rem;
+  }
+
+  .menu-sidebar__icon {
+    font-size: 2.7rem;
+  }
+
+  .menu-sidebar__icon-message {
+    display: none !important;
+  }
+
+  .menu-sidebar__list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .menu-sidebar__list__item {
+    padding-block: 1rem;
+    padding-inline: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-block-start: 1.7rem;
+  }
+}
