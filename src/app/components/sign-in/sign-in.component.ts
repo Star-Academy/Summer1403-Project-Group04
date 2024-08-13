@@ -52,19 +52,9 @@ export class SignInComponent {
     if (this.signInForm.valid) {
       const rawValues = this.signInForm.value;
 
-      const sanitizedUsernameHtml = this.sanitizationService.sanitizeHtml(
-        rawValues.username
-      );
-      const sanitizedPasswordHtml = this.sanitizationService.sanitizeHtml(
-        rawValues.password
-      );
-
-      // const sanitizedUsernameScript = this.sanitizationService.sanitizeScript(sanitizedUsernameHtml.toString());
-      // const sanitizedPasswordScript = this.sanitizationService.sanitizeScript(sanitizedPasswordHtml.toString());
-
       const sanitizedValues = {
-        username: sanitizedUsernameHtml.toString(),
-        password: sanitizedPasswordHtml.toString(),
+        username: rawValues.username,
+        password: rawValues.password,
       };
       console.log(sanitizedValues);
     } else {
