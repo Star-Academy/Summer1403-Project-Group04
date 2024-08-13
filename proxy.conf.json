@@ -1,8 +1,0 @@
-{
-    "/api": {
-      "target": "https://192.168.24.166:7102",
-      "secure": true,
-      "changeOrigin": false,
-      "logLevel": "debug"
-    }
-  }
