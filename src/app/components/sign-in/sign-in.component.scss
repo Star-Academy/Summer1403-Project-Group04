@@ -57,8 +57,6 @@
         @include center();
         gap: 0.5rem;
 
-        //okeye? 👎👎👎👎
-
         &__input {
           background-color: transparent;
           padding-inline: 2rem;
@@ -117,7 +115,7 @@
           padding-block: 1.5rem 0.9rem;
           border-radius: 1.3rem;
           font-size: 1.25rem;
-          background: rgb(32, 61, 165);
+          background: #203da5;
           background: linear-gradient(
             90deg,
             rgba(32, 61, 165, 1) 0%,

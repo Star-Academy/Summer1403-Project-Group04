@@ -1,25 +1,64 @@
-.header-trigger {
-  height: 64px;
-  padding: 20px 24px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.3s, padding 0s;
-}
-
-.trigger:hover {
-  color: #1890ff;
-}
-
 nz-header {
   padding: 0;
-  width: 100%;
+  block-size: fit-content;
   z-index: 2;
-}
+  background: transparent;
 
-.app-header {
-  position: relative;
-  height: 64px;
-  padding: 0;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  .navbar-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 3rem;
+    padding-block: 1.5rem 0;
+
+    &__header-trigger {
+      font-size: 2.5rem;
+      cursor: pointer;
+      transition: all 0.3s, padding 0s;
+
+      &__trigger {
+        color: #171717;
+      }
+
+      .anticon-menu {
+        padding-inline: 0.8rem;
+        padding-block: 0.8rem;
+        border-radius: 0.8rem;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: #d8dadd;
+        }
+      }
+    }
+
+    &__profile-options {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+
+      &__profile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &__icon {
+          padding-inline: 0.8rem;
+          padding-block: 0.8rem;
+          border-radius: 0.8rem;
+          transition: all 0.3s;
+
+          &:hover {
+            background-color: #d8dadd;
+          }
+          svg {
+            inline-size: 2.5rem;
+            block-size: 2.5rem;
+          }
+        }
+      }
+    }
+  }
 }
