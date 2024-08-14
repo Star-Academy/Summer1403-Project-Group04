@@ -6,6 +6,8 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import { SignInComponent } from "../../components/sign-in/sign-in.component";
+import { AuthComponent } from "../auth/auth.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +21,9 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
     NzMenuModule,
     NavbarComponent,
     SidebarComponent,
-  ],
+    SignInComponent,
+    AuthComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
