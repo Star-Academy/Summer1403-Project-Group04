@@ -3,6 +3,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  inline-size: 25rem;
+  &[ng-reflect-is-collapsed="true"] {
+    width: 8rem; /* width when collapsed */
+  }
 }
 
 .menu-sidebar {
