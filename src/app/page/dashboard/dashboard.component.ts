@@ -4,10 +4,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SignInComponent } from "../../components/sign-in/sign-in.component";
 import { AuthComponent } from "../auth/auth.component";
+import { UsersTableComponent } from "../../components/users-table/users-table.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,10 +19,10 @@ import { AuthComponent } from "../auth/auth.component";
     NzIconModule,
     NzLayoutModule,
     NzMenuModule,
-    NavbarComponent,
     SidebarComponent,
     SignInComponent,
-    AuthComponent
+    AuthComponent,
+    UsersTableComponent
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

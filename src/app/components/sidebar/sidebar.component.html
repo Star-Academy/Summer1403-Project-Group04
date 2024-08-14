@@ -8,10 +8,6 @@
   nzTheme="light"
 >
   <nz-layout class="sidebar-logo" nzTheme="light">
-    <!-- <a href="https://ng.ant.design/" target="_blank">
-      <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-      <h1>Ant Design Of Angular</h1>
-    </a> -->
     <div class="sidebar-logo__title-container" nzTheme="light">
       <span
         sidebar-logo__title-container__logo
@@ -23,12 +19,13 @@
       <h1 class="sidebar-logo__title-container__title">Negar</h1>
     </div>
     <nz-content class="sidebar-logo__profile-container" nzTheme="light">
-      <img
-        src="https://qph.cf2.quoracdn.net/main-thumb-1529331129-200-uunyepjnxqzgkjnouvmqaovdaddgmgec.jpeg"
-        alt=""
-        class="sidebar-logo__profile-container__img"
-        nzTheme="light"
-      />
+      <div class="sidebar-logo__profile-container__image">
+        <img
+          class="sidebar-logo__profile-container__image__img"
+          src="/profile/profile.svg"
+          alt="avatar"
+        />
+      </div>
       <span class="sidebar-logo__profile-container__name">A.moradi</span>
     </nz-content>
   </nz-layout>
@@ -60,4 +57,12 @@
       <span class="menu-sidebar__icon-message">Manage Users</span>
     </li>
   </ul>
+  <div class="menu-sidebar__toggle">
+    <span
+      nz-icon
+      [nzType]="isCollapsed ? 'right' : 'left'"
+      nzTheme="outline"
+      (click)="onToggleSidebar()"
+    ></span>
+  </div>
 </nz-sider>
