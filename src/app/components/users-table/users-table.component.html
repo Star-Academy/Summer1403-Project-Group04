@@ -1,0 +1,42 @@
+<div class="content-container">
+  <div class="content-container__title-container">
+    <h1 class="content-container__title-container__title">Users</h1>
+    <button class="content-container__title-container__button">
+      <span nz-icon nzType="user-add" nzTheme="outline"></span>
+    </button>
+  </div>
+
+  <div class="content-container__table-container">
+    <nz-table class="table" #basicTable nzBordered [nzData]="listOfData">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Last-name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td nzBreakWord>{{ data.name }}</td>
+          <td nzBreakWord>{{ data.lastName }}</td>
+          <td nzBreakWord>{{ data.email }}</td>
+          <td nzBreakWord>
+            {{ data.role }}
+          </td>
+          <td>
+            <a><span nz-icon nzType="edit" nzTheme="outline"></span></a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a
+              class="table__delete-icon"
+              nz-popconfirm
+              nzPopconfirmTitle="Sure to delete?"
+              ><span nz-icon nzType="delete" nzTheme="outline"></span
+            ></a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

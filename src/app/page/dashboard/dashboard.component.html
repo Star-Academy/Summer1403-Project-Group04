@@ -1,0 +1,14 @@
+<nz-layout class="app-layout">
+  <app-sidebar [isCollapsed]="isCollapsed"></app-sidebar>
+  <nz-layout class="app-layout__content">
+    <app-navbar
+      [isCollapsed]="isCollapsed"
+      (toggleSidebar)="toggleSidebar()"
+    ></app-navbar>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

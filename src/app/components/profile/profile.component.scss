@@ -1,0 +1,98 @@
+:host {
+  display: flex;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  inline-size: 100%;
+}
+
+.profile-container {
+  inline-size: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius: 2rem;
+  padding-inline: 2rem;
+  padding-block: 2rem;
+
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    &__avatar {
+      padding-inline: 3rem;
+      padding-block: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100%;
+      background-color: #f0f2f5;
+
+      > img {
+        inline-size: 10rem;
+        block-size: 10rem;
+      }
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+
+      &__name {
+        font-size: 2.2rem;
+        font-weight: 600;
+      }
+
+      &__role {
+        font-size: 1.8rem;
+        font-weight: 400;
+        color: #6b7280;
+      }
+    }
+
+    &__edit {
+      padding-block-start: 1rem;
+
+      &__button {
+        outline: none;
+        border: 1px solid #bcc5d2;
+        display: flex;
+        align-items: center;
+        background: #f0f2f5;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        gap: 1rem;
+        padding-inline: 3rem;
+        padding-block: 1.5rem;
+        border-radius: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            transform: scale(1.03);
+        }
+
+        &:active {
+            transform: scale(1);
+        }
+
+        &__icon {
+          inline-size: 2.5rem;
+          block-size: 2.5rem;
+        }
+
+        &__text {
+          font-size: 2rem;
+          font-weight: 400;
+          color: #171717;
+        }
+      }
+    }
+  }
+}
