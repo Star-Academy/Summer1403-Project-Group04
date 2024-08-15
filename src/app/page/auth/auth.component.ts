@@ -51,7 +51,7 @@ export class AuthComponent {
       events: {
         onClick: {
           enable: true,
-          mode: 'push',
+          mode: 'attract',
         },
         onDiv: {
           selectors: '',
@@ -125,7 +125,7 @@ export class AuthComponent {
           quantity: 2,
         },
         repulse: {
-          distance: 200,
+          distance: 100,
           duration: 0.4,
           factor: 100,
           speed: 1,
@@ -306,7 +306,7 @@ export class AuthComponent {
           mode: 'delete',
           value: 0,
         },
-        value: 80,
+        value: 200,
       },
       opacity: {
         value: 0.5,
