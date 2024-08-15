@@ -1,0 +1,190 @@
+@mixin center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-profile-container {
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 2rem;
+  overflow: hidden;
+
+  &__title-container {
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: #f6f7f9;
+    padding: 2rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &__title {
+      color: #2c3034;
+    }
+
+    &__image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-inline: 0.5rem;
+      padding-block: 0.6rem 0.4rem;
+      border-radius: 100%;
+      background-color: #bebebe;
+
+      &__img {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-bottom-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+        align-self: flex-end;
+      }
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-inline: 3rem;
+    padding-block: 3rem;
+
+    &__title {
+      inline-size: 25%;
+      color: #6c757d;
+      font-size: 1.6rem;
+      line-height: 2rem;
+    }
+
+    &__form {
+      inline-size: 65%;
+      margin: auto;
+      @include center();
+      gap: 5rem;
+      transition: all 0.2s ease;
+
+      &__field-container {
+        inline-size: 100%;
+        @include center();
+        gap: 3rem;
+
+        &__input-container {
+          @include center();
+          inline-size: 100%;
+          gap: 0.5rem;
+          flex-direction: column;
+          align-items: flex-start;
+
+          &__label-group {
+            inline-size: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+          }
+
+          &__label {
+            font-size: 1.6rem;
+            color: #565656;
+          }
+
+          &__select {
+            inline-size: 100%;
+            background-color: transparent;
+            font-size: 1.7rem;
+            color: #2c3034;
+
+            ::ng-deep {
+              .ant-select-selector {
+                padding-inline: 1rem 0;
+                padding-block: 0.5rem;
+                gap: 1rem;
+                border: none;
+                border-bottom: 1px solid #565656;
+                background-color: transparent;
+              }
+
+              .ant-select-arrow {
+                color: #565656;
+              }
+
+              .ant-select-selection-item {
+                color: #2c3034;
+              }
+            }
+
+            &--invalid {
+              ::ng-deep .ant-select-selector {
+                border-bottom-color: #c91e1e;
+              }
+            }
+
+            &--default {
+              ::ng-deep .ant-select-selector {
+                border-bottom-color: #565656;
+              }
+            }
+          }
+
+          &__input {
+            inline-size: 100%;
+            background-color: transparent;
+            padding-inline: 1rem 0;
+            padding-block: 0.5rem;
+            outline: 0;
+            font-size: 2.4rem;
+            border: none;
+            border-bottom: 1px solid #565656;
+            color: #2c3034;
+
+            &--invalid {
+              border-bottom-color: #c91e1e;
+            }
+
+            &--default {
+              border-bottom-color: #565656;
+            }
+          }
+
+          &__error-container {
+            margin: 0;
+
+            &__error {
+              color: #c91e1e;
+              font-size: 1.6rem;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+
+      &__button {
+        align-self: flex-start;
+        font-size: 1.8rem;
+        font-weight: 600;
+        user-select: none;
+        border: 1px solid #c0e0f1;
+        padding-block: 1rem;
+        padding-inline: 1.3rem;
+        border-radius: 0.7rem;
+        background-color: #c0e0f1;
+        transition: all .15s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            color: #013550;
+            background-color: #81c2e3;
+            border-color: #81c2e3;
+            transform: scale(1.05);
+        }
+
+        &:active {
+            transform: scale(1);
+        }
+      }
+    }
+  }
+}

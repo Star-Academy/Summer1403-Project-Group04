@@ -1,27 +1,18 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @Component({
-  selector: 'app-add-user',
+  selector: 'app-edit-profile',
   standalone: true,
   imports: [NzModalModule, NgIf, NgFor, NgClass, ReactiveFormsModule, NzSelectModule, FormsModule],
   providers: [FormBuilder, Validators],
-  templateUrl: './add-user.component.html',
-  styleUrl: './add-user.component.scss',
+  templateUrl: './edit-profile.component.html',
+  styleUrl: './edit-profile.component.scss'
 })
-
-export class AddUserComponent {
+export class EditProfileComponent {
   userForm: FormGroup;
   isSubmitted: boolean = false;
   listOfOption: Array<{ label: string; value: string }> = [
@@ -45,20 +36,8 @@ export class AddUserComponent {
     },
     { name: 'email', type: 'email', placeholder: 'Email', minLength: 1 },
     { name: 'username', type: 'text', placeholder: 'User-name', minLength: 3 },
-    { name: 'role', type: 'text', placeholder: 'Role', minLength: 1 },
-    {
-      name: 'password',
-      type: 'password',
-      placeholder: 'Password',
-      minLength: 4,
-    },
+    { name: 'role', type: 'text', placeholder: 'Role', minLength: 1 }
   ];
-  @Input() isVisible = false;
-
-  @Output() handleCancel: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() handleOk: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() isVisibleChange: EventEmitter<boolean> =
-    new EventEmitter<boolean>();
 
   constructor(private fb: FormBuilder) {
     this.userForm = this.fb.group({
@@ -66,26 +45,7 @@ export class AddUserComponent {
       familyname: ['', [Validators.required, Validators.minLength(1)]],
       email: ['', [Validators.required, Validators.minLength(1), Validators.email]],
       role: ['', [Validators.required, Validators.minLength(1)]],
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
+      username: ['', [Validators.required, Validators.minLength(3)]]
     });
-  }
-
-  protected afterCloseModal(): void {
-    this.isVisibleChange.emit(false);
-  }
-
-  protected handleCancelModal(): void {
-    this.handleCancel.emit(true);
-  }
-
-  protected handleOkModal(): void {
-    if (this.userForm.invalid) {
-      this.isSubmitted = true;
-      this.userForm.markAllAsTouched();
-      return;
-    }
-    console.log(this.userForm.value);
-    this.handleOk.emit(true);
   }
 }
