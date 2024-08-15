@@ -80,8 +80,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
       padding-inline: 0.7rem;
       padding-block: 0.8rem 0.5rem;
+
       border-radius: 100%;
       background-color: #bebebe;
       cursor: pointer;
@@ -91,6 +93,7 @@
         height: 3rem;
         border-bottom-left-radius: 50%;
         border-bottom-right-radius: 50%;
+
         align-self: flex-end;
       }
     }
