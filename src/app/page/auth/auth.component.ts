@@ -3,11 +3,12 @@ import { SignInComponent } from '../../components/sign-in/sign-in.component';
 import { NgParticlesService, NgxParticlesModule } from '@tsparticles/angular';
 import { Container, IOptions, Engine } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [SignInComponent, NgxParticlesModule],
+  imports: [SignInComponent, NgxParticlesModule, NzIconModule],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
