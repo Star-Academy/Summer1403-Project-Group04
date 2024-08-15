@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -14,4 +14,9 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 })
 export class SidebarComponent {
   @Input() isCollapsed: boolean = false;
+  @Output() toggleSidebar = new EventEmitter<void>();
+  
+  onToggleSidebar() {
+    this.toggleSidebar.emit();
+  }
 }
