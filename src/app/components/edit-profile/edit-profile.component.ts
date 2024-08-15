@@ -48,4 +48,13 @@ export class EditProfileComponent {
       username: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
+
+  onSubmit() {
+    this.isSubmitted = true;
+    if (this.userForm.valid) {
+      console.log('Form Submitted!', this.userForm.value);
+    } else {
+      this.userForm.markAllAsTouched();
+    }
+  }
 }

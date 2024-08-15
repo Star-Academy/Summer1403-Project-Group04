@@ -17,6 +17,7 @@
       [formGroup]="userForm"
       class="edit-profile-container__main__form"
       data-testid="auth-form"
+      (ngSubmit)="onSubmit()"
     >
       <div class="edit-profile-container__main__form__field-container">
         <ng-container *ngFor="let control of formControls">
