@@ -1,0 +1,148 @@
+:host {
+  display: flex;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  inline-size: 25rem;
+
+  &[ng-reflect-is-collapsed="true"] {
+    inline-size: 8rem;
+  }
+}
+
+.menu-sidebar {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  overflow: auto;
+  height: 100%;
+  position: fixed;
+  left: 0;
+
+  &__toggle {
+    position: fixed;
+    bottom: 0;
+    font-size: 3rem;
+    border-top: 2px solid #f0f2f5;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    inset-inline-start: 0;
+    inline-size: 25.5rem;
+    transition: width 0.2s;
+    cursor: pointer;
+    background-color: #fff;
+  }
+
+  &__icon {
+    font-size: 2rem;
+  }
+}
+
+.sidebar-logo {
+  position: relative;
+  overflow: hidden;
+  line-height: 64px;
+  transition: all 0.3s;
+
+  &__title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 1rem;
+
+    &__title {
+      font-size: 2rem;
+      color: #000;
+      font-weight: bold;
+    }
+
+    &__logo {
+      font-size: 2rem;
+      font-weight: bold;
+      transition: all 0.2s linear;
+    }
+  }
+
+  &__profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding-block: 2rem;
+    color: #454c53;
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    &__image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 100%;
+      background-color: #bebebe;
+      cursor: pointer;
+
+      &__img {
+        width: 3rem;
+        height: 3rem;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        align-self: flex-end;
+      }
+    }
+
+    &__name {
+      font-size: 2rem;
+    }
+  }
+}
+
+.ant-layout-sider-collapsed {
+  .sidebar-logo__title-container__title {
+    display: none;
+  }
+
+  .sidebar-logo__title-container__logo {
+    font-size: 3rem;
+    cursor: pointer;
+  }
+
+  .sidebar-logo__profile-container__name {
+    display: none;
+    padding: 2.5rem;
+  }
+
+  .sidebar-logo__title-container {
+    padding-block: 2rem;
+  }
+
+  .menu-sidebar__icon {
+    font-size: 2.7rem;
+  }
+
+  .menu-sidebar__icon-message {
+    display: none !important;
+  }
+
+  .menu-sidebar__list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .menu-sidebar__list__item {
+    padding-block: 1rem;
+    padding-inline: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-block-start: 1.7rem;
+  }
+
+  .menu-sidebar__toggle {
+    inline-size: 8rem;
+  }
+}

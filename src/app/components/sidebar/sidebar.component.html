@@ -1,0 +1,68 @@
+<nz-sider
+  class="menu-sidebar"
+  nzCollapsible
+  nzWidth="256px"
+  nzBreakpoint="md"
+  [(nzCollapsed)]="isCollapsed"
+  [nzTrigger]="null"
+  nzTheme="light"
+>
+  <nz-layout class="sidebar-logo" nzTheme="light">
+    <div class="sidebar-logo__title-container" nzTheme="light">
+      <span
+        sidebar-logo__title-container__logo
+        nz-icon
+        nzType="node-index"
+        nzTheme="outline"
+        class="sidebar-logo__title-container__logo"
+      ></span>
+      <h1 class="sidebar-logo__title-container__title">Negar</h1>
+    </div>
+    <nz-content class="sidebar-logo__profile-container" nzTheme="light">
+      <div class="sidebar-logo__profile-container__image">
+        <img
+          class="sidebar-logo__profile-container__image__img"
+          src="/profile/profile.svg"
+          alt="avatar"
+        />
+      </div>
+      <span class="sidebar-logo__profile-container__name">A.moradi</span>
+    </nz-content>
+  </nz-layout>
+  <ul
+    class="menu-sidebar__list"
+    nz-menu
+    nzTheme="light"
+    nzMode="inline"
+    [nzInlineCollapsed]="isCollapsed"
+  >
+    <li
+      class="menu-sidebar__list__item"
+      nz-menu-item
+      nzOpen
+      nzTitle="Dashboard"
+      nzIcon="dashboard"
+    >
+      <span nz-icon nzType="dashboard" class="menu-sidebar__icon"></span>
+      <span class="menu-sidebar__icon-message">Dashboard</span>
+    </li>
+    <li
+      class="menu-sidebar__list__item"
+      nz-menu-item
+      nzOpen
+      nzTitle="Manage Users"
+      nzIcon="team"
+    >
+      <span nz-icon nzType="team" class="menu-sidebar__icon"></span>
+      <span class="menu-sidebar__icon-message">Manage Users</span>
+    </li>
+  </ul>
+  <div class="menu-sidebar__toggle">
+    <span
+      nz-icon
+      [nzType]="isCollapsed ? 'right' : 'left'"
+      nzTheme="outline"
+      (click)="onToggleSidebar()"
+    ></span>
+  </div>
+</nz-sider>

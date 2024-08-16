@@ -1,0 +1,26 @@
+.auth-page-container {
+    background: rgb(236,237,246);
+    background: linear-gradient(225deg, rgba(236,237,246,1) 0%, rgba(185,185,190,1) 100%);
+    min-block-size: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__circle-container {
+        inline-size: 73rem;
+        position: absolute;
+        inset-block-start: 8rem;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+
+        &__dark-circle {
+            transform: translate(-10%, -15%);
+        }
+    
+        &__blue-circle {
+            transform: translate(-10%, 0);
+        }
+    }
+}
