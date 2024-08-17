@@ -1,7 +1,11 @@
+<h1 class="auth-page-title">
+  <span nz-icon nzType="node-index" nzTheme="outline"></span>Negar
+</h1>
 <div class="auth-page-container">
-    <div class="auth-page-container__circle-container">
-        <img src="/auth/blue-circle.svg" alt="circle" class="auth-page-container__circle-container__blue-circle">
-        <img src="/auth/dark-circle.svg" alt="circle" class="auth-page-container__circle-container__dark-circle">
-    </div>
-    <app-sign-in></app-sign-in>
+  <ngx-particles
+    [id]="id"
+    [options]="config"
+    (particlesLoaded)="particlesLoaded($event)"
+  ></ngx-particles>
+  <app-sign-in></app-sign-in>
 </div>
