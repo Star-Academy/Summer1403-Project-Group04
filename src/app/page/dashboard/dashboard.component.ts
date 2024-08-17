@@ -8,6 +8,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SignInComponent } from "../../components/sign-in/sign-in.component";
 import { AuthComponent } from "../auth/auth.component";
 import { UsersTableComponent } from "../../components/users-table/users-table.component";
+import { PermisionsService } from '../../services/permisisons/permisions.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,12 @@ import { UsersTableComponent } from "../../components/users-table/users-table.co
 })
 export class DashboardComponent {
   isCollapsed = false;
+
+  constructor(private premissionSubject: PermisionsService) {
+    this.premissionSubject.permissions$.subscribe((v) => {
+      console.log(v)
+    })
+  }
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;

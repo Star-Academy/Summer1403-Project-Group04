@@ -21,12 +21,10 @@ export class AuthComponent implements OnInit {
 
   ngOnInit(): void {
     this.ngParticlesService.init(async (engine: Engine) => {
-      console.log(engine);
       await loadSlim(engine);
     });
   }
 
   particlesLoaded(container: Container): void {
-    console.log(container);
   }
 }
