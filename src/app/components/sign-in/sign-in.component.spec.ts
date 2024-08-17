@@ -4,6 +4,8 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { LoginService } from '../../services/login/login.service';
 import { of } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '../../services/notification/notification.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 describe('SignInComponent', () => {
   let component: SignInComponent;
@@ -19,6 +21,8 @@ describe('SignInComponent', () => {
         HttpClient,
         HttpHandler,
         LoginService,
+        NotificationService,
+        provideAnimationsAsync(),
         { provide: LoginService, useValue: loginServiceSpy },
       ],
     }).compileComponents();

@@ -55,7 +55,7 @@ export class SignInComponent {
       const { username, password } = this.signInForm.value;
 
       this.loginService.login(username, password).subscribe({
-        next: (response: any) => {
+        next: (response: loginResponse) => {
           if (response.message === 'Login was successful!') {
             this.notificationService.createNotification(
               'success',
@@ -92,7 +92,7 @@ export class SignInComponent {
     }
   }
 
-  private triggerShakeAnimation(): void {
+  public triggerShakeAnimation(): void {
     this.inputFields.forEach((field) => {
       const element = field.nativeElement;
       const elementName = element.placeholder.toLowerCase().replace('-', '');
