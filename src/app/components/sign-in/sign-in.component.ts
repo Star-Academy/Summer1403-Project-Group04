@@ -10,7 +10,6 @@ import { NgIf, NgFor } from '@angular/common';
 import { NgClass } from '@angular/common';
 import { SanitizerService } from '../../services/sanitizer/sanitizer.service';
 import { LoginService } from '../../services/login/login.service';
-import { log } from 'ng-zorro-antd/core/logger';
 
 @Component({
   selector: 'app-sign-in',
@@ -40,7 +39,7 @@ export class SignInComponent {
 
   @ViewChildren('inputField') inputFields!: QueryList<ElementRef>;
 
-  isSubmitted: boolean = false;
+  isSubmitted = false;
 
   constructor(
     private fb: FormBuilder,

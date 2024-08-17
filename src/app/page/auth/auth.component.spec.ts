@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
-import { By } from '@angular/platform-browser';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('AuthComponent', () => {

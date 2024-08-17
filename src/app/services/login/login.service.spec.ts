@@ -25,7 +25,6 @@ describe('LoginService', () => {
     const spy = spyOn(httpClient, 'post').and.callThrough();
     const apiUrl = 'http://192.168.24.180:5293/api/Auth/Login';
     const body = { username: 'armin', password: '123' };
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     // Act
     service.login('armin', '123');
     // Assert

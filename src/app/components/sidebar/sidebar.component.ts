@@ -13,7 +13,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  @Input() isCollapsed: boolean = false;
+  @Input() isCollapsed = false;
   @Output() toggleSidebar = new EventEmitter<void>();
   
   onToggleSidebar() {

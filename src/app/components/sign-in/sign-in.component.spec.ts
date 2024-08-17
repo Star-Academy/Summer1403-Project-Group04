@@ -4,7 +4,6 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { LoginService } from '../../services/login/login.service';
 import { of } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { log } from 'ng-zorro-antd/core/logger';
 
 describe('SignInComponent', () => {
   let component: SignInComponent;
