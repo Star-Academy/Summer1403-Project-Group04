@@ -1,11 +1,20 @@
 <div class="content-container">
   <div class="content-container__title-container">
     <h1 class="content-container__title-container__title">Users</h1>
-    <button class="content-container__title-container__button">
+    <button
+      class="content-container__title-container__button"
+      (click)="showModal()"
+    >
       <span nz-icon nzType="user-add" nzTheme="outline"></span>
     </button>
   </div>
 
+  <app-add-user
+  [isVisible]="isVisible"
+  (handleCancel)="handleCancel()"
+  (handleOk)="handleOk()"
+  (isVisibleChange)="closeModal()"
+></app-add-user>
   <div class="content-container__table-container">
     <nz-table class="table" #basicTable nzBordered [nzData]="listOfData">
       <thead>

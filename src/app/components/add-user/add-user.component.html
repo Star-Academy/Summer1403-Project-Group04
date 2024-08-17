@@ -1,0 +1,93 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Add user"
+  (nzOnCancel)="handleCancelModal()"
+  (nzOnOk)="handleOkModal()"
+  (nzAfterClose)="afterCloseModal()"
+  [nzWidth]="'fit-content'"
+  [nzClassName]="'modalClass'"
+>
+  <ng-container *nzModalContent>
+    <h2 class="modal-content__title">
+      Please fill in the form below to add a new user
+    </h2>
+    <form
+      [formGroup]="userForm"
+      class="modal-content-form"
+      data-testid="auth-form"
+    >
+      <ng-container *ngFor="let control of formControls">
+        <div class="modal-content-form__input-container">
+          <div class="modal-content-form__input-container__label-group">
+            <label class="modal-content-form__input-container__label">
+              {{ control.placeholder }}
+            </label>
+            <p
+              *ngIf="
+                userForm.get(control.name)?.touched &&
+                userForm.get(control.name)?.invalid
+              "
+              class="modal-content-form__input-container__error-container"
+            >
+              <span
+                *ngIf="userForm.get(control.name)?.hasError('required')"
+                class="modal-content-form__input-container__error-container__error"
+              >
+                *required
+              </span>
+              <span
+                *ngIf="userForm.get(control.name)?.hasError('minlength')"
+                class="modal-content-form__input-container__error-container__error"
+              >
+                *at least {{ control.minLength }} characters
+              </span>
+              <span
+                *ngIf="userForm.get(control.name)?.hasError('email')"
+                class="modal-content-form__input-container__error-container__error"
+              >
+                *invalid email
+              </span>
+            </p>
+          </div>
+          @if (control.name === 'role') {
+          <nz-select
+            [formControlName]="control.name"
+            class="modal-content-form__input-container__select"
+            [ngClass]="{
+              'modal-content-form__input-container__select--invalid':
+                userForm.get(control.name)?.invalid &&
+                userForm.get(control.name)?.touched,
+              'modal-content-form__input-container__select--default':
+                !userForm.get(control.name)?.touched,
+              shake: isSubmitted && userForm.get(control.name)?.invalid
+            }"
+            nzMode="tags"
+            [(ngModel)]="listOfTagOptions"
+          >
+            <nz-option
+              *ngFor="let option of listOfOption"
+              [nzLabel]="option.label"
+              [nzValue]="option.value"
+            ></nz-option>
+          </nz-select>
+          } @else {
+          <input
+            #inputField
+            [type]="control.type"
+            [formControlName]="control.name"
+            class="modal-content-form__input-container__input"
+            [ngClass]="{
+              'modal-content-form__input-container__input--invalid':
+                userForm.get(control.name)?.invalid &&
+                userForm.get(control.name)?.touched,
+              'modal-content-form__input-container__input--default':
+                !userForm.get(control.name)?.touched,
+              shake: isSubmitted && userForm.get(control.name)?.invalid
+            }"
+          />
+          }
+        </div>
+      </ng-container>
+    </form>
+  </ng-container>
+</nz-modal>

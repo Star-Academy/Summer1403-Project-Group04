@@ -4,14 +4,21 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NgFor } from '@angular/common';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-
+import { AddUserComponent } from "../add-user/add-user.component";
 
 @Component({
   selector: 'app-users-table',
   standalone: true,
-  imports: [NzTableModule, NzDividerModule, NgFor , NzPopconfirmModule, NzIconModule],
+  imports: [
+    NzTableModule,
+    NzDividerModule,
+    NgFor,
+    NzPopconfirmModule,
+    NzIconModule,
+    AddUserComponent
+],
   templateUrl: './users-table.component.html',
-  styleUrl: './users-table.component.scss'
+  styleUrl: './users-table.component.scss',
 })
 export class UsersTableComponent {
   listOfData = [
@@ -20,154 +27,173 @@ export class UsersTableComponent {
       name: 'Admin',
       lastName: 'Admin',
       email: 'Admin@gmail.com',
-      role: 'Admin'
+      role: 'Admin',
     },
     {
       key: '2',
       name: 'Armin',
       lastName: 'Moradi',
       email: 'Arminmow@gmail.com',
-      role: 'Front'
+      role: 'Front',
     },
     {
       key: '3',
       name: 'Arash',
       lastName: 'Azarpoor',
       email: 'Arash@gmail.com',
-      role: 'Front'
+      role: 'Front',
     },
     {
       key: '4',
       name: 'Saleh',
       lastName: 'IDK',
       email: 'Saleh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '5',
       name: 'Mamad',
       lastName: 'No idea',
       email: 'Mamad@gmail.com',
-      role: 'Dev'
+      role: 'Dev',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
     {
       key: '4',
       name: 'Sadegh',
       lastName: 'No idea',
       email: 'Sadegh@gmail.com',
-      role: 'Back'
+      role: 'Back',
     },
   ];
+  protected isVisible = false;
+
+  protected showModal(): void {
+    this.isVisible = true;
+  }
+
+  protected closeModal(): void {
+    this.isVisible = false;
+  }
+
+  protected handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  protected handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
 }
