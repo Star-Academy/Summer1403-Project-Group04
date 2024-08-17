@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { loginResponse } from '../../models/login-response';
@@ -11,11 +11,11 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<any> {
+  login(username: string, password: string): Observable<loginResponse | HttpErrorResponse> {
     const body = { username, password };
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<any>(this.apiUrl, body, { headers });
+    return this.http.post<loginResponse | HttpErrorResponse>(this.apiUrl, body, { headers });
   }
 }

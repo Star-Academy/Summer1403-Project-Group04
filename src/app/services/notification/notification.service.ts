@@ -11,12 +11,11 @@ export class NotificationService {
     type: 'success' | 'error' | 'info' | 'warning',
     title: string,
     message: string,
-    duration: number = 3000,
-    style?: { [key: string]: string }
+    duration = 3000,
   ): void {
     this.notification.create(type, title, message, {
       nzDuration: duration,
-      nzStyle: style,
+      nzStyle: {borderRadius: '10px'},
     });
   }
 }
