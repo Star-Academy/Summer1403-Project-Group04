@@ -5,29 +5,24 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgIf, NgFor } from '@angular/common';
-import { NgClass } from '@angular/common';
-import { SanitizerService } from '../../services/sanitizer/sanitizer.service';
+import { RouterModule, Router } from '@angular/router';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { LoginService } from '../../services/login/login.service';
+import { loginResponse } from '../../models/login-response';
+import { NotificationService } from '../../services/notification/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
   imports: [RouterModule, ReactiveFormsModule, NgIf, NgClass, NgFor],
-  providers: [FormBuilder, Validators, SanitizerService],
+  providers: [FormBuilder, Validators],
   templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.scss',
+  styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent {
-
   signInForm: FormGroup;
-  formControls: {
-    name: string;
-    type: string;
-    placeholder: string;
-    minLength: number;
-  }[] = [
+  formControls = [
     { name: 'username', type: 'text', placeholder: 'User-name', minLength: 3 },
     {
       name: 'password',
@@ -43,8 +38,9 @@ export class SignInComponent {
 
   constructor(
     private fb: FormBuilder,
-    private sanitizationService: SanitizerService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.signInForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -52,28 +48,54 @@ export class SignInComponent {
     });
   }
 
-  onSubmit() {
-    console.log(this.signInForm);
-    
+  onSubmit(): void {
     this.isSubmitted = true;
-    if (this.signInForm.valid) {
-      const rawValues = this.signInForm.value;
 
-      this.loginService
-        .login(rawValues.username, rawValues.password)
-        .subscribe((msg) => {
-          console.log(msg);
-        });
+    if (this.signInForm.valid) {
+      const { username, password } = this.signInForm.value;
+
+      this.loginService.login(username, password).subscribe({
+        next: (response: any) => {
+          if (response.message === 'Login was successful!') {
+            this.notificationService.createNotification(
+              'success',
+              'Successful Login',
+              response.message
+            );
+            setTimeout(() => this.router.navigate(['/dashboard']), 2000);
+          } else {
+            this.notificationService.createNotification(
+              'error',
+              'Login Failed',
+              response.message
+            );
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          let errorMessage = 'An unexpected error occurred';
+          if (error.status === 401) {
+            errorMessage = 'Unauthorized: Invalid username or password';
+          } else if (error.status === 400) {
+            errorMessage = 'Bad Request: Please check your input';
+          }
+
+          this.notificationService.createNotification(
+            'error',
+            'Login Failed',
+            errorMessage
+          );
+        },
+      });
     } else {
       this.signInForm.markAllAsTouched();
       this.triggerShakeAnimation();
     }
   }
 
-   triggerShakeAnimation(): void {
+  private triggerShakeAnimation(): void {
     this.inputFields.forEach((field) => {
       const element = field.nativeElement;
-      const elementName = element.placeholder.toLowerCase().replaceAll('-', '');
+      const elementName = element.placeholder.toLowerCase().replace('-', '');
 
       if (this.signInForm.get(elementName)?.invalid) {
         element.classList.remove('shake');
