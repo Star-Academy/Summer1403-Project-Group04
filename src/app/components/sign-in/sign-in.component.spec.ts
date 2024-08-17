@@ -5,7 +5,6 @@ import { LoginService } from '../../services/login/login.service';
 import { of } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '../../services/notification/notification.service';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 describe('SignInComponent', () => {
