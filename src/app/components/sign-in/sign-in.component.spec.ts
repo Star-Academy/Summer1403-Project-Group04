@@ -29,7 +29,7 @@ describe('SignInComponent', () => {
     fixture.detectChanges();
 
     loginService = TestBed.inject(LoginService) as jasmine.SpyObj<LoginService>;
-    loginService.login.and.returnValue(of({ success: true }));
+    loginService.login.and.returnValue(of({ message: 'true' }));
   });
 
   it('should create', () => {

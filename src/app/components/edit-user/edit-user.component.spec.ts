@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditUserComponent } from './edit-user.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('EditUserComponent', () => {
   let component: EditUserComponent;
@@ -8,7 +10,8 @@ describe('EditUserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditUserComponent]
+      imports: [EditUserComponent],
+      providers: [provideAnimationsAsync(), provideHttpClient()]
     })
     .compileComponents();
 

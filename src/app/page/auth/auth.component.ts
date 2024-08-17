@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SignInComponent } from '../../components/sign-in/sign-in.component';
 import { NgParticlesService, NgxParticlesModule } from '@tsparticles/angular';
 import { Container, IOptions, Engine } from '@tsparticles/engine';
@@ -12,7 +12,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   id = 'tsparticles';
   config: IOptions = {
     autoPlay: true,
