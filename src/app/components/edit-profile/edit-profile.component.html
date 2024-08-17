@@ -1,0 +1,105 @@
+<div class="edit-profile-container">
+  <div class="edit-profile-container__title-container">
+    <span class="edit-profile-container__title-container__image">
+      <img
+        class="edit-profile-container__title-container__image__img"
+        src="/profile/profile-white.svg"
+        alt="avatar"
+      />
+    </span>
+    <h1 class="edit-profile-container__title-container__title">User Profile</h1>
+  </div>
+  <main class="edit-profile-container__main">
+    <h2 class="edit-profile-container__main__title">
+      Your account’s vital info. Your username will be publicly visible.
+    </h2>
+    <form
+      [formGroup]="userForm"
+      class="edit-profile-container__main__form"
+      data-testid="auth-form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="edit-profile-container__main__form__field-container">
+        <ng-container *ngFor="let control of formControls">
+          <div
+            class="edit-profile-container__main__form__field-container__input-container"
+          >
+            <div
+              class="edit-profile-container__main__form__field-container__input-container__label-group"
+            >
+              <label
+                class="edit-profile-container__main__form__field-container__input-container__label"
+              >
+                {{ control.placeholder }}
+              </label>
+              <p
+                *ngIf="
+                  userForm.get(control.name)?.touched &&
+                  userForm.get(control.name)?.invalid
+                "
+                class="edit-profile-container__main__form__field-container__input-container__error-container"
+              >
+                <span
+                  *ngIf="userForm.get(control.name)?.hasError('required')"
+                  class="edit-profile-container__main__form__field-container__input-container__error-container__error"
+                >
+                  *required
+                </span>
+                <span
+                  *ngIf="userForm.get(control.name)?.hasError('minlength')"
+                  class="edit-profile-container__main__form__field-container__input-container__error-container__error"
+                >
+                  *at least {{ control.minLength }} characters
+                </span>
+                <span
+                  *ngIf="userForm.get(control.name)?.hasError('email')"
+                  class="edit-profile-container__main__form__field-container__input-container__error-container__error"
+                >
+                  *invalid email
+                </span>
+              </p>
+            </div>
+            @if (control.name === 'role') {
+            <nz-select
+              [formControlName]="control.name"
+              class="edit-profile-container__main__form__field-container__input-container__select"
+              [ngClass]="{
+                'edit-profile-container__main__form__field-container__input-container__select--invalid':
+                  userForm.get(control.name)?.invalid &&
+                  userForm.get(control.name)?.touched,
+                'edit-profile-container__main__form__field-container__input-container__select--default':
+                  !userForm.get(control.name)?.touched,
+                shake: isSubmitted && userForm.get(control.name)?.invalid
+              }"
+              nzMode="tags"
+              [(ngModel)]="listOfTagOptions"
+            >
+              <nz-option
+                *ngFor="let option of listOfOption"
+                [nzLabel]="option.label"
+                [nzValue]="option.value"
+              ></nz-option>
+            </nz-select>
+            } @else {
+            <input
+              #inputField
+              [type]="control.type"
+              [formControlName]="control.name"
+              class="edit-profile-container__main__form__field-container__input-container__input"
+              [ngClass]="{
+                'edit-profile-container__main__form__field-container__input-container__input--invalid':
+                  userForm.get(control.name)?.invalid &&
+                  userForm.get(control.name)?.touched,
+                'edit-profile-container__main__form__field-container__input-container__input--default':
+                  !userForm.get(control.name)?.touched,
+                shake: isSubmitted && userForm.get(control.name)?.invalid
+              }"
+            />
+            }
+          </div>
+        </ng-container>
+      </div>
+      <button class="edit-profile-container__main__form__button">Update</button>
+    </form>
+  </main>
+</div>
