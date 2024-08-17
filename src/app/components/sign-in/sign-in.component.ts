@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { NgIf, NgFor } from '@angular/common';
 import { NgClass } from '@angular/common';
 import { SanitizerService } from '../../services/sanitizer/sanitizer.service';
-import {LoginService} from "../../services/login/login.service";
+import { LoginService } from '../../services/login/login.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,6 +20,7 @@ import {LoginService} from "../../services/login/login.service";
   styleUrl: './sign-in.component.scss',
 })
 export class SignInComponent {
+
   signInForm: FormGroup;
   formControls: {
     name: string;
@@ -35,13 +36,15 @@ export class SignInComponent {
       minLength: 4,
     },
   ];
+
   @ViewChildren('inputField') inputFields!: QueryList<ElementRef>;
-  isSubmitted: boolean = false;
+
+  isSubmitted = false;
 
   constructor(
     private fb: FormBuilder,
     private sanitizationService: SanitizerService,
-    private loginService : LoginService
+    private loginService: LoginService
   ) {
     this.signInForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -50,20 +53,24 @@ export class SignInComponent {
   }
 
   onSubmit() {
+    console.log(this.signInForm);
+    
     this.isSubmitted = true;
     if (this.signInForm.valid) {
       const rawValues = this.signInForm.value;
 
-      this.loginService.login(rawValues.username, rawValues.password).subscribe((msg) => {
-        console.log(msg);
-      })
+      this.loginService
+        .login(rawValues.username, rawValues.password)
+        .subscribe((msg) => {
+          console.log(msg);
+        });
     } else {
       this.signInForm.markAllAsTouched();
       this.triggerShakeAnimation();
     }
   }
 
-  private triggerShakeAnimation(): void {
+   triggerShakeAnimation(): void {
     this.inputFields.forEach((field) => {
       const element = field.nativeElement;
       const elementName = element.placeholder.toLowerCase().replaceAll('-', '');

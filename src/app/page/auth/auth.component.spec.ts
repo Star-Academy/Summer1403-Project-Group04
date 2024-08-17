@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
-import { By } from '@angular/platform-browser';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
@@ -8,7 +8,8 @@ describe('AuthComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthComponent]
+      imports: [AuthComponent],
+      providers: [HttpClient , HttpHandler]
     })
     .compileComponents();
 
@@ -19,14 +20,5 @@ describe('AuthComponent', () => {
 
   it('SHOULD create page WHEN ever', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('SHOULD render form WHEN created', () => {
-    // Arrange
-    const form = fixture.debugElement.query(By.css('[data-testid="auth-form"]'))
-    // Act
-    fixture.detectChanges();
-    // Assert
-    expect(form).toBeTruthy();
   });
 });

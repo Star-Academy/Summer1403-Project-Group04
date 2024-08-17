@@ -23,8 +23,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 
 export class AddUserComponent {
   userForm: FormGroup;
-  isSubmitted: boolean = false;
-  listOfOption: Array<{ label: string; value: string }> = [
+  isSubmitted = false;
+  listOfOption: { label: string; value: string }[] = [
     { label: 'System Administrator', value: 'System Administrator' },
     { label: 'Data Manager', value: 'Data Manager' },
     { label: 'Analyst', value: 'Analyst' }

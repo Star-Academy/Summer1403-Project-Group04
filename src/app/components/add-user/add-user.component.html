@@ -19,9 +19,9 @@
       <ng-container *ngFor="let control of formControls">
         <div class="modal-content-form__input-container">
           <div class="modal-content-form__input-container__label-group">
-            <label class="modal-content-form__input-container__label">
+            <p class="modal-content-form__input-container__label">
               {{ control.placeholder }}
-            </label>
+            </p>
             <p
               *ngIf="
                 userForm.get(control.name)?.touched &&

@@ -59,10 +59,15 @@
   </ul>
   <div class="menu-sidebar__toggle">
     <span
-      nz-icon
-      [nzType]="isCollapsed ? 'right' : 'left'"
-      nzTheme="outline"
-      (click)="onToggleSidebar()"
-    ></span>
+    nz-icon
+    [nzType]="isCollapsed ? 'right' : 'left'"
+    nzTheme="outline"
+    (click)="onToggleSidebar()"
+    (keyup.enter)="onToggleSidebar()"
+    (keyup.space)="onToggleSidebar()"
+    tabindex="0"
+    role="button"
+    aria-label="Toggle sidebar"
+  ></span>
   </div>
 </nz-sider>
