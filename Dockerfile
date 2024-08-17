@@ -24,7 +24,7 @@ COPY . .
 
 RUN npm run lint
 
-RUN ng test --watch=false --browsers=ChromeHeadlessNoSandbox  
+RUN ng test --watch=false --browsers=ChromeHeadless  
 
 RUN npm run build --configuration=production
 
