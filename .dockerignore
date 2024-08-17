@@ -1,0 +1,16 @@
+node_modules
+*.log
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+README.md
+LICENSE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+dist/node_modules
+dist/npm-debug.log
