@@ -28,7 +28,7 @@ import { NgIf, NgFor, NgClass } from '@angular/common';
 })
 export class EditPasswordComponent {
   protected passwordForm: FormGroup;
-  protected isSubmitted: boolean = false;
+  protected isSubmitted = false;
   protected formControls: {
     name: string;
     type: string;
