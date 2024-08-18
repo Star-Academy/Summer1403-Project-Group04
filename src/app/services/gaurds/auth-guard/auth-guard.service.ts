@@ -28,7 +28,7 @@ export class AuthGuardService {
           return false;
         }  
       },
-      error: (error: HttpErrorResponse) => {
+      error: () => {
         return false;
       },
     });

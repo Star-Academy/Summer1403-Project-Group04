@@ -25,6 +25,9 @@ export class AuthComponent implements OnInit {
     });
   }
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   particlesLoaded(container: Container): void {
+    // Placeholder implementation
   }
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 }

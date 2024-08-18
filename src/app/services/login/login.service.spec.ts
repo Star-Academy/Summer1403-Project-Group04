@@ -23,13 +23,14 @@ describe('LoginService', () => {
   it('SHOULD call post method with proper data WHEN submited', () => {
     // Arrange
     const spy = spyOn(httpClient, 'post').and.callThrough();
-    const apiUrl = 'http://192.168.24.166:5293/api/Auth/Login';
+    const apiUrl = 'http://192.168.24.180:5293/api/Auth/Login';
     const body = { username: 'armin', password: '123' };
     // Act
     service.login('armin', '123');
     // Assert
     expect(spy).toHaveBeenCalledWith(apiUrl, body, {
       headers: jasmine.any(HttpHeaders),
+      withCredentials: true
     });
   });
 });
