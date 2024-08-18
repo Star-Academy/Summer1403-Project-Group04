@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, of, throwError } from 'rxjs';
 import { UserData } from '../../models/user-data';
+import { loginResponse } from '../../models/login-response';
 
 @Injectable({
   providedIn: 'root'
@@ -34,19 +35,19 @@ export class UserService {
     });
   }
 
-  getUsers(pageNum: number, pageSize: number = 10): Observable<UserData[]> {
+  getUsers(pageNum: number, pageSize = 10): Observable<UserData[]> {
     const apiUrl = `${this.URL}/api/Admin/GetAllUser/${pageNum}/${pageSize}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.get<UserData[]>(apiUrl, { headers, withCredentials: true }).pipe(catchError(() => of([])));;
   }
 
-  deleteUser(userId: number): Observable<any> {
+  deleteUser(userId: number): Observable<loginResponse> {
     const apiUrl = `${this.URL}/api/Admin/DeleteUser/${userId}`;
-    return this.http.delete(apiUrl, { withCredentials: true }).pipe(
+    return this.http.delete<loginResponse>(apiUrl, { withCredentials: true }).pipe(
       catchError((error) => {
         console.error('Error deleting user', error);
-        return throwError(() => error);
+        return throwError(() => new Error('Error deleting user'));
       })
     );
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -16,7 +16,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
   templateUrl: './edit-role.component.html',
   styleUrl: './edit-role.component.scss',
 })
-export class EditRoleComponent implements OnInit {
+export class EditRoleComponent {
   roleForm: FormGroup;
   formControls = [
     { name: 'role', type: 'text', placeholder: 'Role', minLength: 1 },
@@ -33,12 +33,6 @@ export class EditRoleComponent implements OnInit {
     this.roleForm = this.fb.group({
       role: ['', [Validators.required]],
     });
-  }
-
-  ngOnInit(): void {}
-
-  onSelectionChange(value: any): void {
-    this.roleForm.setValue(value);
   }
 
   onSubmit() {

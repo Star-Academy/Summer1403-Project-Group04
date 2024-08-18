@@ -40,11 +40,23 @@
           <td>{{ data.firstName }}</td>
           <td>{{ data.lastName }}</td>
           <td>{{ data.email }}</td>
-          <td>{{ data.roles?.join(', ') }}</td>
+          <td>{{ data.roles?.join(", ") }}</td>
           <td>
-            <a (click)="editUser(data)"><span nz-icon nzType="edit" nzTheme="outline"></span></a>
+            <a
+              (click)="editUser(data)"
+              (keyup.enter)="editUser(data)"
+              (keydown.space)="editUser(data)"
+              tabindex="0"
+            >
+              <span nz-icon nzType="edit" nzTheme="outline"></span>
+            </a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a class="table__delete-icon" nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteUser(data)">
+            <a
+              class="table__delete-icon"
+              nz-popconfirm
+              nzPopconfirmTitle="Sure to delete?"
+              (nzOnConfirm)="deleteUser(data)"
+            >
               <span nz-icon nzType="delete" nzTheme="outline"></span>
             </a>
           </td>

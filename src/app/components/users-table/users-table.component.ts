@@ -5,12 +5,6 @@ import { NgFor } from '@angular/common';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AddUserComponent } from '../add-user/add-user.component';
-import {
-  Router,
-  NavigationStart,
-  NavigationEnd,
-  NavigationError,
-} from '@angular/router';
 import { UserData } from '../../models/user-data';
 import { NzPaginationComponent } from 'ng-zorro-antd/pagination';
 import { UserService } from '../../services/user/user.service';
@@ -38,7 +32,7 @@ export class UsersTableComponent implements OnInit {
   protected pageSize = 10;
   protected pageIndex = 1;
   protected currentPage = 1;
-  protected total = 2;
+  protected total = 10;
 
   constructor(private userService: UserService, private notification: NotificationService) {}
 
@@ -51,7 +45,7 @@ export class UsersTableComponent implements OnInit {
     this.userService.getUsers(pageIndex, pageSize).subscribe({
       next: (data) => {
         this.listOfData = data;
-        this.total = data.length;
+        // this.total = data.length;
       },
       error: (error) => {
         console.error('Error loading users:', error);
@@ -88,6 +82,7 @@ export class UsersTableComponent implements OnInit {
 
   editUser(user: UserData): void {
     // this.userService.editUser(user);
+    console.log(user);
   }
 
   deleteUser(user: UserData): void {
@@ -96,6 +91,7 @@ export class UsersTableComponent implements OnInit {
         if (response && response.message === "User Deleted successfully!") {
           this.notification.createNotification('success', 'User deleted', `User ${user.username} has been deleted`);
           this.loadDataFromServer(this.pageIndex - 1, this.pageSize);
+
         } else {
           this.notification.createNotification('error', 'Error deleting user', `User ${user.username} could not be deleted`);
         }

@@ -21,9 +21,9 @@ export class AuthGuardService {
           if (
             typeof response === 'object' &&
             'permissions' in response &&
-            typeof (response as any).permissions === 'string'
+            typeof (response).permissions === 'string'
           ) {
-            const permissionsArray = JSON.parse((response as any).permissions);
+            const permissionsArray = JSON.parse((response).permissions);
             if (
               Array.isArray(permissionsArray) &&
               permissionsArray.every((item) => typeof item === 'string')
@@ -36,6 +36,7 @@ export class AuthGuardService {
           this.router.navigate(['/']);
           return false;
         } catch (error) {
+          console.log(error);
           this.router.navigate(['/']);
           return false;
         }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PermisionsService } from '../../permisisons/permisions.service';
 import { Observable, of } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { UserService } from '../../user/user.service';
 
 @Injectable({
@@ -24,9 +24,9 @@ export class DashboardGuardService {
         if (
           typeof response === 'object' &&
           'permissions' in response &&
-          typeof (response as any).permissions === 'string'
+          typeof (response).permissions === 'string'
         ) {
-          const permissionsArray = JSON.parse((response as any).permissions);
+          const permissionsArray = JSON.parse((response).permissions);
           if (
             Array.isArray(permissionsArray) &&
             permissionsArray.every((item) => typeof item === 'string')
