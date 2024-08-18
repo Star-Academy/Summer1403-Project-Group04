@@ -21,12 +21,13 @@ export class AuthComponent implements OnInit {
 
   ngOnInit(): void {
     this.ngParticlesService.init(async (engine: Engine) => {
-      console.log(engine);
       await loadSlim(engine);
     });
   }
 
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   particlesLoaded(container: Container): void {
-    console.log(container);
+    // Placeholder implementation
   }
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 }
