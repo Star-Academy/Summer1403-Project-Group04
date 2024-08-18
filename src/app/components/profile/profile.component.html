@@ -4,8 +4,12 @@
       <img src="/profile/profile.svg" alt="avatar" />
     </div>
     <div class="profile-container__detail__info">
-      <h2 class="profile-container__detail__info__name">John Smith</h2>
-      <p class="profile-container__detail__info__role">Product Manager</p>
+      <h2 class="profile-container__detail__info__name">
+        {{userData.firstName[0]?.toUpperCase()}}{{userData.firstName.slice(1)}} {{userData.lastName[0]?.toUpperCase()}}{{userData.lastName.slice(1)}}
+      </h2>
+      <p class="profile-container__detail__info__role">
+        {{userData.roles[0]}}
+      </p>
     </div>
     <div class="profile-container__detail__edit">
         <button class="profile-container__detail__edit__button">
