@@ -27,7 +27,6 @@ export class UserService {
     this.http.get<UserData>(apiUrl, { headers, withCredentials: true }).subscribe({
       next: (response: UserData) => {
         this.userDataSubject.next(response);
-        console.log(response)
       },
       error: (error: HttpErrorResponse) => {
         console.error('Error fetching user data', error);

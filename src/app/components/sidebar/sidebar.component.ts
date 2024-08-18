@@ -41,13 +41,13 @@ export class SidebarComponent implements OnInit {
   }
 
   constructor(private userService: UserService, private premissionSubject: PermisionsService) {
-    this.premissionSubject.permissions$.subscribe((per) => {
-      this.userPermissions = per;
-      console.log(per);
-    })
   }
 
   ngOnInit() {
+    this.premissionSubject.permissions$.subscribe((per) => {
+      this.userPermissions = per;
+    });
+
     this.userService.userData$.subscribe((userData) => {
       this.userData = userData;
     });

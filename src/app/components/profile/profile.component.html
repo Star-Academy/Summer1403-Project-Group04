@@ -5,17 +5,27 @@
     </div>
     <div class="profile-container__detail__info">
       <h2 class="profile-container__detail__info__name">
-        {{userData.firstName[0]?.toUpperCase()}}{{userData.firstName.slice(1)}} {{userData.lastName[0]?.toUpperCase()}}{{userData.lastName.slice(1)}}
+        {{ userData.firstName[0]?.toUpperCase()
+        }}{{ userData.firstName.slice(1) }}
+        {{ userData.lastName[0]?.toUpperCase()
+        }}{{ userData.lastName.slice(1) }}
       </h2>
       <p class="profile-container__detail__info__role">
-        {{userData.roles[0]}}
+        {{ userData.roles[0] }}
       </p>
     </div>
     <div class="profile-container__detail__edit">
-        <button class="profile-container__detail__edit__button">
-            <img class="profile-container__detail__edit__button__icon" src="/profile/edit.svg" alt="edit" />
-            <p class="profile-container__detail__edit__button__text">Edit</p>
-        </button>
+      <button
+        class="profile-container__detail__edit__button"
+        routerLink="/dashboard/profile/edit-your-profile"
+      >
+        <img
+          class="profile-container__detail__edit__button__icon"
+          src="/profile/edit.svg"
+          alt="edit"
+        />
+        <p class="profile-container__detail__edit__button__text">Edit</p>
+      </button>
     </div>
   </div>
 </div>
