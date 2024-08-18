@@ -6,6 +6,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { DashboardGuardService } from './services/gaurds/dashboard-guard/dashboard-guard.service';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { ManageUsersGuardService } from './services/gaurds/manage-users/manage-users-guard.service';
 
 export const routes: Routes = [
   { path: '', component: AuthComponent, canActivate: [AuthGuardService] },
@@ -23,7 +24,8 @@ export const routes: Routes = [
       },
       {
         path: 'manage-users',
-        component: UsersTableComponent
+        component: UsersTableComponent,
+        canActivate: [ManageUsersGuardService]
       }
     ],
     canActivate: [DashboardGuardService],

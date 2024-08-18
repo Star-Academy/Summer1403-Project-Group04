@@ -28,16 +28,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-inline: 0.5rem;
-      padding-block: 0.6rem 0.4rem;
+      padding-inline: 0.6rem 0.4rem;
+      padding-block: 0.4rem 0.6rem;
       border-radius: 100%;
       background-color: #6c757d;
 
       &__img {
         width: 1.5rem;
         height: 1.5rem;
-        border-bottom-left-radius: 50%;
-        border-bottom-right-radius: 50%;
         align-self: flex-end;
       }
     }
@@ -116,6 +114,9 @@
 
             .ant-select-selection-item {
               color: #2c3034;
+              font-size: 2rem;
+              height: 30px;
+              align-items: center;
             }
           }
 
