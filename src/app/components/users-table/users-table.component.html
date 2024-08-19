@@ -10,13 +10,22 @@
   </div>
 
   <app-add-user
-  [isVisible]="isVisible"
-  (handleCancel)="handleCancel()"
-  (handleOk)="handleOk()"
-  (isVisibleChange)="closeModal()"
-></app-add-user>
+    [isVisible]="isVisible"
+    (handleCancel)="handleCancel()"
+    (handleOk)="handleOk()"
+    (isVisibleChange)="closeModal()"
+  ></app-add-user>
   <div class="content-container__table-container">
-    <nz-table class="table" #basicTable nzBordered [nzData]="listOfData">
+    <nz-table
+      [nzData]="listOfData"
+      nzShowSizeChanger
+      [nzFrontPagination]="false"
+      [nzLoading]="isLoading"
+      [nzTotal]="total"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)"
+    >
       <thead>
         <tr>
           <th>Name</th>
@@ -27,22 +36,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of basicTable.data">
-          <td nzBreakWord>{{ data.name }}</td>
-          <td nzBreakWord>{{ data.lastName }}</td>
-          <td nzBreakWord>{{ data.email }}</td>
-          <td nzBreakWord>
-            {{ data.role }}
-          </td>
+        <tr *ngFor="let data of listOfData">
+          <td>{{ data.firstName }}</td>
+          <td>{{ data.lastName }}</td>
+          <td>{{ data.email }}</td>
+          <td>{{ data.roles?.join(", ") }}</td>
           <td>
-            <a><span nz-icon nzType="edit" nzTheme="outline"></span></a>
+            <a
+              (click)="editUser(data)"
+              (keyup.enter)="editUser(data)"
+              (keydown.space)="editUser(data)"
+              tabindex="0"
+            >
+              <span nz-icon nzType="edit" nzTheme="outline"></span>
+            </a>
             <nz-divider nzType="vertical"></nz-divider>
             <a
               class="table__delete-icon"
               nz-popconfirm
               nzPopconfirmTitle="Sure to delete?"
-              ><span nz-icon nzType="delete" nzTheme="outline"></span
-            ></a>
+              (nzOnConfirm)="deleteUser(data)"
+            >
+              <span nz-icon nzType="delete" nzTheme="outline"></span>
+            </a>
           </td>
         </tr>
       </tbody>

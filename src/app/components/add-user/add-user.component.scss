@@ -1,6 +1,7 @@
 ::ng-deep {
   .modalClass {
     max-inline-size: 610px;
+    min-inline-size: 550px;
 
     .ant-modal-content {
       border-radius: 1rem;
