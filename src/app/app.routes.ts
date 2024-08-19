@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthComponent } from './page/auth/auth.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { AuthGuardService } from './services/gaurds/auth-guard/auth-guard.service';
+import { GraphComponent } from './page/graph/graph/graph.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { DashboardGuardService } from './services/gaurds/dashboard-guard/dashboard-guard.service';
@@ -30,4 +31,5 @@ export const routes: Routes = [
     ],
     canActivate: [DashboardGuardService],
   },
+   { path: 'graph', component: GraphComponent, canActivate: [AuthGuardService] },
 ];
