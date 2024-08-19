@@ -4,11 +4,12 @@ import { Container, IOptions, Engine } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { config } from '../../../models/animation-config';
+import { LoginFormComponent } from "../login-form/login-form.component";
 
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [ NgxParticlesModule, NzIconModule],
+  imports: [NgxParticlesModule, NzIconModule, LoginFormComponent],
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss'
 })

@@ -1,0 +1,147 @@
+@mixin flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login {
+  inline-size: 40rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__container {
+    @include flex();
+    gap: 3rem;
+    inline-size: 100%;
+    background: #fff;
+    border-radius: 1.2rem;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    padding: 2rem;
+
+    &__header {
+      font-size: 3rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    &__form {
+      inline-size: 100%;
+      @include flex();
+      gap: 1.5rem;
+
+      nz-form-item {
+        inline-size: 100%;
+        margin: 0;
+      }
+
+      nz-input-group {
+        border-radius: 0.8rem;
+      }
+
+      ::ng-deep {
+        .anticon {
+          font-size: 2rem;
+        }
+
+        .ant-form-item-explain {
+          padding-inline-start: 0.5rem;
+          text-align: left;
+        }
+      }
+
+      input {
+        font-size: 17px;
+        padding-inline: 0.5rem;
+        padding-block: 1rem;
+      }
+
+      &__forgot-password {
+        align-self: flex-start;
+
+        p {
+          font-size: 16px;
+          color: #1f66a8;
+          position: relative;
+          cursor: pointer;
+
+          &::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            left: 0;
+            bottom: -3px;
+            background-color: #1f66a8;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.2s ease-in-out;
+          }
+
+          &:hover {
+            color: #1f66a8;
+            &::after {
+              transform: scaleX(1);
+            }
+          }
+
+          &:not(:hover)::after {
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.2s ease-in-out;
+          }
+        }
+      }
+
+      &__button {
+        inline-size: 100%;
+        height: 60px;
+        letter-spacing: 1px;
+        border: 1px solid #1f66a8;
+        border-radius: 1rem;
+        outline: none;
+        background: #1f66a8;
+        color: #f8f6f4;
+        font-weight: 800;
+        padding-block: 1.2rem;
+        padding-inline: 3rem;
+        font-size: 2rem;
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        justify-content: center;
+        text-transform: capitalize;
+        align-items: center;
+        text-align: center;
+        outline: none;
+        font-weight: bold;
+        transition: color 0.3s ease, 0.8s all ease;
+        cursor: pointer;
+        z-index: 1;
+
+        &::before {
+          background: #eff0ef;
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: -1;
+          transition: all 0.6s ease;
+          width: 100%;
+          height: 0%;
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        &:hover {
+          color: #333;
+          border-color: #333;
+          &::before {
+            height: 750%;
+            width: 750%;
+          }
+        }
+      }
+    }
+  }
+}
