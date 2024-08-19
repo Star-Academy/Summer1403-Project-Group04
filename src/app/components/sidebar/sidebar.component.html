@@ -19,14 +19,21 @@
       <h1 class="sidebar-logo__title-container__title">Negar</h1>
     </div>
     <nz-content class="sidebar-logo__profile-container" nzTheme="light">
-      <div class="sidebar-logo__profile-container__image">
+      <div
+        class="sidebar-logo__profile-container__image"
+        routerLink="/dashboard/profile"
+      >
         <img
           class="sidebar-logo__profile-container__image__img"
           src="/profile/profile.svg"
           alt="avatar"
         />
       </div>
-      <span class="sidebar-logo__profile-container__name">A.moradi</span>
+      <span class="sidebar-logo__profile-container__name">
+        {{ userData.firstName[0]?.toUpperCase() }}.{{
+          userData.lastName[0]?.toUpperCase()
+        }}{{ userData.lastName.slice(1) }}
+      </span>
     </nz-content>
   </nz-layout>
   <ul
@@ -39,35 +46,42 @@
     <li
       class="menu-sidebar__list__item"
       nz-menu-item
-      nzOpen
       nzTitle="Dashboard"
       nzIcon="dashboard"
+      routerLink="/dashboard"
+      routerLinkActive="ant-menu-item-selected"
+      [routerLinkActiveOptions]="{ exact: true }"
     >
       <span nz-icon nzType="dashboard" class="menu-sidebar__icon"></span>
       <span class="menu-sidebar__icon-message">Dashboard</span>
     </li>
+    @if (userPermissions.indexOf('/api/Admin/GetAllUser/{page}/{size}') !== -1) {
     <li
       class="menu-sidebar__list__item"
       nz-menu-item
       nzOpen
       nzTitle="Manage Users"
       nzIcon="team"
+      routerLink="/dashboard/manage-users"
+      routerLinkActive="ant-menu-item-selected"
+      [routerLinkActiveOptions]="{ exact: true }"
     >
       <span nz-icon nzType="team" class="menu-sidebar__icon"></span>
       <span class="menu-sidebar__icon-message">Manage Users</span>
     </li>
+    }
   </ul>
   <div class="menu-sidebar__toggle">
     <span
-    nz-icon
-    [nzType]="isCollapsed ? 'right' : 'left'"
-    nzTheme="outline"
-    (click)="onToggleSidebar()"
-    (keyup.enter)="onToggleSidebar()"
-    (keyup.space)="onToggleSidebar()"
-    tabindex="0"
-    role="button"
-    aria-label="Toggle sidebar"
-  ></span>
+      nz-icon
+      [nzType]="isCollapsed ? 'right' : 'left'"
+      nzTheme="outline"
+      (click)="onToggleSidebar()"
+      (keyup.enter)="onToggleSidebar()"
+      (keyup.space)="onToggleSidebar()"
+      tabindex="0"
+      role="button"
+      aria-label="Toggle sidebar"
+    ></span>
   </div>
 </nz-sider>

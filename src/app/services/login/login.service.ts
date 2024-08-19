@@ -11,7 +11,7 @@ import { loginResponse } from '../../models/login-response';
   providedIn: 'root',
 })
 export class LoginService {
-  private URL = 'http://192.168.24.180:5293';
+  private URL = 'http://localhost:5293';
   constructor(private http: HttpClient) {}
 
   login(
@@ -30,11 +30,11 @@ export class LoginService {
     });
   }
 
-  isLoggedIn(): Observable<string[] | HttpErrorResponse> {
+  isLoggedIn(): Observable<{ permissions: string } | HttpErrorResponse> {
     const apiUrl = `${this.URL}/api/Access/GetPermissions`;
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.get<string[]>(apiUrl, { headers, withCredentials: true });
+    return this.http.get<{ permissions: string }>(apiUrl, { headers, withCredentials: true });
   }
 }

@@ -1,4 +1,7 @@
 <div class="edit-user-container" >
     <app-edit-profile></app-edit-profile>
+    @if (userPermissions.indexOf('/api/Admin/UpdateRoles/{id}') !== -1) {
+        <app-edit-role></app-edit-role>
+    }
     <app-edit-password></app-edit-password>
 </div>

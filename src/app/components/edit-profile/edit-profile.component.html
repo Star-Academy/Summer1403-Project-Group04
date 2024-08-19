@@ -59,28 +59,6 @@
                 </span>
               </p>
             </div>
-            @if (control.name === 'role') {
-            <nz-select
-              [formControlName]="control.name"
-              class="edit-profile-container__main__form__field-container__input-container__select"
-              [ngClass]="{
-                'edit-profile-container__main__form__field-container__input-container__select--invalid':
-                  userForm.get(control.name)?.invalid &&
-                  userForm.get(control.name)?.touched,
-                'edit-profile-container__main__form__field-container__input-container__select--default':
-                  !userForm.get(control.name)?.touched,
-                shake: isSubmitted && userForm.get(control.name)?.invalid
-              }"
-              nzMode="tags"
-              [(ngModel)]="listOfTagOptions"
-            >
-              <nz-option
-                *ngFor="let option of listOfOption"
-                [nzLabel]="option.label"
-                [nzValue]="option.value"
-              ></nz-option>
-            </nz-select>
-            } @else {
             <input
               #inputField
               [type]="control.type"
@@ -95,7 +73,6 @@
                 shake: isSubmitted && userForm.get(control.name)?.invalid
               }"
             />
-            }
           </div>
         </ng-container>
       </div>

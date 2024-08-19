@@ -1,0 +1,67 @@
+<div class="role-container">
+  <div class="role-container__title-container">
+    <span class="role-container__title-container__image">
+      <img
+        class="role-container__title-container__image__img"
+        src="/profile/role.svg"
+        alt="avatar"
+      />
+    </span>
+    <h1 class="role-container__title-container__title">User Role</h1>
+  </div>
+  <main class="role-container__main">
+    <h2 class="role-container__main__title">
+      Roles determine what actions you can perform and what information you can
+      view or manage.
+    </h2>
+    <form
+      [formGroup]="roleForm"
+      class="role-container__main__form"
+      data-testid="auth-form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="role-container__main__form__field-container">
+        <div class="role-container__main__form__field-container__label-group">
+          <p
+            class="role-container__main__form__field-container__label-group__label"
+          >
+            {{ formControls[0].placeholder }}
+          </p>
+          <p
+            *ngIf="
+              roleForm.get('role')?.touched && roleForm.get('role')?.invalid
+            "
+            class="role-container__main__form__field-container__label-group__error-container"
+          >
+            <span
+              *ngIf="roleForm.get('role')?.hasError('required')"
+              class="role-container__main__form__field-container__label-group__error-container__error"
+            >
+              *required
+            </span>
+          </p>
+        </div>
+        <nz-select
+          formControlName="role"
+          class="role-container__main__form__field-container__select"
+          [ngClass]="{
+            'role-container__main__form__field-container__select--invalid':
+              roleForm.get('role')?.invalid && roleForm.get('role')?.touched,
+            'role-container__main__form__field-container__select--default':
+              !roleForm.get('role')?.touched,
+            shake: isSubmitted && roleForm.get('role')?.invalid
+          }"
+          nzMode="tags"
+          [(ngModel)]="listOfTagOptions"
+        >
+          <nz-option
+            *ngFor="let option of listOfOption"
+            [nzLabel]="option.label"
+            [nzValue]="option.value"
+          ></nz-option>
+        </nz-select>
+      </div>
+      <button class="role-container__main__form__button">Update</button>
+    </form>
+  </main>
+</div>
