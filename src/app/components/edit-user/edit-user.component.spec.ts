@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, BehaviorSubject } from 'rxjs';
+import { of } from 'rxjs';
 import { EditUserComponent } from './edit-user.component';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
