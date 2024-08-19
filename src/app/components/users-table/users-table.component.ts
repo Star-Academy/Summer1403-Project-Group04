@@ -9,6 +9,7 @@ import { UserData } from '../../models/user-data';
 import { NzPaginationComponent } from 'ng-zorro-antd/pagination';
 import { UserService } from '../../services/user/user.service';
 import { NotificationService } from '../../services/notification/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-table',
@@ -34,7 +35,11 @@ export class UsersTableComponent implements OnInit {
   protected currentPage = 1;
   protected total = 10;
 
-  constructor(private userService: UserService, private notification: NotificationService) {}
+  constructor(
+    private userService: UserService,
+    private notification: NotificationService,
+    private route: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadDataFromServer(this.pageIndex - 1, this.pageSize);
@@ -53,7 +58,7 @@ export class UsersTableComponent implements OnInit {
       },
       complete: () => {
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -71,35 +76,43 @@ export class UsersTableComponent implements OnInit {
   }
 
   protected handleOk(): void {
-    console.log('Button ok clicked!');
     this.isVisible = false;
   }
 
   protected handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 
   editUser(user: UserData): void {
-    // this.userService.editUser(user);
-    console.log(user);
+    this.route.navigate([`/dashboard/manage-users/edit`] , {queryParams : {'id' : user.id}});
   }
 
   deleteUser(user: UserData): void {
     this.userService.deleteUser(user.id).subscribe({
       next: (response) => {
-        if (response && response.message === "User Deleted successfully!") {
-          this.notification.createNotification('success', 'User deleted', `User ${user.username} has been deleted`);
+        if (response && response.message === 'User Deleted successfully!') {
+          this.notification.createNotification(
+            'success',
+            'User deleted',
+            `User ${user.username} has been deleted`
+          );
           this.loadDataFromServer(this.pageIndex - 1, this.pageSize);
-
         } else {
-          this.notification.createNotification('error', 'Error deleting user', `User ${user.username} could not be deleted`);
+          this.notification.createNotification(
+            'error',
+            'Error deleting user',
+            `User ${user.username} could not be deleted`
+          );
         }
       },
       error: (error) => {
         console.error('Error deleting user:', error);
-        this.notification.createNotification('error', 'Error deleting user', `User ${user.username} could not be deleted`);
-      }
+        this.notification.createNotification(
+          'error',
+          'Error deleting user',
+          `User ${user.username} could not be deleted`
+        );
+      },
     });
   }
 }

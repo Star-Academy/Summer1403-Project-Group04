@@ -17,19 +17,24 @@ export const routes: Routes = [
     children: [
       {
         path: 'profile',
-        component: ProfileComponent
+        component: ProfileComponent,
       },
       {
         path: 'profile/edit-your-profile',
-        component: EditUserComponent
+        component: EditUserComponent,
       },
       {
         path: 'manage-users',
         component: UsersTableComponent,
-        canActivate: [ManageUsersGuardService]
-      }
+        canActivate: [ManageUsersGuardService],
+      },
+      {
+        path: 'manage-users/edit',
+        component: EditUserComponent,
+        canActivate: [ManageUsersGuardService],
+      },
     ],
     canActivate: [DashboardGuardService],
   },
-   { path: 'graph', component: GraphComponent, canActivate: [AuthGuardService] },
+  { path: 'graph', component: GraphComponent, canActivate: [AuthGuardService] },
 ];

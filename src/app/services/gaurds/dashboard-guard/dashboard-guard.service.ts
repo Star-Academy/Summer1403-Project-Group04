@@ -32,7 +32,7 @@ export class DashboardGuardService {
             permissionsArray.every((item) => typeof item === 'string')
           ) {
             this.permissionService.setPermissions(permissionsArray);
-            this.userService.getUser();
+            this.userService.getCurrentUser();
             return true;
           }
         }

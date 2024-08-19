@@ -9,6 +9,7 @@ import {
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-add-user',
@@ -30,9 +31,9 @@ export class AddUserComponent {
   userForm: FormGroup;
   isSubmitted = false;
   listOfOption: { label: string; value: string }[] = [
-    { label: 'System Administrator', value: 'System Administrator' },
-    { label: 'Data Manager', value: 'Data Manager' },
-    { label: 'Analyst', value: 'Analyst' },
+    { label: 'System Administrator', value: 'Admin' },
+    { label: 'Data Admin', value: 'DataAdmin' },
+    { label: 'Data Analyst', value: 'DataAnalyst' },
   ];
   listOfTagOptions = [];
   formControls: {
@@ -41,16 +42,16 @@ export class AddUserComponent {
     placeholder: string;
     minLength: number;
   }[] = [
-    { name: 'name', type: 'text', placeholder: 'Name', minLength: 1 },
+    { name: 'firstName', type: 'text', placeholder: 'Name', minLength: 1 },
     {
-      name: 'familyname',
+      name: 'lastName',
       type: 'text',
       placeholder: 'Family name',
       minLength: 1,
     },
     { name: 'email', type: 'email', placeholder: 'Email', minLength: 1 },
     { name: 'username', type: 'text', placeholder: 'User-name', minLength: 3 },
-    { name: 'role', type: 'text', placeholder: 'Role', minLength: 1 },
+    { name: 'roles', type: 'text', placeholder: 'Role', minLength: 1 },
     {
       name: 'password',
       type: 'password',
@@ -65,15 +66,15 @@ export class AddUserComponent {
   @Output() isVisibleChange: EventEmitter<boolean> =
     new EventEmitter<boolean>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.userForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(1)]],
-      familyname: ['', [Validators.required, Validators.minLength(1)]],
+      firstName: ['', [Validators.required, Validators.minLength(1)]],
+      lastName: ['', [Validators.required, Validators.minLength(1)]],
       email: [
         '',
         [Validators.required, Validators.minLength(1), Validators.email],
       ],
-      role: ['', [Validators.required, Validators.minLength(1)]],
+      roles: ['', [Validators.required, Validators.minLength(1)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(4)]],
     });
@@ -93,7 +94,7 @@ export class AddUserComponent {
       this.userForm.markAllAsTouched();
       return;
     }
-    console.log(this.userForm.value);
+    this.userService.addUser(this.userForm);
     this.handleOk.emit(true);
   }
 }
