@@ -2,7 +2,7 @@ export const config = {
   autoPlay: true,
   background: {
     color: {
-      value: '#f6f6f6',
+      value: '#F8F6F4',
     },
     image: '',
     position: '',
@@ -34,7 +34,7 @@ export const config = {
     detectsOn: 'window',
     events: {
       onClick: {
-        enable: true,
+        enable: false,
         mode: 'attract',
       },
       onDiv: {
@@ -44,7 +44,7 @@ export const config = {
         type: 'circle',
       },
       onHover: {
-        enable: true,
+        enable: false,
         mode: 'repulse',
         parallax: {
           enable: false,
@@ -181,7 +181,7 @@ export const config = {
       },
     },
     color: {
-      value: '#000000',
+      value: '#808080',
       animation: {
         h: {
           count: 0,
@@ -266,7 +266,7 @@ export const config = {
       },
       random: false,
       size: false,
-      speed: 1,
+      speed: 2.5,
       spin: {
         acceleration: 0,
         enable: false,
@@ -290,7 +290,7 @@ export const config = {
         mode: 'delete',
         value: 0,
       },
-      value: 250,
+      value: 80,
     },
     opacity: {
       value: 0.5,
@@ -453,7 +453,7 @@ export const config = {
     links: {
       blink: false,
       color: {
-        value: '#000000',
+        value: '#808080c4',
       },
       consent: false,
       distance: 150,

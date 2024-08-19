@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthComponent } from './page/auth/auth.component';
+// import { AuthComponent } from './page/auth/auth.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { AuthGuardService } from './services/gaurds/auth-guard/auth-guard.service';
 import { GraphComponent } from './page/graph/graph/graph.component';
@@ -8,9 +8,10 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { DashboardGuardService } from './services/gaurds/dashboard-guard/dashboard-guard.service';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { ManageUsersGuardService } from './services/gaurds/manage-users/manage-users-guard.service';
+import { LandingComponent } from './page/landing/landing.component';
 
 export const routes: Routes = [
-  { path: '', component: AuthComponent, canActivate: [AuthGuardService] },
+  { path: '', component: LandingComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
