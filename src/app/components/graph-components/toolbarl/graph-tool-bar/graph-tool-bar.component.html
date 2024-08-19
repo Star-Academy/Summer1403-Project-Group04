@@ -1,0 +1,63 @@
+<div class="toolbar-container">
+  <button title="Negar" type="button" class="toolbar-container__logo">
+    <span nz-icon nzType="node-index" nzTheme="outline"></span>
+  </button>
+  <br />
+  <button
+    nz-tooltip
+    nzTooltipTitle="Import Data"
+    type="button"
+    class="toolbar-container__btn"
+    [ngClass]="{ active: activeButton === 0 }"
+    (click)="setActiveButton(0)"
+  >
+    <span nz-icon nzType="import" nzTheme="outline"></span>
+  </button>
+  <br />
+  <button
+    nz-tooltip
+    nzTooltipTitle="Circular layout"
+    nzTitle="Click to randomize"
+    type="button"
+    class="toolbar-container__btn"
+    [ngClass]="{ active: activeButton === 1 }"
+    (click)="onCircularLayoutButtonClick()"
+  >
+  <span nz-icon nzType="radar-chart" nzTheme="outline"></span>
+  </button>
+  <button
+    nz-tooltip
+    nzTooltipTitle="Random layout"
+    type="button"
+    class="toolbar-container__btn"
+    [ngClass]="{ active: activeButton === 2 }"
+    (click)="onRandomLayoutButtonClick()"
+  >
+    <span nz-icon nzType="sync" nzTheme="outline"></span>
+  </button>
+  <br />
+  <div style="flex-grow: 1"></div>
+  <button
+    nz-tooltip
+    nzTooltipTitle="Github repo"
+    title="info"
+    type="button"
+    class="toolbar-container__btn"
+  >
+    <a
+      href="https://github.com/Star-Academy/Summer1403-Project-Group04-Frontend"
+      target="_blank"
+      rel="noopener noreferrer"
+      ><span nz-icon nzType="info-circle" nzTheme="fill"></span
+    ></a>
+  </button>
+  <button
+    title="user"
+    type="button"
+    class="toolbar-container__btn"
+    [ngClass]="{ active: activeButton === 3 }"
+    (click)="setActiveButton(3)"
+  >
+    <span nz-icon nzType="user" nzTheme="outline"></span>
+  </button>
+</div>
