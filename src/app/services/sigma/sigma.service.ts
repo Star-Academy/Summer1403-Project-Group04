@@ -21,19 +21,19 @@ export class SigmaService {
   private randomLayoutTrigger = new Subject<void>();
   randomLayoutTrigger$ = this.randomLayoutTrigger.asObservable();
 
-  changeData(data: any) {
+  changeData(data: GraphData) {
     this.graphData.next(data);
   }
 
   changeSelectedNode(data: string) {
-    this, this.selectedNodeData.next(data);
+    this.selectedNodeData.next(data);
   }
 
   triggerCircularLayout() {
-    this.circularLayoutTrigger.next(); 
+    this.circularLayoutTrigger.next();
   }
 
-  triggerRandomLayout(){
-    this.randomLayoutTrigger.next(); 
+  triggerRandomLayout() {
+    this.randomLayoutTrigger.next();
   }
 }

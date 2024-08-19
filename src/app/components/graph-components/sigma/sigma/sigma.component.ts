@@ -21,7 +21,7 @@ import { PlainObject } from 'sigma/types';
 export class SigmaComponent implements AfterViewInit {
   initialCameraState: { x: number; y: number; ratio: number } | null = null;
   sigmaInstance!: Sigma;
-  nodes: number = 0;
+  nodes = 0;
   draggedNode: string | null = null;
   isDragging = false;
   graph!: Graph;
@@ -69,7 +69,6 @@ export class SigmaComponent implements AfterViewInit {
 
     this.sigmaInstance.on('clickNode', (event) => {
       const nodeKey = event.node;
-      const nodeAttributes = this.graph.getNodeAttributes(nodeKey);
       this.sigmaService.changeSelectedNode(nodeKey);
     });
 
@@ -108,7 +107,7 @@ export class SigmaComponent implements AfterViewInit {
       e.original.stopPropagation();
     });
 
-    this.sigmaInstance.getMouseCaptor().on('mouseup', (e) => {
+    this.sigmaInstance.getMouseCaptor().on('mouseup', () => {
       if (this.draggedNode) {
         this.graph.removeNodeAttribute(this.draggedNode, 'highlighted');
       }
