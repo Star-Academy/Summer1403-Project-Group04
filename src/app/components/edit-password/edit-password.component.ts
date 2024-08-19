@@ -14,14 +14,7 @@ import { NgIf, NgFor, NgClass } from '@angular/common';
 @Component({
   selector: 'app-edit-password',
   standalone: true,
-  imports: [
-    NzModalModule,
-    NgIf,
-    NgFor,
-    NgClass,
-    ReactiveFormsModule,
-    FormsModule,
-  ],
+  imports: [NzModalModule, NgIf, NgFor, NgClass, ReactiveFormsModule, FormsModule],
   providers: [FormBuilder, Validators],
   templateUrl: './edit-password.component.html',
   styleUrl: './edit-password.component.scss',
@@ -35,24 +28,9 @@ export class EditPasswordComponent {
     placeholder: string;
     minLength: number;
   }[] = [
-    {
-      name: 'oldpassword',
-      type: 'password',
-      placeholder: 'Current Password',
-      minLength: 4,
-    },
-    {
-      name: 'newpassword',
-      type: 'password',
-      placeholder: 'New Password',
-      minLength: 4,
-    },
-    {
-      name: 'confirmPassword',
-      type: 'password',
-      placeholder: 'Confirm New Password',
-      minLength: 4,
-    },
+    { name: 'oldpassword', type: 'password', placeholder: 'Current Password', minLength: 4 },
+    { name: 'newpassword', type: 'password', placeholder: 'New Password', minLength: 4 },
+    { name: 'confirmPassword', type: 'password', placeholder: 'Confirm New Password', minLength: 4 },
   ];
 
   constructor(private fb: FormBuilder) {
@@ -79,9 +57,7 @@ export class EditPasswordComponent {
   private matchPassword(matchTo: string): (arg0: AbstractControl) => ValidationErrors | null {
     return (control: AbstractControl): ValidationErrors | null => {
       if (control.parent) {
-        return control.value === control.parent.get(matchTo)?.value 
-          ? null 
-          : { 'mismatch': true };
+        return control.value === control.parent.get(matchTo)?.value ? null : { mismatch: true };
       }
       return null;
     };
