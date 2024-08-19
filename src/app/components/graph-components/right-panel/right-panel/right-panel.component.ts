@@ -3,7 +3,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SigmaService } from '../../../../services/sigma/sigma.service';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { GraphData } from '../../../../models/graph-data';
-import { ProjectOutline } from '@ant-design/icons-angular/icons';
+
 
 @Component({
   selector: 'app-right-panel',
