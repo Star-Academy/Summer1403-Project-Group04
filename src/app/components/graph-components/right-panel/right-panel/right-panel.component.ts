@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SigmaService } from '../../../../services/sigma/sigma.service';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { GraphData } from '../../../../models/graph-data';
+import { ProjectOutline } from '@ant-design/icons-angular/icons';
 
 @Component({
   selector: 'app-right-panel',
@@ -15,17 +16,17 @@ export class RightPanelComponent implements OnInit {
   data!: GraphData;
   selectedNode!: string;
 
-  constructor(private sigmaService: SigmaService) {}
+  constructor(private sigmaService: SigmaService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.sigmaService.currentData.subscribe((data) => {
       this.data = data;
-      console.log(data);
+      this.cdr.detectChanges();
     });
 
     this.sigmaService.nodeData.subscribe((data) => {
       this.selectedNode = data;
-      console.log(data);
+      this.cdr.detectChanges();
     });
   }
 }

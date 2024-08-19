@@ -64,8 +64,10 @@ export class SigmaComponent implements AfterViewInit {
     // Initialize Sigma.js
     this.sigmaInstance = new Sigma(
       this.graph,
-      document.getElementById('sigma-container') as HTMLDivElement
+      document.getElementById('sigma-container') as HTMLDivElement,
+      
     );
+    this.sigmaInstance.refresh();
 
     this.sigmaInstance.on('clickNode', (event) => {
       const nodeKey = event.node;
@@ -73,10 +75,11 @@ export class SigmaComponent implements AfterViewInit {
     });
 
     const data: GraphData = {
-      numberOfNodes: this.graph.order, // Replace with actual node count
-      numberOfEdges: this.graph.size, // Replace with actual edge count
+      numberOfNodes: this.graph.order, 
+      numberOfEdges: this.graph.size, 
     };
     this.sigmaService.changeData(data);
+    
 
     const camera = this.sigmaInstance.getCamera();
     this.initialCameraState = {

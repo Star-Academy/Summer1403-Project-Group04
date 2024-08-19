@@ -2,8 +2,8 @@
   flex-grow: 1;
   width: calc(
     100vw - 35rem - 6.4rem
-  ); /* Calculate width */ /* Full viewport width */
-  height: 100%; /* Full viewport height */
+  ); 
+  height: 100vh; 
 }
 
 .sigma-container {
