@@ -28,67 +28,78 @@ import { UserService } from '../../services/user/user.service';
   styleUrl: './add-user.component.scss',
 })
 export class AddUserComponent {
-  userForm: FormGroup;
-  isSubmitted = false;
-  listOfOption: { label: string; value: string }[] = [
-    { label: 'System Administrator', value: 'Admin' },
-    { label: 'Data Admin', value: 'DataAdmin' },
-    { label: 'Data Analyst', value: 'DataAnalyst' },
-  ];
-  listOfTagOptions = [];
-  formControls: {
-    name: string;
-    type: string;
-    placeholder: string;
-    minLength: number;
-  }[] = [
-    { name: 'firstName', type: 'text', placeholder: 'Name', minLength: 1 },
-    {
-      name: 'lastName',
-      type: 'text',
-      placeholder: 'Family name',
-      minLength: 1,
-    },
-    { name: 'email', type: 'email', placeholder: 'Email', minLength: 1 },
-    { name: 'username', type: 'text', placeholder: 'User-name', minLength: 3 },
-    { name: 'roles', type: 'text', placeholder: 'Role', minLength: 1 },
-    {
-      name: 'password',
-      type: 'password',
-      placeholder: 'Password',
-      minLength: 4,
-    },
-  ];
   @Input() isVisible = false;
 
   @Output() handleCancel: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() handleOk: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() isVisibleChange: EventEmitter<boolean> =
-    new EventEmitter<boolean>();
+  @Output() isVisibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  userForm: FormGroup;
+  isSubmitted = false;
+
+  listOfOption = [
+    { label: 'System Administrator', value: 'Admin' },
+    { label: 'Data Admin', value: 'DataAdmin' },
+    { label: 'Data Analyst', value: 'DataAnalyst' },
+  ];
+
+  formControls = [
+    { name: 'firstName', type: 'text', placeholder: 'Name', minLength: 1 },
+    { name: 'lastName', type: 'text', placeholder: 'Family name', minLength: 1},
+    { name: 'email', type: 'email', placeholder: 'Email', minLength: 1 },
+    { name: 'username', type: 'text', placeholder: 'User-name', minLength: 3 },
+    { name: 'roles', type: 'text', placeholder: 'Role', minLength: 1 },
+    { name: 'password', type: 'password', placeholder: 'Password', minLength: 4 },
+  ];
+
+  listOfTagOptions = [];
+  // formControls: {
+  //   name: string;
+  //   type: string;
+  //   placeholder: string;
+  //   minLength: number;
+  // }[] = [
+  //   { name: 'firstName', type: 'text', placeholder: 'Name', minLength: 1 },
+  //   {
+  //     name: 'lastName',
+  //     type: 'text',
+  //     placeholder: 'Family name',
+  //     minLength: 1,
+  //   },
+  //   { name: 'email', type: 'email', placeholder: 'Email', minLength: 1 },
+  //   { name: 'username', type: 'text', placeholder: 'User-name', minLength: 3 },
+  //   { name: 'roles', type: 'text', placeholder: 'Role', minLength: 1 },
+  //   {
+  //     name: 'password',
+  //     type: 'password',
+  //     placeholder: 'Password',
+  //     minLength: 4,
+  //   },
+  // ];
 
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.userForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(1)]],
       lastName: ['', [Validators.required, Validators.minLength(1)]],
-      email: [
-        '',
-        [Validators.required, Validators.minLength(1), Validators.email],
-      ],
+      email: ['', [Validators.required, Validators.minLength(1), Validators.email]],
       roles: ['', [Validators.required, Validators.minLength(1)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
-  protected afterCloseModal(): void {
+  protected onAfterCloseModal(): void {
     this.isVisibleChange.emit(false);
+    this.resetForm();
   }
 
-  protected handleCancelModal(): void {
+  protected onCancelModal(): void {
     this.handleCancel.emit(true);
+    this.isVisibleChange.emit(false);
+    this.resetForm();
   }
 
-  protected handleOkModal(): void {
+  protected onSubmitModal(): void {
     if (this.userForm.invalid) {
       this.isSubmitted = true;
       this.userForm.markAllAsTouched();
@@ -96,5 +107,10 @@ export class AddUserComponent {
     }
     this.userService.addUser(this.userForm);
     this.handleOk.emit(true);
+  }
+
+  private resetForm(): void {
+    this.userForm.reset();
+    this.isSubmitted = false;
   }
 }

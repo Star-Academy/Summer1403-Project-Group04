@@ -1,9 +1,9 @@
 <nz-modal
   [(nzVisible)]="isVisible"
   nzTitle="Add user"
-  (nzOnCancel)="handleCancelModal()"
-  (nzOnOk)="handleOkModal()"
-  (nzAfterClose)="afterCloseModal()"
+  (nzOnCancel)="onCancelModal()"
+  (nzOnOk)="onSubmitModal()"
+  (nzAfterClose)="onAfterCloseModal()"
   [nzWidth]="'fit-content'"
   [nzClassName]="'modalClass'"
 >
