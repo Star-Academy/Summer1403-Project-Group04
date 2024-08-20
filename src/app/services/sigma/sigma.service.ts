@@ -43,7 +43,16 @@ export class SigmaService {
     this.graphData.next(data);
   }
 
-  changeSelectedNode(data: any) {
+  changeSelectedNode(data: {
+    age: number;
+    bio: string;
+    color: string;
+    job: string;
+    label: string;
+    size: number;
+    x: number;
+    y: number;
+  }) {
     this.selectedNodeData.next(data);
   }
 
