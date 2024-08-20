@@ -1,42 +1,40 @@
 <div class="right-panel-container">
-  <div class="right-panel-container__inner">
+  <div nz-flex [nzVertical]="true" class="right-panel-container__inner">
     <div class="right-panel-container__panel-block">
       <h2 class="right-panel-container__panel-block__title">
         <span nz-icon nzType="project" nzTheme="outline"></span>Data Overview
       </h2>
     </div>
-    <hr class="right-panel-container__hr" />
+    <nz-divider></nz-divider>
     <div class="right-panel-container__panel-block">
       <div class="right-panel-container__panel-block__inner">
-        <span class="right-panel-container__panel-block__inner__span"
-          >Nodes: {{ data.numberOfNodes }}</span
-        >
-        <button
-          nz-tooltip
-          nzTooltipTitle="Under construction :)"
-          class="right-panel-container__btn"
-        >
+        <span class="right-panel-container__panel-block__inner__span">Nodes: {{ data.numberOfNodes }}</span>
+        <button nz-tooltip nzTooltipTitle="Under construction :)" class="right-panel-container__btn">
           <span nz-icon nzType="plus" nzTheme="outline"></span>
         </button>
       </div>
       <div class="right-panel-container__panel-block__inner">
-        <span class="right-panel-container__panel-block__inner__span"
-          >Edges: {{ data.numberOfEdges }}</span
-        >
-        <button
-          nz-tooltip
-          nzTooltipTitle="Under construction :)"
-          class="right-panel-container__btn"
-        >
+        <span class="right-panel-container__panel-block__inner__span">Edges: {{ data.numberOfEdges }}</span>
+        <button nz-tooltip nzTooltipTitle="Under construction :)" class="right-panel-container__btn">
           <span nz-icon nzType="plus" nzTheme="outline"></span>
         </button>
       </div>
     </div>
-    <hr class="right-panel-container__hr" />
+    <nz-divider></nz-divider>
     <div class="right-panel-container__panel-block">
-      <h3 class="right-panel-container__panel-block__title">
-        {{ selectedNode ? selectedNode : "No node selected" }}
-      </h3>
+      <nz-select nzShowSearch nzServerSearch nzPlaceHolder="Search for nodes" [nzShowArrow]="false">
+        <nz-option *ngFor="let o of listOfOption" [nzLabel]="o.text" [nzValue]="o.value"></nz-option>
+      </nz-select>
+    </div>
+    <nz-divider> </nz-divider>
+    <div class="right-panel-container__panel-block">
+      @if (selectedNode.age !==0) {
+      <h3 class="right-panel-container__panel-block__title">{{ selectedNode.label }} {{ selectedNode.age }}</h3>
+      <br />
+      <h3 class="right-panel-container__panel-block__title">{{ selectedNode.bio }}</h3>
+      }@else {
+      <h3 class="right-panel-container__panel-block__title">"No node selected"</h3>
+      }
     </div>
   </div>
 </div>

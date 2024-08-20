@@ -2,13 +2,17 @@
   inline-size: 6.4rem;
   height: 100vh;
   overflow-x: hidden;
-  background: #ced4da;
+  background: #fff;
   padding-right: 0;
   padding-left: 0;
   display: flex;
   flex-direction: column;
   padding-block-start: 0.5rem;
-  padding-block-end: 0.25rem;
+  padding-block-end: 0.25rem; 
+
+  &__btn-container{
+    gap: 2rem !important;
+  }
 
   &__logo{
     border: none;
@@ -22,20 +26,22 @@
     position: relative;
     font-size: 3.25rem;
     cursor: pointer;
+    color: #1f66a8;
   }
 
   &__btn{
     border: none;
     outline: none;
     border-radius: .375rem 0 0 .375rem;
-    padding: .7em .6em .7em .2em;
-    margin: 0 0 0 .4em;
+    padding: 1rem;
+    // margin: 0 0 0 .4em;
     background: none;
     display: flex;
     justify-content: center;
     font-size: 2.25rem; 
     cursor: pointer;
     position: relative;
+    transition: all 1sec linear ;
 
     // &:hover{
        
@@ -44,5 +50,6 @@
 }
 
 .active{
-    background-color: #e9ecef;
+    background-color: #1f66a8;
+    color: #fff;
 }

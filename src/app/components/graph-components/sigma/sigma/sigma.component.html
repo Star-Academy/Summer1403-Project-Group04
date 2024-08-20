@@ -1,17 +1,32 @@
 <div class="sigma-container">
   <div class="sigma-container__toolbar-container">
     <button
+      nzTooltipPlacement="left"
+      nz-tooltip
+      nzTooltipTitle="Fullscreen"
       (click)="resetCamera()"
       class="sigma-container__toolbar-container__btn"
     >
       <span nz-icon nzType="fullscreen" nzTheme="outline"></span>
     </button>
-    <button (click)="zoomIn()" class="sigma-container__toolbar-container__btn">
+    <button
+      nzTooltipPlacement="left"
+      nz-tooltip
+      nzTooltipTitle="Zoom In"
+      (click)="zoomIn()"
+      class="sigma-container__toolbar-container__btn"
+    >
       <span nz-icon nzType="zoom-in" nzTheme="outline"></span>
     </button>
-    <button (click)="zoomOut()" class="sigma-container__toolbar-container__btn">
-        <span nz-icon nzType="zoom-out" nzTheme="outline"></span>
-      </button>
+    <button
+      nzTooltipPlacement="left"
+      nz-tooltip
+      nzTooltipTitle="Zoom Out"
+      (click)="zoomOut()"
+      class="sigma-container__toolbar-container__btn"
+    >
+      <span nz-icon nzType="zoom-out" nzTheme="outline"></span>
+    </button>
   </div>
 
   <div id="sigma-container"></div>
