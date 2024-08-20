@@ -7,8 +7,20 @@ import { SigmaService } from '../../../../services/sigma/sigma.service';
 import { GraphData } from '../../../../models/graph-data';
 import { circular } from 'graphology-layout';
 import { animateNodes } from 'sigma/utils';
-import { PlainObject } from 'sigma/types';
+import { EdgeDisplayData, NodeDisplayData, PlainObject } from 'sigma/types';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+
+interface State {
+  hoveredNode?: string;
+  searchQuery: string;
+
+  // State derived from query:
+  selectedNode?: string;
+  suggestions?: Set<string>;
+
+  // State derived from hovered node:
+  hoveredNeighbors?: Set<string>;
+}
 
 @Component({
   selector: 'app-sigma',
@@ -24,6 +36,7 @@ export class SigmaComponent implements AfterViewInit {
   draggedNode: string | null = null;
   isDragging = false;
   graph!: Graph;
+  state: State = { searchQuery: '' };
   cancelCurrentAnimation: (() => void) | null = null;
 
   constructor(private sigmaService: SigmaService) {}
@@ -69,16 +82,18 @@ export class SigmaComponent implements AfterViewInit {
       const nodeId = event.node;
       const nodeAttributes = this.graph.getNodeAttributes(nodeId);
 
-      this.sigmaService.changeSelectedNode(nodeAttributes as {
-        age: number;
-        bio: string;
-        color: string;
-        job: string;
-        label: string;
-        size: number;
-        x: number;
-        y: number;
-      });
+      this.sigmaService.changeSelectedNode(
+        nodeAttributes as {
+          age: number;
+          bio: string;
+          color: string;
+          job: string;
+          label: string;
+          size: number;
+          x: number;
+          y: number;
+        }
+      );
       console.log(nodeAttributes);
     });
 
@@ -126,6 +141,54 @@ export class SigmaComponent implements AfterViewInit {
 
     this.sigmaInstance.getMouseCaptor().on('mousedown', () => {
       if (!this.sigmaInstance.getCustomBBox()) this.sigmaInstance.setCustomBBox(this.sigmaInstance.getBBox());
+    });
+
+    this.sigmaInstance.on('enterNode', ({ node }) => {
+      this.setHoveredNode(node);
+    });
+ 
+
+    this.sigmaInstance.on("leaveNode", () => {
+      this.setHoveredNode(undefined);
+    });
+
+    this.sigmaInstance.setSetting("nodeReducer", (node, data) => {
+      const res: Partial<NodeDisplayData> = { ...data };
+  
+      if (this.state.hoveredNeighbors && !this.state.hoveredNeighbors.has(node) && this.state.hoveredNode !== node) {
+        res.label = "";
+        res.color = "#f6f6f6";
+      }
+  
+      if (this.state.selectedNode === node) {
+        res.highlighted = true;
+      } else if (this.state.suggestions) {
+        if (this.state.suggestions.has(node)) {
+          res.forceLabel = true;
+        } else {
+          res.label = "";
+          res.color = "#f6f6f6";
+        }
+      }
+  
+      return res;
+    });
+
+    this.sigmaInstance.setSetting("edgeReducer", (edge, data) => {
+      const res: Partial<EdgeDisplayData> = { ...data };
+  
+      if (this.state.hoveredNode && !this.graph.hasExtremity(edge, this.state.hoveredNode)) {
+        res.hidden = true;
+      }
+  
+      if (
+        this.state.suggestions &&
+        (!this.state.suggestions.has(this.graph.source(edge)) || !this.state.suggestions.has(this.graph.target(edge)))
+      ) {
+        res.hidden = true;
+      }
+  
+      return res;
     });
   }
 
@@ -188,5 +251,32 @@ export class SigmaComponent implements AfterViewInit {
     });
 
     this.cancelCurrentAnimation = animateNodes(this.graph, randomPositions, { duration: 2000 });
+  }
+
+  setHoveredNode(node?: string) {
+    if (node) {
+      this.state.hoveredNode = node;
+      this.state.hoveredNeighbors = new Set(this.graph.neighbors(node));
+    }
+
+    // Compute the partial that we need to re-render to optimize the refresh
+    const nodes = this.graph.filterNodes((n) => n !== this.state.hoveredNode && !this.state.hoveredNeighbors?.has(n));
+    const nodesIndex = new Set(nodes);
+    const edges = this.graph.filterEdges((e) => this.graph.extremities(e).some((n) => nodesIndex.has(n)));
+
+    if (!node) {
+      this.state.hoveredNode = undefined;
+      this.state.hoveredNeighbors = undefined;
+    }
+
+    // Refresh rendering
+    this.sigmaInstance.refresh({
+      partialGraph: {
+        nodes,
+        edges,
+      },
+      // We don't touch the graph data so we can skip its reindexation
+      skipIndexation: true,
+    });
   }
 }
