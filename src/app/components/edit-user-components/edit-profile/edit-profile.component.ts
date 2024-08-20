@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NgIf, NgFor, NgClass } from '@angular/common';
@@ -14,7 +14,7 @@ import { UserService } from '../../../services/user/user.service';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss'],
 })
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent implements OnChanges {
   @Input() userData!: UserData;
   protected userForm!: FormGroup;
   protected isSubmitted = false;
@@ -41,7 +41,7 @@ export class EditProfileComponent implements OnInit {
     this.initializeForm();
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.initializeForm();
 
     this.activeRoute.queryParams.subscribe(async (params) => {
@@ -72,12 +72,17 @@ export class EditProfileComponent implements OnInit {
 
   private handleUpdateProfile() {
     this.userService.updateUser(null, this.userForm, this.isUpdatingProfile).add(() => {
-      
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     });
   }
   
   private handleUpdateUser() {
     this.userService.updateUser(this.userData.id, this.userForm, this.isUpdatingProfile).add(() => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     });
   }
 }

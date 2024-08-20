@@ -167,6 +167,31 @@ export class UserService {
     });
   }
 
+  updateRole(roles: string[], id: number) {
+    const apiUrl = `${this.URL}/api/Admin/UpdateRoles/${id}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<loginResponse>(apiUrl, roles, { headers, withCredentials: true }).subscribe({
+      next: (response) => {
+        if (response.message === 'User roles updated successfuly!') {
+          this.notificationService.createNotification('success', 'Role Updated Successfully', response.message);
+        } else {
+          this.notificationService.createNotification('error', 'Error Updating Role', response.message);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = 'An unexpected error occurred';
+        if (error.status === 401) {
+          errorMessage = 'Unauthorized: Invalid username or password';
+        } else if (error.status === 400) {
+          errorMessage = 'Bad Request: Please check your input';
+        }
+
+        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+      },
+    });
+  }
+
   logout() {
     const apiUrl = `${this.URL}/api/User/Logout`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
