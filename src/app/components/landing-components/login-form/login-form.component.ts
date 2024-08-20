@@ -8,23 +8,33 @@ import { loginResponse } from '../../../models/login-response';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NzFormModule, NzFormControlComponent, NzInputModule, NgIf],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzFormControlComponent,
+    NzInputModule,
+    NgIf,
+    NzIconModule,
+  ],
   providers: [FormBuilder, Validators],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })
 export class LoginFormComponent {
-  loginForm: FormGroup;
+  protected loginForm: FormGroup;
+  protected passwordVisible = false;
 
   constructor(
-    private fb: FormBuilder,
     private loginService: LoginService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private fb: FormBuilder
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
