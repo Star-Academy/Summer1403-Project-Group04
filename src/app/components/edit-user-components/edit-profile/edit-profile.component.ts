@@ -71,13 +71,13 @@ export class EditProfileComponent implements OnInit {
   }
 
   private handleUpdateProfile() {
-    this.userService.updateProfile(this.userForm).add(() => {
+    this.userService.updateUser(null, this.userForm, this.isUpdatingProfile).add(() => {
       
     });
   }
   
   private handleUpdateUser() {
-    this.userService.updateUser(this.userData.id, this.userForm).add(() => {
+    this.userService.updateUser(this.userData.id, this.userForm, this.isUpdatingProfile).add(() => {
     });
   }
 }

@@ -5,6 +5,7 @@ import { UserData } from '../../models/user-data';
 import { loginResponse } from '../../models/login-response';
 import { FormGroup } from '@angular/forms';
 import { NotificationService } from '../notification/notification.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class UserService {
   });
   public userData$: Observable<UserData> = this.userDataSubject.asObservable();
 
-  constructor(private http: HttpClient, private notificationService: NotificationService) {}
+  constructor(private http: HttpClient, private notificationService: NotificationService, private router: Router) {}
 
   getCurrentUser(): void {
     const apiUrl = `${this.URL}/api/User/GetUser`;
@@ -105,18 +106,20 @@ export class UserService {
     });
   }
 
-  updateUser(id: number, formGroup: FormGroup) {
+  updateUser(id: number | null, formGroup: FormGroup, isProfile: boolean) {
     const value = formGroup.value;
 
-    const apiUrl = `${this.URL}/api/Admin/UpdateUser/${id}`;
+    const apiUrl = isProfile ? `${this.URL}/api/User/UpdateUser` : `${this.URL}/api/Admin/UpdateUser/${id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true }).subscribe({
       next: (response) => {
         if (response.message === 'User updated successfully!') {
-          this.notificationService.createNotification('success', 'User Updated Successfully', response.message);
+          const successMessage = isProfile ? 'Profile Updated Successfully' : 'User Updated Successfully';
+          this.notificationService.createNotification('success', successMessage, response.message);
         } else {
-          this.notificationService.createNotification('error', 'Error Updating User', response.message);
+          const errorMessage = isProfile ? 'Error Updating Profile' : 'Error Updating User';
+          this.notificationService.createNotification('error', errorMessage, response.message);
         }
       },
       error: (error: HttpErrorResponse) => {
@@ -132,18 +135,23 @@ export class UserService {
     });
   }
 
-  updateProfile(formGroup: FormGroup) {
-    const value = formGroup.value;
+  updatePassword(id: number | null, formGroup: FormGroup, isProfile: boolean) {
+    const value = {
+      oldPassword: formGroup.get('oldpassword')?.value,
+      newPassword: formGroup.get('newpassword')?.value,
+    };
 
-    const apiUrl = `${this.URL}/api/User/UpdateUser`;
+    const apiUrl = isProfile ? `${this.URL}/api/User/UpdatePassword` : `${this.URL}/api/Admin/UpdatePassword/${id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true }).subscribe({
       next: (response) => {
         if (response.message === 'User updated successfully!') {
-          this.notificationService.createNotification('success', 'Profile Updated Successfully', response.message);
+          const successMessage = isProfile ? 'Profile Updated Successfully' : 'User Updated Successfully';
+          this.notificationService.createNotification('success', successMessage, response.message);
         } else {
-          this.notificationService.createNotification('error', 'Error Updating Profile', response.message);
+          const errorMessage = isProfile ? 'Error Updating Profile' : 'Error Updating User';
+          this.notificationService.createNotification('error', errorMessage, response.message);
         }
       },
       error: (error: HttpErrorResponse) => {
@@ -151,7 +159,7 @@ export class UserService {
         if (error.status === 401) {
           errorMessage = 'Unauthorized: Invalid username or password';
         } else if (error.status === 400) {
-          errorMessage = 'Bad Request: Please check your inputs';
+          errorMessage = 'Bad Request: Old password is wrong!';
         }
 
         this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
@@ -159,56 +167,20 @@ export class UserService {
     });
   }
 
-  updateUserPassword(id: number, formGroup: FormGroup) {
-    const value = {'oldPassword': formGroup.get('oldpassword')?.value, 'newPassword': formGroup.get('newpassword')?.value};
-
-    const apiUrl = `${this.URL}/api/Admin/UpdatePassword/${id}`;
+  logout() {
+    const apiUrl = `${this.URL}/api/User/Logout`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true }).subscribe({
-      next: (response) => {
-        if (response.message === 'User updated successfully!') {
-          this.notificationService.createNotification('success', 'User Updated Successfully', response.message);
-        } else {
-          this.notificationService.createNotification('error', 'Error Updating User', response.message);
-        }
+    this.http.post(apiUrl, { headers, withCredentials: true }).subscribe({
+      next: () => {
+        this.notificationService.createNotification('info', 'Logged Out', 'You have been logged out successfully.');
+
+        setTimeout(() => {
+          this.router.navigate(['/landing']);
+        }, 2000);
       },
       error: (error: HttpErrorResponse) => {
-        let errorMessage = 'An unexpected error occurred';
-        if (error.status === 401) {
-          errorMessage = 'Unauthorized: Invalid username or password';
-        } else if (error.status === 400) {
-          errorMessage = 'Bad Request: Please check your inputs';
-        }
-
-        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
-      },
-    });
-  }
-
-  updateProfilePassword(formGroup: FormGroup) {
-    const value = {'oldPassword': formGroup.get('oldpassword')?.value, 'newPassword': formGroup.get('newpassword')?.value};
-
-    const apiUrl = `${this.URL}/api/User/UpdatePassword`;
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true }).subscribe({
-      next: (response) => {
-        if (response.message === 'User updated successfully!') {
-          this.notificationService.createNotification('success', 'Profile Updated Successfully', response.message);
-        } else {
-          this.notificationService.createNotification('error', 'Error Updating Profile', response.message);
-        }
-      },
-      error: (error: HttpErrorResponse) => {
-        let errorMessage = 'An unexpected error occurred';
-        if (error.status === 401) {
-          errorMessage = 'Unauthorized: Invalid username or password';
-        } else if (error.status === 400) {
-          errorMessage = 'Bad Request: Please check your inputs';
-        }
-
-        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+        console.error('Error logging out', error);
       },
     });
   }

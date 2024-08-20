@@ -66,11 +66,13 @@ export class EditPasswordComponent implements OnInit {
   }
 
   private handleUpdateProfilePassword() {
-    this.userService.updateProfilePassword(this.passwordForm).add(() => {});
+    this.userService.updatePassword(null, this.passwordForm, this.isUpdatingProfile).add(() => {
+      this.userService.logout();
+    });
   }
 
   private handleUpdateUserPassword() {
-    this.userService.updateUserPassword(this.userID, this.passwordForm).add(() => {});
+    this.userService.updatePassword(this.userID, this.passwordForm, this.isUpdatingProfile).add(() => {});
   }
 
   private matchPassword(matchTo: string): (arg0: AbstractControl) => ValidationErrors | null {
