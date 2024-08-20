@@ -158,4 +158,58 @@ export class UserService {
       },
     });
   }
+
+  updateUserPassword(id: number, formGroup: FormGroup) {
+    const value = {'oldPassword': formGroup.get('oldpassword')?.value, 'newPassword': formGroup.get('newpassword')?.value};
+
+    const apiUrl = `${this.URL}/api/Admin/UpdatePassword/${id}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true }).subscribe({
+      next: (response) => {
+        if (response.message === 'User updated successfully!') {
+          this.notificationService.createNotification('success', 'User Updated Successfully', response.message);
+        } else {
+          this.notificationService.createNotification('error', 'Error Updating User', response.message);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = 'An unexpected error occurred';
+        if (error.status === 401) {
+          errorMessage = 'Unauthorized: Invalid username or password';
+        } else if (error.status === 400) {
+          errorMessage = 'Bad Request: Please check your inputs';
+        }
+
+        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+      },
+    });
+  }
+
+  updateProfilePassword(formGroup: FormGroup) {
+    const value = {'oldPassword': formGroup.get('oldpassword')?.value, 'newPassword': formGroup.get('newpassword')?.value};
+
+    const apiUrl = `${this.URL}/api/User/UpdatePassword`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true }).subscribe({
+      next: (response) => {
+        if (response.message === 'User updated successfully!') {
+          this.notificationService.createNotification('success', 'Profile Updated Successfully', response.message);
+        } else {
+          this.notificationService.createNotification('error', 'Error Updating Profile', response.message);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = 'An unexpected error occurred';
+        if (error.status === 401) {
+          errorMessage = 'Unauthorized: Invalid username or password';
+        } else if (error.status === 400) {
+          errorMessage = 'Bad Request: Please check your inputs';
+        }
+
+        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+      },
+    });
+  }
 }
