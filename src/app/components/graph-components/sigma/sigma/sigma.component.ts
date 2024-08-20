@@ -8,13 +8,14 @@ import { GraphData } from '../../../../models/graph-data';
 import { circular } from 'graphology-layout';
 import { animateNodes } from 'sigma/utils';
 import { PlainObject } from 'sigma/types';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 
 
 @Component({
   selector: 'app-sigma',
   standalone: true,
-  imports: [NzIconModule],
+  imports: [NzIconModule, NzToolTipModule],
   templateUrl: './sigma.component.html',
   styleUrl: './sigma.component.scss',
 })
@@ -41,6 +42,9 @@ export class SigmaComponent implements AfterViewInit {
         y: node.y,
         size: node.size,
         color: node.color,
+        age: node.age,
+        job: node.job,
+        bio: node.bio
       });
     });
 
@@ -52,12 +56,10 @@ export class SigmaComponent implements AfterViewInit {
     });
 
     this.sigmaService.circularLayoutTrigger$.subscribe(() => {
-      console.log('Layout trigger received');
       this.circularLayout();
     });
 
     this.sigmaService.randomLayoutTrigger$.subscribe(() => {
-      console.log('Layout trigger received');
       this.randomLayout();
     });
 
@@ -69,9 +71,13 @@ export class SigmaComponent implements AfterViewInit {
     );
     this.sigmaInstance.refresh();
 
-    this.sigmaInstance.on('clickNode', (event) => {
-      const nodeKey = event.node;
-      this.sigmaService.changeSelectedNode(nodeKey);
+    this.sigmaInstance.on('clickNode', async (event) => {
+      const nodeId = event.node;
+      const nodeAttributes = this.graph.getNodeAttributes(nodeId);
+      
+      
+      this.sigmaService.changeSelectedNode(nodeAttributes);
+      console.log(nodeAttributes);
     });
 
     const data: GraphData = {
@@ -91,7 +97,6 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaInstance.on('downNode', (e) => {
       this.isDragging = true;
       this.draggedNode = e.node;
-      console.log(e.node);
 
       this.graph.setNodeAttribute(this.draggedNode, 'highlighted', true);
     });

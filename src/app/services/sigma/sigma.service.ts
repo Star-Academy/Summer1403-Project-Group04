@@ -12,7 +12,25 @@ export class SigmaService {
   });
   currentData = this.graphData.asObservable();
 
-  private selectedNodeData = new BehaviorSubject<string>('');
+  private selectedNodeData = new BehaviorSubject< {
+    age: number;
+    bio: string;
+    color: string;
+    job: string;
+    label: string;
+    size: number;
+    x: number;
+    y: number;
+  }>( {
+    age: 0,
+    bio: 'string',
+    color: 'string',
+    job: 'string',
+    label: 'string',
+    size: 0,
+    x: 0,
+    y: 0,
+  });
   nodeData = this.selectedNodeData.asObservable();
 
   private circularLayoutTrigger = new Subject<void>();
@@ -25,7 +43,7 @@ export class SigmaService {
     this.graphData.next(data);
   }
 
-  changeSelectedNode(data: string) {
+  changeSelectedNode(data: any) {
     this.selectedNodeData.next(data);
   }
 

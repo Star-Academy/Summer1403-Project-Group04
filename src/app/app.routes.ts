@@ -37,5 +37,5 @@ export const routes: Routes = [
     ],
     canActivate: [DashboardGuardService],
   },
-  { path: 'graph', component: GraphComponent, canActivate: [AuthGuardService] },
+  { path: 'graph', component: GraphComponent },
 ];
