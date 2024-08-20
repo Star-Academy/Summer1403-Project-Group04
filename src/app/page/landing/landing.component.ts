@@ -10,5 +10,9 @@ import { HeroSectionComponent } from "../../components/landing-components/hero-s
   styleUrl: './landing.component.scss'
 })
 export class LandingComponent {
+  protected showLogin = false;
 
+  showLoginForm() {
+    this.showLogin = true;
+  }
 }

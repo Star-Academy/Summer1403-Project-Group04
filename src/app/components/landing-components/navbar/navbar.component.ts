@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -8,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  @Input() showForm = false;
+  @Output() handleForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  handleShowForm() {
+    this.handleForm.emit(true);
+  }
 }
