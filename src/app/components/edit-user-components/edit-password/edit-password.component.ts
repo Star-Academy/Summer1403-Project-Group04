@@ -59,7 +59,11 @@ export class EditPasswordComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     if (this.passwordForm.valid) {
-      this.isUpdatingProfile ? this.handleUpdateProfilePassword() : this.handleUpdateUserPassword();
+      if (this.isUpdatingProfile) {
+        this.handleUpdateProfilePassword();
+      } else {
+        this.handleUpdateUserPassword();
+      }
     } else {
       this.passwordForm.markAllAsTouched();
     }

@@ -64,7 +64,11 @@ export class EditProfileComponent implements OnChanges {
   onSubmit() {
     this.isSubmitted = true;
     if (this.userForm.valid) {
-      this.isUpdatingProfile ? this.handleUpdateProfile() : this.handleUpdateUser();
+      if (this.isUpdatingProfile) {
+        this.handleUpdateProfile();
+      } else {
+        this.handleUpdateUser();
+      }
     } else {
       this.userForm.markAllAsTouched();
     }

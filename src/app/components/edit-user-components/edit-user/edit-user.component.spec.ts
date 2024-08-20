@@ -29,7 +29,6 @@ describe('EditUserComponent', () => {
     permissions$: of(['read', 'write'])
   };
 
-  // Mock ActivatedRoute
   const mockActivatedRoute = {
     queryParams: of({ id: 1 })
   };
