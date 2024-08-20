@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { GraphComponent } from './page/graph/graph/graph.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { UsersTableComponent } from './components/users-table/users-table.component';
+import { UsersTableComponent } from './components/manage-users-components/users-table/users-table.component';
 import { DashboardGuardService } from './services/gaurds/dashboard-guard/dashboard-guard.service';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { ManageUsersGuardService } from './services/gaurds/manage-users/manage-users-guard.service';

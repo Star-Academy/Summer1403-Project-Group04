@@ -9,12 +9,14 @@ import {
   Observable,
   catchError,
   firstValueFrom,
+  map,
   of,
   throwError,
 } from 'rxjs';
 import { UserData } from '../../models/user-data';
 import { loginResponse } from '../../models/login-response';
 import { FormGroup } from '@angular/forms';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +34,7 @@ export class UserService {
     });
   public userData$: Observable<UserData> = this.userDataSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private notificationService: NotificationService) {}
 
   getCurrentUser(): void {
     const apiUrl = `${this.URL}/api/User/GetUser`;
@@ -73,13 +75,18 @@ export class UserService {
     return data;
   }
 
-  getUsers(pageNum: number, pageSize = 10): Observable<UserData[]> {
-    const apiUrl = `${this.URL}/api/Admin/GetAllUser/${pageNum}/${pageSize}`;
+  getUsers(pageNum: number, pageSize = 10): Observable<{ users: UserData[], allUserCount: number }> {
+    const apiUrl = `${this.URL}/api/Admin/GetAllUser?page=${pageNum}&size=${pageSize}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http
-      .get<UserData[]>(apiUrl, { headers, withCredentials: true })
-      .pipe(catchError(() => of([])));
+      .get<{ users: UserData[], allUserCount: number }>(apiUrl, { headers, withCredentials: true })
+      .pipe(
+        map(response => response),
+        catchError(() => 
+          of({ users: [], allUserCount: 0 })
+        )
+      );
   }
 
   deleteUser(userId: number): Observable<loginResponse> {
@@ -96,19 +103,41 @@ export class UserService {
 
   addUser(formGroup: FormGroup) {
     const value = formGroup.value;
-    console.log(value);
 
     const apiUrl = `${this.URL}/api/Admin/CreateUser`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    this.http
-      .post(apiUrl, value, { headers, withCredentials: true })
+    return this.http
+      .post<loginResponse>(apiUrl, value, { headers, withCredentials: true })
       .subscribe({
         next: (response) => {
-          console.log(response);
+          if (response.message === 'User Created Successfuly!') {
+            this.notificationService.createNotification(
+              'success',
+              'User Created Successfully',
+              response.message
+            );
+          } else {
+            this.notificationService.createNotification(
+              'error',
+              'Error Creating User',
+              response.message
+            );
+          }
         },
         error: (error: HttpErrorResponse) => {
-          console.error('Error adding user', error);
+          let errorMessage = 'An unexpected error occurred';
+          if (error.status === 401) {
+            errorMessage = 'Unauthorized: Invalid username or password';
+          } else if (error.status === 400) {
+            errorMessage = 'Bad Request: Please check your inputs';
+          }
+          
+          this.notificationService.createNotification(
+            'error',
+            'Unexpected Error',
+            errorMessage
+          );
         },
       });
   }
