@@ -53,3 +53,19 @@
     background-color: #1f66a8;
     color: #fff;
 }
+
+::ng-deep {
+  .ant-popover-inner{
+    margin-top: 2rem;
+    border-radius: 1rem;
+  } 
+
+  .ant-popover-title{
+    background-color: #1f66a8;
+    color: #fff;
+    padding: 1rem;
+    border-top-left-radius:  1rem;
+    border-top-right-radius:  1rem;
+  }
+  
+}
