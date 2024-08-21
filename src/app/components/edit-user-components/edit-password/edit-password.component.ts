@@ -12,6 +12,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
+import { NotificationService } from '../../../services/notification/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-password',
@@ -37,7 +39,12 @@ export class EditPasswordComponent implements OnInit {
   ];
   protected isUpdatingProfile = false;
 
-  constructor(private fb: FormBuilder, private activeRoute: ActivatedRoute, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private activeRoute: ActivatedRoute,
+    private userService: UserService,
+    private notificationService: NotificationService
+  ) {
     this.passwordForm = this.fb.group({
       oldpassword: ['', [Validators.required, Validators.minLength(4)]],
       newpassword: ['', [Validators.required, Validators.minLength(4)]],
@@ -70,19 +77,50 @@ export class EditPasswordComponent implements OnInit {
   }
 
   private handleUpdateProfilePassword() {
-    this.userService.updatePassword(null, this.passwordForm, this.isUpdatingProfile).add(() => {
-      // this.userService.logout();
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+    this.userService.updatePassword(null, this.passwordForm, this.isUpdatingProfile).subscribe({
+      next: (response) => {
+        if (response.message === 'User updated successfully!') {
+          const successMessage = 'Success';
+          this.notificationService.createNotification('success', successMessage, response.message);
+        } else {
+          const errorMessage = 'Error Updating Profile';
+          this.notificationService.createNotification('error', errorMessage, response.message);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = 'An unexpected error occurred';
+        if (error.status === 401) {
+          errorMessage = 'Unauthorized: Invalid username or password';
+        } else if (error.status === 400) {
+          errorMessage = 'Bad Request: Old password is wrong!';
+        }
+
+        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+      },
     });
   }
 
   private handleUpdateUserPassword() {
-    this.userService.updatePassword(this.userID, this.passwordForm, this.isUpdatingProfile).add(() => {
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+    this.userService.updatePassword(this.userID, this.passwordForm, this.isUpdatingProfile).subscribe({
+      next: (response) => {
+        if (response.message === 'User updated successfully!') {
+          const successMessage = 'Success';
+          this.notificationService.createNotification('success', successMessage, response.message);
+        } else {
+          const errorMessage = 'Error Updating User';
+          this.notificationService.createNotification('error', errorMessage, response.message);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = 'An unexpected error occurred';
+        if (error.status === 401) {
+          errorMessage = 'Unauthorized: Invalid username or password';
+        } else if (error.status === 400) {
+          errorMessage = 'Bad Request: Old password is wrong!';
+        }
+
+        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+      },
     });
   }
 
