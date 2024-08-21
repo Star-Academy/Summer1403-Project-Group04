@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NgIf } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UploadGraphService } from '../../../../../../services/upload-graph/upload-graph.service';
 import { FormsModule } from '@angular/forms';
 import { NotificationService } from '../../../../../../services/notification/notification.service';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload-node',
@@ -81,22 +81,28 @@ export class UploadNodeComponent {
       next: (response) => {
         this.nodeCategoryList = response;
       },
-      error: (error: HttpErrorResponse) => {},
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+      },
     });
   }
 
   beforeUpload = (file: NzUploadFile): boolean => {
     this.selectedFile = file;
     this.msg.success(`${file.name} file uploaded successfully`);
-    return false; // Prevent automatic upload
+    return false;
   };
 
   submit() {
     if (this.selectedFile) {
-      this.uploadGraphService.uploadNodeData(this.selectedFile).subscribe({
-        next: (response) => {},
-        error: (error: HttpErrorResponse) => {},
-      });
+      // this.uploadGraphService.uploadNodeData(this.selectedFile).subscribe({
+      //   next: (response) => {
+      //     console.log(response);
+      //   },
+      //   error: (error: HttpErrorResponse) => {
+      //     console.log(error);
+      //   },
+      // });
     }
   }
 }

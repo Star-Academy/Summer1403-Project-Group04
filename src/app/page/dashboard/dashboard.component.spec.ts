@@ -7,6 +7,7 @@ import {
   NodeIndexOutline,
   TeamOutline,
   UserAddOutline,
+  DotChartOutline,
 } from '@ant-design/icons-angular/icons';
 import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
@@ -33,6 +34,7 @@ describe('DashboardComponent', () => {
             UserAddOutline,
             TeamOutline,
             DashboardOutline,
+            DotChartOutline,
           ],
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },

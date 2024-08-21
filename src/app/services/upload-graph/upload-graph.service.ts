@@ -23,12 +23,12 @@ export class UploadGraphService {
     return this.http.get<string[]>(`${this.URL}/api/Node/categories`, { headers, withCredentials: true });
   }
 
-  uploadNodeData(data: any) {
+  // uploadNodeData(data: any) {
     
-    const headers = { 'Content-Type': 'application/json' };
+  //   const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.post<loginResponse>(`${this.URL}/api/Node`, data, { headers, withCredentials: true });
-  }
+  //   return this.http.post<loginResponse>(`${this.URL}/api/Node`, data, { headers, withCredentials: true });
+  // }
 
   addEdgeCategory(edgeCategory: string) {
     const data = { edgeCategoryName: edgeCategory };
