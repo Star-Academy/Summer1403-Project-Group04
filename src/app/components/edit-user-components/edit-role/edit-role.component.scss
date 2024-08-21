@@ -14,14 +14,14 @@
   &__title-container {
     font-size: 2rem;
     font-weight: bold;
-    background-color: #f6f7f9;
+    background-color: #1f66a8;
     padding: 2rem 2rem;
     display: flex;
     align-items: center;
     gap: 1rem;
 
     &__title {
-      color: #2c3034;
+      color: #fff;
     }
 
     &__image {
@@ -95,7 +95,7 @@
         &__select {
           inline-size: 100%;
           background-color: transparent;
-          font-size: 1.7rem;
+          font-size: 1.5rem;
           color: #2c3034;
 
           ::ng-deep {
@@ -114,7 +114,7 @@
 
             .ant-select-selection-item {
               color: #2c3034;
-              font-size: 2rem;
+              font-size: 1.5rem;
               height: 30px;
               align-items: center;
             }
@@ -143,14 +143,12 @@
         padding-block: 1rem;
         padding-inline: 1.3rem;
         border-radius: 0.7rem;
-        background-color: #c0e0f1;
+        background-color: #1f66a8;
         transition: all 0.15s ease-in-out;
         cursor: pointer;
+        color: #fff;
 
         &:hover {
-          color: #013550;
-          background-color: #81c2e3;
-          border-color: #81c2e3;
           transform: scale(1.05);
         }
 

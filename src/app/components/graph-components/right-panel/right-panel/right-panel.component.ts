@@ -38,7 +38,6 @@ export class RightPanelComponent implements OnInit {
     });
 
     this.sigmaService.nodeData.subscribe((data) => {
-      console.log(data);
 
       if(data){
  

@@ -69,6 +69,20 @@
       <span nz-icon nzType="team" class="menu-sidebar__icon"></span>
       <span class="menu-sidebar__icon-message">Manage Users</span>
     </li>
+
+    <li
+      class="menu-sidebar__list__item"
+      nz-menu-item
+      nzOpen
+      nzTitle="Graph"
+      nzIcon="team"
+      routerLink="/graph"
+      routerLinkActive="ant-menu-item-selected"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+    <span nz-icon nzType="dot-chart" nzTheme="outline"></span>
+      <span class="menu-sidebar__icon-message">Graph</span>
+    </li>
     }
   </ul>
   <div class="menu-sidebar__toggle">

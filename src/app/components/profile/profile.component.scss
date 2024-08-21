@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 2rem;
   padding-inline: 2rem;
   padding-block: 2rem;
@@ -31,7 +31,6 @@
       align-items: center;
       justify-content: center;
       border-radius: 100%;
-      background-color: #f0f2f5;
 
       > img {
         inline-size: 10rem;
@@ -65,14 +64,15 @@
         border: 1px solid #bcc5d2;
         display: flex;
         align-items: center;
-        background: #f0f2f5;
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        background: #1f66a8;
+        // box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
         gap: 1rem;
         padding-inline: 3rem;
         padding-block: 1.5rem;
         border-radius: 1rem;
         cursor: pointer;
         transition: all 0.2s ease;
+       
 
         &:hover {
             transform: scale(1.03);
@@ -85,12 +85,13 @@
         &__icon {
           inline-size: 2.5rem;
           block-size: 2.5rem;
+          color: #fff;
         }
 
         &__text {
           font-size: 2rem;
           font-weight: 400;
-          color: #171717;
+          color: #fff;
         }
       }
     }
