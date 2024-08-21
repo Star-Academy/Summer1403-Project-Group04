@@ -275,7 +275,6 @@ export class SigmaComponent implements AfterViewInit {
         nodes,
         edges,
       },
-      // We don't touch the graph data so we can skip its reindexation
       skipIndexation: true,
     });
   }

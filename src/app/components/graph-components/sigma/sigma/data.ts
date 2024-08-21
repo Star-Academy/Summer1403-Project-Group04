@@ -29,7 +29,7 @@ export const nodes = Array.from({ length: 20 }, (_, i) => ({
 // Generate edges with random connections and labels
 export const edges = (() => {
   const edgesArray: { source: string; target: string; label: string }[] = [];
-  while (edgesArray.length < 20) {
+  while (edgesArray.length < 30) {
     const source = `node${Math.floor(Math.random() * 20)}`;
     const target = `node${Math.floor(Math.random() * 20)}`;
     const label = getRandomLabel(edgesArray.length); // Generate a label for the edge

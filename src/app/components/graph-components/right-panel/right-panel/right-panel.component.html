@@ -1,24 +1,10 @@
 <div class="right-panel-container">
   <div nz-flex [nzVertical]="true" class="right-panel-container__inner">
     <div class="right-panel-container__panel-block">
-      <h2 class="right-panel-container__panel-block__title">
-        <span nz-icon nzType="project" nzTheme="outline"></span>Data Overview
+      <h2 nz-typography class="right-panel-container__panel-block__title">
+        <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+        Data Overview
       </h2>
-    </div>
-    <nz-divider></nz-divider>
-    <div class="right-panel-container__panel-block">
-      <div class="right-panel-container__panel-block__inner">
-        <span class="right-panel-container__panel-block__inner__span">Nodes: {{ data.numberOfNodes }}</span>
-        <button nz-tooltip nzTooltipTitle="Under construction :)" class="right-panel-container__btn">
-          <span nz-icon nzType="plus" nzTheme="outline"></span>
-        </button>
-      </div>
-      <div class="right-panel-container__panel-block__inner">
-        <span class="right-panel-container__panel-block__inner__span">Edges: {{ data.numberOfEdges }}</span>
-        <button nz-tooltip nzTooltipTitle="Under construction :)" class="right-panel-container__btn">
-          <span nz-icon nzType="plus" nzTheme="outline"></span>
-        </button>
-      </div>
     </div>
     <nz-divider></nz-divider>
     <div class="right-panel-container__panel-block">
@@ -26,6 +12,23 @@
         <nz-option *ngFor="let o of listOfOption" [nzLabel]="o.text" [nzValue]="o.value"></nz-option>
       </nz-select>
     </div>
+    <nz-divider></nz-divider>
+    <div class="right-panel-container__panel-block">
+      <div class="right-panel-container__panel-block__inner">
+        <h3 nz-typography class="right-panel-container__panel-block__inner__span">Nodes: {{ data.numberOfNodes }}</h3>
+        <button nz-tooltip nzTooltipTitle="Under construction :)" class="right-panel-container__btn">
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+        </button>
+      </div>
+      <div class="right-panel-container__panel-block__inner">
+        <h3 nz-typography class="right-panel-container__panel-block__inner__span">Edges: {{ data.numberOfEdges }}</h3>
+        <button nz-tooltip nzTooltipTitle="Under construction :)" class="right-panel-container__btn">
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+        </button>
+      </div>
+    </div>
+    <nz-divider></nz-divider>
+    
     <nz-divider> </nz-divider>
     <div class="right-panel-container__panel-block">
       @if (selectedNode.age !==0) {
