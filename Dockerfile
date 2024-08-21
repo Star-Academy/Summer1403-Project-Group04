@@ -31,11 +31,12 @@ RUN npm run build --configuration=production
 
 FROM nginx:1.27
 
-RUN groupadd -g 10001 appuser && \
-    useradd -u 10001 -g appuser -m appuser  
+# RUN groupadd -g 10001 appuser && \
+#     useradd -u 10001 -g appuser -m appuser  
 
-# COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=build --chown=appuser:appuser /app/dist/group4-front/browser /usr/share/nginx/html
+COPY --from=build /app/dist/group4-front/browser /usr/share/nginx/html/
+# COPY --from=build --chown=appuser:appuser /app/dist/group4-front/browser /usr/share/nginx/html
 
-USER appuser
+# USER appuser
