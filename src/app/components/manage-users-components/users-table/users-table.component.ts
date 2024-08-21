@@ -5,10 +5,10 @@ import { NgFor } from '@angular/common';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AddUserComponent } from '../add-user/add-user.component';
-import { UserData } from '../../models/user-data';
+import { UserData } from '../../../models/user-data';
 import { NzPaginationComponent } from 'ng-zorro-antd/pagination';
-import { UserService } from '../../services/user/user.service';
-import { NotificationService } from '../../services/notification/notification.service';
+import { UserService } from '../../../services/user/user.service';
+import { NotificationService } from '../../../services/notification/notification.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,7 +27,7 @@ import { Router } from '@angular/router';
   styleUrl: './users-table.component.scss',
 })
 export class UsersTableComponent implements OnInit {
-  listOfData: UserData[] = [];
+  protected listOfData: UserData[] = [];
   protected isVisible = false;
   protected isLoading = true;
   protected pageSize = 10;
@@ -45,12 +45,14 @@ export class UsersTableComponent implements OnInit {
     this.loadDataFromServer(this.pageIndex - 1, this.pageSize);
   }
 
-  loadDataFromServer(pageIndex: number, pageSize: number): void {
+  private loadDataFromServer(pageIndex: number, pageSize: number): void {
     this.isLoading = true;
+    this.pageIndex = pageIndex + 1;
+    this.pageSize = 10;
     this.userService.getUsers(pageIndex, pageSize).subscribe({
       next: (data) => {
-        this.listOfData = data;
-        // this.total = data.length;
+        this.listOfData = data.users;
+        this.total = data.allUserCount;
       },
       error: (error) => {
         console.error('Error loading users:', error);
@@ -62,7 +64,7 @@ export class UsersTableComponent implements OnInit {
     });
   }
 
-  onQueryParamsChange(params: NzTableQueryParams): void {
+  protected onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
     this.loadDataFromServer(pageIndex - 1, pageSize);
   }
@@ -77,17 +79,18 @@ export class UsersTableComponent implements OnInit {
 
   protected handleOk(): void {
     this.isVisible = false;
+    this.loadDataFromServer(0, 10);
   }
 
   protected handleCancel(): void {
     this.isVisible = false;
   }
 
-  editUser(user: UserData): void {
+  protected editUser(user: UserData): void {
     this.route.navigate([`/dashboard/manage-users/edit`] , {queryParams : {'id' : user.id}});
   }
 
-  deleteUser(user: UserData): void {
+  protected deleteUser(user: UserData): void {
     this.userService.deleteUser(user.id).subscribe({
       next: (response) => {
         if (response && response.message === 'User Deleted successfully!') {
@@ -96,7 +99,7 @@ export class UsersTableComponent implements OnInit {
             'User deleted',
             `User ${user.username} has been deleted`
           );
-          this.loadDataFromServer(this.pageIndex - 1, this.pageSize);
+          this.loadDataFromServer(0, 10);
         } else {
           this.notification.createNotification(
             'error',

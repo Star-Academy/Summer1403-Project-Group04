@@ -48,8 +48,7 @@
             'role-container__main__form__field-container__select--invalid':
               roleForm.get('role')?.invalid && roleForm.get('role')?.touched,
             'role-container__main__form__field-container__select--default':
-              !roleForm.get('role')?.touched,
-            shake: isSubmitted && roleForm.get('role')?.invalid
+              !roleForm.get('role')?.touched
           }"
           nzMode="tags"
           [(ngModel)]="listOfTagOptions"

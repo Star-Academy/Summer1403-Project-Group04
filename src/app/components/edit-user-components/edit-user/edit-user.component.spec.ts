@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { EditUserComponent } from './edit-user.component';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../../services/user/user.service';
-import { PermisionsService } from '../../services/permisisons/permisions.service';
+import { UserService } from '../../../services/user/user.service';
+import { PermisionsService } from '../../../services/permisisons/permisions.service';
 
 describe('EditUserComponent', () => {
   let component: EditUserComponent;
@@ -29,7 +29,6 @@ describe('EditUserComponent', () => {
     permissions$: of(['read', 'write'])
   };
 
-  // Mock ActivatedRoute
   const mockActivatedRoute = {
     queryParams: of({ id: 1 })
   };
