@@ -31,7 +31,7 @@ export class LoginService {
   }
 
   isLoggedIn(): Observable<{ permissions: string } | HttpErrorResponse> {
-    const apiUrl = `${this.URL}/api/Access/GetPermissions`;
+    const apiUrl = `${this.URL}/api/User/permissions`;
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

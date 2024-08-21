@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 import { UserData } from '../../../models/user-data';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../services/notification/notification.service';
@@ -43,7 +43,8 @@ export class EditProfileComponent implements OnChanges {
     private fb: FormBuilder,
     private activeRoute: ActivatedRoute,
     private userService: UserService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {
     this.initializeForm();
   }
@@ -87,6 +88,8 @@ export class EditProfileComponent implements OnChanges {
         if (response.message === 'User updated successfully!') {
           const successMessage = 'Success';
           this.notificationService.createNotification('success', successMessage, response.message);
+          console.log('hey')
+          this.logout();
         } else {
           const errorMessage = this.isUpdatingProfile ? 'Error Updating Profile' : 'Error Updating User';
           this.notificationService.createNotification('error', errorMessage, response.message);
@@ -128,17 +131,18 @@ export class EditProfileComponent implements OnChanges {
       },
     });
   }
+
+  private logout() {
+    this.userService.logout().subscribe({
+      next: () => {
+        this.notificationService.createNotification('info', 'Logged Out', 'You have been logged out successfully.');
+        setTimeout(() => {
+          this.router.navigate(['/landing']);
+        }, 2000);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error logging out', error);
+      },
+    });
+  }
 }
-
-// .subscribe({
-//   next: () => {
-//     this.notificationService.createNotification('info', 'Logged Out', 'You have been logged out successfully.');
-
-//     setTimeout(() => {
-//       this.router.navigate(['/landing']);
-//     }, 2000);
-//   },
-//   error: (error: HttpErrorResponse) => {
-//     console.error('Error logging out', error);
-//   },
-// });
