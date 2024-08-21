@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UploadComponentsComponent } from './upload-components.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 describe('UploadComponentsComponent', () => {
   let component: UploadComponentsComponent;
@@ -8,7 +9,8 @@ describe('UploadComponentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UploadComponentsComponent]
+      imports: [UploadComponentsComponent],
+      providers: [provideAnimationsAsync()]
     })
     .compileComponents();
 
