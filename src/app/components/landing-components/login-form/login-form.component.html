@@ -11,7 +11,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-control [nzErrorTip]="getPasswordErrorMsg()">
+        <nz-form-control nzErrorTip="*Required">
           <nz-input-group nzPrefixIcon="lock">
             <input
               [type]="passwordVisible ? 'text' : 'password'"

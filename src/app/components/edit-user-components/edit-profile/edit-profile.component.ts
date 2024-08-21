@@ -5,6 +5,8 @@ import { NgIf, NgFor, NgClass } from '@angular/common';
 import { UserData } from '../../../models/user-data';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -37,7 +39,12 @@ export class EditProfileComponent implements OnChanges {
     { name: 'username', type: 'text', placeholder: 'User Name', minLength: 3 },
   ];
 
-  constructor(private fb: FormBuilder, private activeRoute: ActivatedRoute, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private activeRoute: ActivatedRoute,
+    private userService: UserService,
+    private notificationService: NotificationService
+  ) {
     this.initializeForm();
   }
 
@@ -75,18 +82,63 @@ export class EditProfileComponent implements OnChanges {
   }
 
   private handleUpdateProfile() {
-    this.userService.updateUser(null, this.userForm, this.isUpdatingProfile).add(() => {
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+    this.userService.updateUser(null, this.userForm, this.isUpdatingProfile).subscribe({
+      next: (response) => {
+        if (response.message === 'User updated successfully!') {
+          const successMessage = 'Success';
+          this.notificationService.createNotification('success', successMessage, response.message);
+        } else {
+          const errorMessage = this.isUpdatingProfile ? 'Error Updating Profile' : 'Error Updating User';
+          this.notificationService.createNotification('error', errorMessage, response.message);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = 'An unexpected error occurred';
+        if (error.status === 401) {
+          errorMessage = 'Unauthorized: Invalid username or password';
+        } else if (error.status === 400) {
+          errorMessage = 'Bad Request: Please check your inputs';
+        }
+
+        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+      },
     });
   }
-  
+
   private handleUpdateUser() {
-    this.userService.updateUser(this.userData.id, this.userForm, this.isUpdatingProfile).add(() => {
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+    this.userService.updateUser(this.userData.id, this.userForm, this.isUpdatingProfile).subscribe({
+      next: (response) => {
+        if (response.message === 'User updated successfully!') {
+          const successMessage = 'Success';
+          this.notificationService.createNotification('success', successMessage, response.message);
+        } else {
+          const errorMessage = 'Error Updating User';
+          this.notificationService.createNotification('error', errorMessage, response.message);
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = 'An unexpected error occurred';
+        if (error.status === 401) {
+          errorMessage = 'Unauthorized: Invalid username or password';
+        } else if (error.status === 400) {
+          errorMessage = 'Bad Request: Please check your inputs';
+        }
+
+        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+      },
     });
   }
 }
+
+// .subscribe({
+//   next: () => {
+//     this.notificationService.createNotification('info', 'Logged Out', 'You have been logged out successfully.');
+
+//     setTimeout(() => {
+//       this.router.navigate(['/landing']);
+//     }, 2000);
+//   },
+//   error: (error: HttpErrorResponse) => {
+//     console.error('Error logging out', error);
+//   },
+// });

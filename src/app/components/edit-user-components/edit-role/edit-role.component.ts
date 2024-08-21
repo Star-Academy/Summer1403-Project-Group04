@@ -4,6 +4,8 @@ import { NgClass, NgIf, NgFor } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { UserService } from '../../../services/user/user.service';
 import { UserData } from '../../../models/user-data';
+import { NotificationService } from '../../../services/notification/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-role',
@@ -25,7 +27,7 @@ export class EditRoleComponent implements OnChanges {
   protected isSubmitted = false;
   @Input({ required: true }) userData: UserData | undefined;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(private fb: FormBuilder, private userService: UserService, private notificationService: NotificationService) {
     this.roleForm = this.fb.group({
       role: ['', [Validators.required]],
     });
@@ -43,10 +45,24 @@ export class EditRoleComponent implements OnChanges {
   onSubmit() {
     this.isSubmitted = true;
     if (this.roleForm.valid) {
-      this.userService.updateRole(this.roleForm.value.role, this.userData ? this.userData.id : 0).add(() => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+      this.userService.updateRole(this.roleForm.value.role, this.userData ? this.userData.id : 0).subscribe({
+        next: (response) => {
+          if (response.message === 'User roles updated successfuly!') {
+            this.notificationService.createNotification('success', 'Success', response.message);
+          } else {
+            this.notificationService.createNotification('error', 'Error Updating Role', response.message);
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          let errorMessage = 'An unexpected error occurred';
+          if (error.status === 401) {
+            errorMessage = 'Unauthorized: Invalid username or password';
+          } else if (error.status === 400) {
+            errorMessage = 'Bad Request: Please check your input';
+          }
+  
+          this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+        },
       });
     } else {
       this.roleForm.markAllAsTouched();

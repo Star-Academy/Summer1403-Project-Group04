@@ -38,7 +38,7 @@ export class LoginFormComponent {
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -74,16 +74,5 @@ export class LoginFormComponent {
         }
       });
     }
-  }
-
-  getPasswordErrorMsg(): string {
-    const control = this.loginForm.get('password');
-    if (control?.hasError('required')) {
-      return '*Required';
-    }
-    if (control?.hasError('minlength')) {
-      return '*At least 8 characters';
-    }
-    return '';
   }
 }
