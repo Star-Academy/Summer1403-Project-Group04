@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 import { EditPasswordComponent } from '../edit-password/edit-password.component';
-import { UserData } from '../../models/user-data';
-import { UserService } from '../../services/user/user.service';
-import { PermisionsService } from '../../services/permisisons/permisions.service';
+import { UserData } from '../../../models/user-data';
+import { UserService } from '../../../services/user/user.service';
+import { PermisionsService } from '../../../services/permisisons/permisions.service';
 import { EditRoleComponent } from '../edit-role/edit-role.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgIf } from '@angular/common';
@@ -16,7 +16,7 @@ import { NgIf } from '@angular/common';
   styleUrl: './edit-user.component.scss',
 })
 export class EditUserComponent implements OnInit {
-  protected userData?: UserData;;
+  protected userData?: UserData;
   protected userPermissions: string[] = [];
 
   constructor(
@@ -29,9 +29,8 @@ export class EditUserComponent implements OnInit {
     this.premissionSubject.permissions$.subscribe((per) => {
       this.userPermissions = per;
     });
-
+    
     this.activeRoute.queryParams.subscribe(async (params) => {
-
       if (params['id']) {
         this.userData = await this.userService.getUserById(params['id']);
       } else {

@@ -3,7 +3,7 @@
         <app-edit-profile [userData]="userData"></app-edit-profile>
       </ng-container>
     @if (userPermissions.indexOf('/api/Admin/UpdateRoles/{id}') !== -1) {
-        <app-edit-role></app-edit-role>
+        <app-edit-role [userData]="userData"></app-edit-role>
     }
     <app-edit-password></app-edit-password>
 </div>
