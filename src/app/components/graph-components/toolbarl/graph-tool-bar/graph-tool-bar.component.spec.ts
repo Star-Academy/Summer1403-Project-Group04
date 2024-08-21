@@ -11,6 +11,9 @@ import {
   SyncOutline,
   UserOutline,
   FullscreenOutline,
+  FilterOutline ,
+  SettingOutline ,
+  GithubOutline 
 } from '@ant-design/icons-angular/icons';
 
 
@@ -34,6 +37,9 @@ describe('GraphToolBarComponent', () => {
             SyncOutline,
             UserOutline,
             FullscreenOutline,
+            FilterOutline ,
+            SettingOutline ,
+            GithubOutline 
           ],
         },
       ],

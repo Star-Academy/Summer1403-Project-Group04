@@ -11,6 +11,10 @@ import {
   SyncOutline,
   UserOutline,
   FullscreenOutline,
+  BarChartOutline,
+  FilterOutline,
+  SettingOutline,
+  GithubOutline,
 } from '@ant-design/icons-angular/icons';
 
 describe('GraphComponent', () => {
@@ -33,11 +37,14 @@ describe('GraphComponent', () => {
             SyncOutline,
             UserOutline,
             FullscreenOutline,
+            BarChartOutline,
+            FilterOutline,
+            SettingOutline,
+            GithubOutline,
           ],
         },
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GraphComponent);
     component = fixture.componentInstance;
