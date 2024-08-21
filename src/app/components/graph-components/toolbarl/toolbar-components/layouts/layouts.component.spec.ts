@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GraphToolBarComponent } from './graph-tool-bar.component';
+import { LayoutsComponent } from './layouts.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
 import {
   ProjectOutline,
@@ -17,13 +17,14 @@ import {
 } from '@ant-design/icons-angular/icons';
 
 
-describe('GraphToolBarComponent', () => {
-  let component: GraphToolBarComponent;
-  let fixture: ComponentFixture<GraphToolBarComponent>;
+
+describe('LayoutsComponent', () => {
+  let component: LayoutsComponent;
+  let fixture: ComponentFixture<LayoutsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GraphToolBarComponent],
+      imports: [LayoutsComponent],
       providers: [
         NzIconService,
         {
@@ -46,7 +47,7 @@ describe('GraphToolBarComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GraphToolBarComponent);
+    fixture = TestBed.createComponent(LayoutsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

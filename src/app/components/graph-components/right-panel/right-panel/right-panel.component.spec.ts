@@ -11,9 +11,8 @@ import {
   SyncOutline,
   UserOutline,
   FullscreenOutline,
+  BarChartOutline,
 } from '@ant-design/icons-angular/icons';
-
-
 
 describe('RightPanelComponent', () => {
   let component: RightPanelComponent;
@@ -35,10 +34,10 @@ describe('RightPanelComponent', () => {
             SyncOutline,
             UserOutline,
             FullscreenOutline,
+            BarChartOutline,
           ],
         },
       ],
-      
     }).compileComponents();
 
     fixture = TestBed.createComponent(RightPanelComponent);

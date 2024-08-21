@@ -61,8 +61,8 @@
     vertical-align: middle;
     user-select: none;
     border: 1px solid transparent;
-    padding: 1rem 2rem; /* Vertical and horizontal padding */
-    font-size: 1rem; /* Font size */
+    padding: 0.5rem 1.5rem; /* Vertical and horizontal padding */
+    font-size: 1.5rem; /* Font size */
     line-height: 1.5;
     border-radius: 1rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
@@ -82,4 +82,8 @@
       border-color: #343a40; /* Dark border on hover */
     }
   }
+}
+
+nz-divider {
+  margin: 0;
 }
