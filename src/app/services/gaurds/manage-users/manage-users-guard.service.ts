@@ -12,7 +12,7 @@ export class ManageUsersGuardService {
   ) {}
 
   canActivate(): boolean {
-    if (this.permissionService.getPermissions().indexOf('/api/Admin/GetAllUser') !== -1) {
+    if (this.permissionService.getPermissions().indexOf('/api/Admin') !== -1) {
       return true;
     } else {
       this.router.navigate(['/dashboard']);

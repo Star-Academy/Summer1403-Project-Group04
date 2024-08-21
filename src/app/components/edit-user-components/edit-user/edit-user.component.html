@@ -2,7 +2,7 @@
     <ng-container *ngIf="userData">
         <app-edit-profile [userData]="userData"></app-edit-profile>
       </ng-container>
-    @if (userPermissions.indexOf('/api/Admin/UpdateRoles/{id}') !== -1) {
+    @if (userPermissions.indexOf('/api/Admin') !== -1) {
         <app-edit-role [userData]="userData"></app-edit-role>
     }
     <app-edit-password></app-edit-password>

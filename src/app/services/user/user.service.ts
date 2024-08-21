@@ -24,7 +24,7 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router) {}
 
   getCurrentUser(): void {
-    const apiUrl = `${this.URL}/api/User/GetUser`;
+    const apiUrl = `${this.URL}/api/User`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     this.http.get<UserData>(apiUrl, { headers, withCredentials: true }).subscribe({
@@ -38,7 +38,7 @@ export class UserService {
   }
 
   async getUserById(id: number): Promise<UserData> {
-    const apiUrl = `${this.URL}/api/Admin/GetUser/${id}`;
+    const apiUrl = `${this.URL}/api/Admin/users/${id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let data: UserData = {
       id: 0,
@@ -59,7 +59,7 @@ export class UserService {
   }
 
   getUsers(pageNum: number, pageSize = 10): Observable<{ users: UserData[]; allUserCount: number }> {
-    const apiUrl = `${this.URL}/api/Admin/GetAllUser?page=${pageNum}&size=${pageSize}`;
+    const apiUrl = `${this.URL}/api/Admin/users?page=${pageNum}&size=${pageSize}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.get<{ users: UserData[]; allUserCount: number }>(apiUrl, { headers, withCredentials: true }).pipe(
@@ -69,7 +69,7 @@ export class UserService {
   }
 
   deleteUser(userId: number): Observable<loginResponse> {
-    const apiUrl = `${this.URL}/api/Admin/DeleteUser/${userId}`;
+    const apiUrl = `${this.URL}/api/Admin/users/${userId}`;
     return this.http.delete<loginResponse>(apiUrl, { withCredentials: true }).pipe(
       catchError((error) => {
         console.error('Error deleting user', error);
@@ -81,7 +81,7 @@ export class UserService {
   addUser(formGroup: FormGroup) {
     const value = formGroup.value;
 
-    const apiUrl = `${this.URL}/api/Admin/CreateUser`;
+    const apiUrl = `${this.URL}/api/Admin/users`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post<loginResponse>(apiUrl, value, { headers, withCredentials: true });
@@ -90,7 +90,7 @@ export class UserService {
   updateUser(id: number | null, formGroup: FormGroup, isProfile: boolean) {
     const value = formGroup.value;
 
-    const apiUrl = isProfile ? `${this.URL}/api/User/UpdateUser` : `${this.URL}/api/Admin/UpdateUser/${id}`;
+    const apiUrl = isProfile ? `${this.URL}/api/User` : `${this.URL}/api/Admin/users/${id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true });
@@ -102,23 +102,23 @@ export class UserService {
       newPassword: formGroup.get('newpassword')?.value,
     };
 
-    const apiUrl = isProfile ? `${this.URL}/api/User/UpdatePassword` : `${this.URL}/api/Admin/UpdatePassword/${id}`;
+    const apiUrl = isProfile ? `${this.URL}/api/User/password` : `${this.URL}/api/Admin/users/${id}/password`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true });
+    return this.http.patch<loginResponse>(apiUrl, value, { headers, withCredentials: true });
   }
 
   updateRole(roles: string[], id: number) {
-    const apiUrl = `${this.URL}/api/Admin/UpdateRoles/${id}`;
+    const apiUrl = `${this.URL}/api/Admin/users/${id}/roles`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.put<loginResponse>(apiUrl, roles, { headers, withCredentials: true });
+    return this.http.patch<loginResponse>(apiUrl, roles, { headers, withCredentials: true });
   }
 
   logout() {
-    const apiUrl = `${this.URL}/api/User/Logout`;
+    const apiUrl = `${this.URL}/api/User/logout`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    this.http.post(apiUrl, { headers, withCredentials: true })
+    return this.http.post(apiUrl, { headers, withCredentials: true });
   }
 }
