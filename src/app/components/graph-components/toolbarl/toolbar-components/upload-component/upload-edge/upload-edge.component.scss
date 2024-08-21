@@ -1,0 +1,25 @@
+.upload-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    &__btn-container{
+        display: flex;
+        justify-content: space-between;
+        
+        &__nav-btn-container{
+            display: flex;
+            gap: 1rem;
+        }
+    }
+}
+
+.btn{
+    background-color: #1f66a8;
+    border: 0;
+}
+
+.key-container{
+    display: flex;
+    gap: 1rem;
+}

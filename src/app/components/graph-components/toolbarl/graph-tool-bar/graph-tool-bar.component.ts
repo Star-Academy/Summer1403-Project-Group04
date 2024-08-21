@@ -7,7 +7,7 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { LayoutsComponent } from '../toolbar-components/layouts/layouts.component';
-import { UploadComponentsComponent } from "../toolbar-components/upload-component/upload-components.component";
+import { UploadComponentsComponent } from "../toolbar-components/upload-component/upload-layout/upload-components.component";
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @Component({
