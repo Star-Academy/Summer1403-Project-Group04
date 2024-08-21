@@ -9,7 +9,7 @@ import {
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { UserService } from '../../services/user/user.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-add-user',
@@ -53,29 +53,6 @@ export class AddUserComponent {
   ];
 
   listOfTagOptions = [];
-  // formControls: {
-  //   name: string;
-  //   type: string;
-  //   placeholder: string;
-  //   minLength: number;
-  // }[] = [
-  //   { name: 'firstName', type: 'text', placeholder: 'Name', minLength: 1 },
-  //   {
-  //     name: 'lastName',
-  //     type: 'text',
-  //     placeholder: 'Family name',
-  //     minLength: 1,
-  //   },
-  //   { name: 'email', type: 'email', placeholder: 'Email', minLength: 1 },
-  //   { name: 'username', type: 'text', placeholder: 'User-name', minLength: 3 },
-  //   { name: 'roles', type: 'text', placeholder: 'Role', minLength: 1 },
-  //   {
-  //     name: 'password',
-  //     type: 'password',
-  //     placeholder: 'Password',
-  //     minLength: 4,
-  //   },
-  // ];
 
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.userForm = this.fb.group({
@@ -105,8 +82,9 @@ export class AddUserComponent {
       this.userForm.markAllAsTouched();
       return;
     }
-    this.userService.addUser(this.userForm);
-    this.handleOk.emit(true);
+    this.userService.addUser(this.userForm).add(() => {
+      this.handleOk.emit(true);
+    });
   }
 
   private resetForm(): void {

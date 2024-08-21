@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditRoleComponent } from './edit-role.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('EditRoleComponent', () => {
   let component: EditRoleComponent;
@@ -10,7 +11,7 @@ describe('EditRoleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [EditRoleComponent],
-      providers: [provideAnimationsAsync()]
+      providers: [provideAnimationsAsync(), provideHttpClient()]
     })
     .compileComponents();
 

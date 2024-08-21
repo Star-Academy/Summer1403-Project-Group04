@@ -7,7 +7,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SignInComponent } from "../../components/sign-in/sign-in.component";
 import { AuthComponent } from "../auth/auth.component";
-import { UsersTableComponent } from "../../components/users-table/users-table.component";
+import { UsersTableComponent } from "../../components/manage-users-components/users-table/users-table.component";
 
 @Component({
   selector: 'app-dashboard',
