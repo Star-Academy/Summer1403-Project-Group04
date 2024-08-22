@@ -1,12 +1,19 @@
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 :host {
   display: flex;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   inline-size: 25rem;
+  user-select: none;
 
-  &[ng-reflect-is-collapsed="true"] {
-    inline-size: 8rem;
+  &[ng-reflect-is-collapsed='true'] {
+    inline-size: 0;
   }
 }
 
@@ -20,21 +27,6 @@
   position: fixed;
   left: 0;
 
-  &__toggle {
-    position: fixed;
-    bottom: 0;
-    font-size: 3rem;
-    border-top: 2px solid #f0f2f5;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    inset-inline-start: 0;
-    inline-size: 25.5rem;
-    transition: width 0.2s;
-    cursor: pointer;
-    background-color: #fff;
-  }
-
   &__icon {
     font-size: 2rem;
   }
@@ -47,56 +39,151 @@
   transition: all 0.3s;
 
   &__title-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include center;
+    inline-size: 100%;
     background-color: #fff;
-    padding: 1rem;
 
     &__title {
-      font-size: 2rem;
-      color: #000;
-      font-weight: bold;
-    }
+      @include center;
+      gap: 0.5rem;
+      cursor: pointer;
+      inline-size: fit-content;
+      align-self: center;
 
-    &__logo {
-      font-size: 2rem;
-      font-weight: bold;
-      transition: all 0.2s linear;
+      &__text {
+        height: fit-content;
+        font-size: 2rem;
+        color: #454c53;
+        font-weight: 600;
+      }
+
+      &__logo {
+        @include center;
+        transition: all 0.2s linear;
+
+        img {
+          inline-size: 2.3rem;
+        }
+      }
     }
   }
 
   &__profile-container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    flex-direction: column;
-    padding-block: 2rem;
-    color: #454c53;
-    font-size: 1.5rem;
-    font-weight: bold;
+    padding-block-start: 2rem;
+    padding-block-end: 1rem;
 
     &__image {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-inline: 0.7rem;
-      padding-block: 0.8rem 0.5rem;
-      border-radius: 100%;
-      background-color: #bebebe;
+      @include center;
+      inline-size: 6rem;
+      block-size: 6rem;
+      background-color: #79797a;
+      padding-block-start: 1rem;
+      padding-block-end: 1.5rem;
       cursor: pointer;
 
-      &__img {
-        width: 3rem;
-        height: 3rem;
-        border-bottom-left-radius: 50%;
-        border-bottom-right-radius: 50%;
-        align-self: flex-end;
+      ::ng-deep {
+        .anticon-user {
+          font-size: 3.5rem;
+        }
       }
     }
 
     &__name {
-      font-size: 2rem;
+      @include center;
+      gap: 1rem;
+      height: 5rem;
+
+      &__text {
+        line-height: 1.5;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #454c53;
+        position: relative;
+        cursor: pointer;
+
+        &::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          left: 0;
+          bottom: -3px;
+          background-color: #454c53;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.2s ease-in-out;
+        }
+
+        &:hover {
+          color: #454c53;
+          &::after {
+            transform: scaleX(1);
+          }
+        }
+
+        &:not(:hover)::after {
+          transform: scaleX(0);
+          transform-origin: right;
+          transition: transform 0.2s ease-in-out;
+        }
+      }
+
+      &__icon {
+        width: 2rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.menu-sidebar__list {
+  padding-block-start: 2.4rem;
+
+  &__item {
+    letter-spacing: 0.1rem;
+    color: #667079;
+
+    .menu-sidebar__icon {
+      color: #667079;
+    }
+
+    &:hover {
+      background-color: #f5f5f5;
+
+      .menu-sidebar__icon {
+        color: #0284c7;
+      }
+
+      .menu-sidebar__icon-message {
+        color: #000;
+      }
+    }
+  }
+
+  .ant-menu-item-selected {
+    background-color: transparent;
+
+    .menu-sidebar__icon {
+      color: #0284c7;
+    }
+
+    &::after {
+      border-right: 3px solid #0284c7;
+    }
+
+    .menu-sidebar__icon-message {
+      color: #000;
+    }
+  }
+
+  ::ng-deep {
+    .ant-menu-title-content {
+      display: flex;
+      transition: color 0s;
     }
   }
 }
@@ -135,11 +222,9 @@
   }
 
   .menu-sidebar__list__item {
+    @include center;
     padding-block: 1rem;
     padding-inline: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding-block-start: 1.7rem;
   }
 

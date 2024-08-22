@@ -7,6 +7,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { UserService } from '../../services/user/user.service';
 import { UserData } from '../../models/user-data';
 import { PermisionsService } from '../../services/permisisons/permisions.service';
+import { NzAvatarComponent } from 'ng-zorro-antd/avatar';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,14 +19,14 @@ import { PermisionsService } from '../../services/permisisons/permisions.service
     RouterOutlet, 
     NzIconModule, 
     NzLayoutModule, 
-    NzMenuModule
+    NzMenuModule,
+    NzAvatarComponent
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit {
   @Input() isCollapsed = false;
-  @Output() toggleSidebar = new EventEmitter<void>();
   protected userData: UserData = {
     id: 0,
     username: "",
@@ -35,10 +36,6 @@ export class SidebarComponent implements OnInit {
     roles: []
   };
   protected userPermissions: string[] = [];
-  
-  onToggleSidebar() {
-    this.toggleSidebar.emit();
-  }
 
   constructor(private userService: UserService, private premissionSubject: PermisionsService) {
   }
