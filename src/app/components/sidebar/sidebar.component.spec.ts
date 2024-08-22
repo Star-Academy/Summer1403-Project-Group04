@@ -1,8 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SidebarComponent } from './sidebar.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
-import { DashboardOutline, NodeIndexOutline, TeamOutline, DotChartOutline } from '@ant-design/icons-angular/icons';
+import {
+  HomeOutline,
+  UserOutline,
+  NodeIndexOutline,
+  TeamOutline,
+  DotChartOutline,
+} from '@ant-design/icons-angular/icons';
 import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -24,7 +29,7 @@ describe('SidebarComponent', () => {
         NzIconService,
         {
           provide: NZ_ICONS,
-          useValue: [NodeIndexOutline, TeamOutline, DashboardOutline, DotChartOutline],
+          useValue: [NodeIndexOutline, TeamOutline, HomeOutline, UserOutline, DotChartOutline],
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],

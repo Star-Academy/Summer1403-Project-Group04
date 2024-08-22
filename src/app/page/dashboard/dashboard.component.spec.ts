@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DashboardComponent } from './dashboard.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
 import {
-  DashboardOutline,
+  HomeOutline,
+  UserOutline,
   NodeIndexOutline,
   TeamOutline,
   UserAddOutline,
@@ -29,13 +29,7 @@ describe('DashboardComponent', () => {
         provideHttpClient(),
         {
           provide: NZ_ICONS,
-          useValue: [
-            NodeIndexOutline,
-            UserAddOutline,
-            TeamOutline,
-            DashboardOutline,
-            DotChartOutline,
-          ],
+          useValue: [NodeIndexOutline, UserAddOutline, TeamOutline, HomeOutline, UserOutline, DotChartOutline],
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
