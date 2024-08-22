@@ -10,6 +10,7 @@ export class SigmaService {
     numberOfNodes: 0,
     numberOfEdges: 0,
   });
+  
   currentData = this.graphData.asObservable();
 
   private selectedNodeData = new BehaviorSubject< {

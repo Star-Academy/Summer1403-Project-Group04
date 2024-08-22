@@ -10,7 +10,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
   styleUrl: './layouts.component.scss'
 })
 export class LayoutsComponent {
+  
   constructor(private sigmaService: SigmaService){}
+
   onCircularLayoutButtonClick() {
     this.sigmaService.triggerCircularLayout();
   }

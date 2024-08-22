@@ -15,11 +15,12 @@ import { NgClass, NgIf } from '@angular/common';
   styleUrl: './hero-section.component.scss',
 })
 export class HeroSectionComponent implements OnInit {
-  protected id = 'tsparticles';
-  protected animationConfig: IOptions = config as IOptions;
   @Input() showForm = false;
   @Output() handleForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  protected id = 'tsparticles';
+  protected animationConfig: IOptions = config as IOptions;
+ 
   constructor(private readonly ngParticlesService: NgParticlesService) {}
 
   ngOnInit(): void {

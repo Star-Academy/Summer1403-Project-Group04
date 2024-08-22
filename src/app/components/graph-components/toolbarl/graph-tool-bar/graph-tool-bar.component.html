@@ -1,22 +1,27 @@
 <div nz-flex [nzVertical]="true" class="toolbar-container">
+
   <button nzType="default" title="Negar" type="button" class="toolbar-container__logo">
     <span nz-icon nzType="node-index" nzTheme="outline"></span>
   </button>
+
   <br />
+
   <div nz-flex [nzVertical]="true" class="toolbar-container__btn-container">
-    <button
-      nzPopoverTrigger="click"
-      nz-popover
-      nzPopoverTitle="Upload"
-      [nzPopoverContent]="upload"
-      nzPopoverPlacement="right"
-      type="button"
-      class="toolbar-container__btn"
-      [ngClass]="{ active: activeButton === 0 }"
-      (click)="setActiveButton(0)"
-    >
-      <span nz-icon nzType="import" nzTheme="outline"></span>
-    </button>
+
+      <button
+        nzPopoverTrigger="click"
+        nz-popover
+        nzPopoverTitle="Upload"
+        [nzPopoverContent]="upload"
+        nzPopoverPlacement="right"
+        type="button"
+        class="toolbar-container__btn"
+        [ngClass]="{ active: activeButton === 0 }"
+        (click)="setActiveButton(0)"
+      >
+        <span nz-icon nzType="import" nzTheme="outline"></span>
+      </button>
+
     <button
       nzPopoverTrigger="click"
       nz-popover
@@ -31,6 +36,7 @@
     >
       <span nz-icon nzType="filter" nzTheme="outline"></span>
     </button>
+
     <button
       nzPopoverTrigger="click"
       nz-popover
@@ -45,11 +51,13 @@
     >
       <span nz-icon nzType="setting" nzTheme="outline"></span>
     </button>
+    
   </div>
 
-  <div style="flex-grow: 1"></div>
+  <div class="grow-div"></div>
 
   <div nz-flex [nzVertical]="true" class="toolbar-container__btn-container">
+
     <button nz-tooltip nzTooltipTitle="Github repo" title="info" type="button" class="toolbar-container__btn">
       <a
         href="https://github.com/Star-Academy/Summer1403-Project-Group04-Frontend"
@@ -58,6 +66,7 @@
         ><span nz-icon nzType="github" nzTheme="outline"></span>
       </a>
     </button>
+
     <button
       title="user"
       type="button"
@@ -67,18 +76,24 @@
     >
       <span nz-icon nzType="user" nzTheme="outline"></span>
     </button>
+
   </div>
 </div>
 
 <ng-template #layouts>
   <app-layouts></app-layouts>
 </ng-template>
+
 <ng-template #Options>
   <div>
-    <p>Toggle show connected nodes on hover <nz-switch nzDisabled nz-tooltip nzTooltipTitle="Under construction"></nz-switch> </p>
-    <p style="color: lightgray;">More options to be added</p>
+    <p>
+      Toggle show connected nodes on hover
+      <nz-switch nzDisabled nz-tooltip nzTooltipTitle="Under construction"></nz-switch>
+    </p>
+    <p style="color: lightgray">More options to be added</p>
   </div>
 </ng-template>
+
 <ng-template #upload>
   <div>
     <app-upload-components></app-upload-components>
