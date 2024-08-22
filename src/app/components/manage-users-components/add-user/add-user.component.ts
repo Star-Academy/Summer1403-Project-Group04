@@ -33,9 +33,9 @@ export class AddUserComponent {
 
   formControls = [
     { name: 'firstName', type: 'text', placeholder: 'Name', minLength: 1 },
-    { name: 'lastName', type: 'text', placeholder: 'Family name', minLength: 1 },
+    { name: 'lastName', type: 'text', placeholder: 'Last Name', minLength: 1 },
     { name: 'email', type: 'email', placeholder: 'Email', minLength: 1 },
-    { name: 'username', type: 'text', placeholder: 'User-name', minLength: 3 },
+    { name: 'username', type: 'text', placeholder: 'User Name', minLength: 3 },
     { name: 'roles', type: 'text', placeholder: 'Role', minLength: 1 },
     { name: 'password', type: 'password', placeholder: 'Password', minLength: 4 },
   ];

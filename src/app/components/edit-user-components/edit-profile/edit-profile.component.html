@@ -1,11 +1,7 @@
 <div class="edit-profile-container">
   <div class="edit-profile-container__title-container">
     <span class="edit-profile-container__title-container__image">
-      <img
-        class="edit-profile-container__title-container__image__img"
-        src="/profile/profile-white.svg"
-        alt="avatar"
-      />
+      <img class="edit-profile-container__title-container__image__img" src="/profile/profile-white.svg" alt="avatar" />
     </span>
     <h1 class="edit-profile-container__title-container__title">User Profile</h1>
   </div>
@@ -21,22 +17,13 @@
     >
       <div class="edit-profile-container__main__form__field-container">
         <ng-container *ngFor="let control of formControls">
-          <div
-            class="edit-profile-container__main__form__field-container__input-container"
-          >
-            <div
-              class="edit-profile-container__main__form__field-container__input-container__label-group"
-            >
-              <p
-                class="edit-profile-container__main__form__field-container__input-container__label"
-              >
+          <div class="edit-profile-container__main__form__field-container__input-container">
+            <div class="edit-profile-container__main__form__field-container__input-container__label-group">
+              <p class="edit-profile-container__main__form__field-container__input-container__label">
                 {{ control.placeholder }}
               </p>
               <p
-                *ngIf="
-                  userForm.get(control.name)?.touched &&
-                  userForm.get(control.name)?.invalid
-                "
+                *ngIf="userForm.get(control.name)?.touched && userForm.get(control.name)?.invalid"
                 class="edit-profile-container__main__form__field-container__input-container__error-container"
               >
                 <span
@@ -60,16 +47,17 @@
               </p>
             </div>
             <input
+              nz-typography
               #inputField
               [type]="control.type"
               [formControlName]="control.name"
               class="edit-profile-container__main__form__field-container__input-container__input"
               [ngClass]="{
                 'edit-profile-container__main__form__field-container__input-container__input--invalid':
-                  userForm.get(control.name)?.invalid &&
-                  userForm.get(control.name)?.touched,
-                'edit-profile-container__main__form__field-container__input-container__input--default':
-                  !userForm.get(control.name)?.touched,
+                  userForm.get(control.name)?.invalid && userForm.get(control.name)?.touched,
+                'edit-profile-container__main__form__field-container__input-container__input--default': !userForm.get(
+                  control.name
+                )?.touched,
                 shake: isSubmitted && userForm.get(control.name)?.invalid
               }"
             />

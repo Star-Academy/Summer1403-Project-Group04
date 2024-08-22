@@ -94,7 +94,6 @@ export class SigmaComponent implements AfterViewInit {
           y: number;
         }
       );
-      console.log(nodeAttributes);
     });
 
     const data: GraphData = {
@@ -119,7 +118,6 @@ export class SigmaComponent implements AfterViewInit {
 
     this.sigmaInstance.getMouseCaptor().on('mousemovebody', (e) => {
       if (!this.isDragging || !this.draggedNode) return;
-      console.log(e);
       const pos = this.sigmaInstance.viewportToGraph(e);
 
       this.graph.setNodeAttribute(this.draggedNode, 'x', pos.x);

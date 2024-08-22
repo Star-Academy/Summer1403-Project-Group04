@@ -7,7 +7,7 @@
 <div class="upload-container">
   <h4 nz-typography>Create a node category</h4>
   <p nz-paragraph>Or dont , you can use existing categories</p>
-  <input nz-input placeholder="Node category" type="number" />
+  <input nz-input placeholder="Node category" type="text" [(ngModel)]="nodecategory" />
   <div class="upload-container__btn-container">
     <div class="upload-container__btn-container__nav-btn-container">
       @if (current !==0) {
@@ -15,7 +15,9 @@
       }
       <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round" (click)="next()">Next</button>
     </div>
-    <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round">Submit</button>
+    <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round" (click)="addNodeCategory()">
+      Submit
+    </button>
   </div>
 </div>
 } @case (1) {
@@ -23,27 +25,25 @@
   <h4 nz-typography>Upload nodes file</h4>
   <h5 nz-typography>Select which node category</h5>
   <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a node category">
-    <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-    <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-    <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+    @for (item of nodeCategoryList; track $index) {
+    <nz-option nzLabel="{{ item }}" nzValue="{{ item }}"></nz-option>
+    }
   </nz-select>
   <h5 nz-typography>UniqueKey header name</h5>
   <input nz-input placeholder="UniqueKey header name" type="number" />
   <h5 nz-typography>Upload nodes file</h5>
   <nz-upload
-      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-      [nzHeaders]="{ authorization: 'authorization-text' }"
-      (nzChange)="handleChange($event)"
-    >
-      <button nz-button>
-        <span nz-icon nzType="upload"></span>
-        Click to Upload
-      </button>
-    </nz-upload>
+  [nzBeforeUpload]="beforeUpload"
+  [nzHeaders]="{ authorization: 'authorization-text' }"
+>
+  <button nz-button>
+    <span nz-icon nzType="upload"></span>
+    Click to Upload
+  </button>
+</nz-upload>
   <div class="upload-container__btn-container">
     <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round" (click)="back()">Back</button>
-    <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round">Submit</button>
-  
+    <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round" (click)="submit()">Submit</button>
   </div>
 </div>
 } }

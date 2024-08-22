@@ -7,11 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../services/notification/notification.service';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [NzModalModule, NgIf, NgFor, NgClass, ReactiveFormsModule],
+  imports: [NzModalModule, NgIf, NgFor, NgClass, ReactiveFormsModule , NzTypographyModule],
   providers: [FormBuilder, Validators],
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss'],
