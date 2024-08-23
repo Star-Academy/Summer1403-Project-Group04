@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgClass, NgIf, NgFor } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -15,19 +15,29 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './edit-role.component.html',
   styleUrl: './edit-role.component.scss',
 })
-export class EditRoleComponent implements OnChanges {
-  protected roleForm: FormGroup;
+export class EditRoleComponent implements OnChanges, OnInit {
+  @Input({ required: true }) userData: UserData | undefined;
+
+  protected roleForm!: FormGroup;
   protected formControls = [{ name: 'role', type: 'text', placeholder: 'Role', minLength: 1 }];
-  protected listOfOption: { label: string; value: string }[] = [
+  protected listOfTagOptions: string[] = [];
+  protected isSubmitted = false;
+  protected listOfOption = [
     { label: 'System Administrator', value: 'Admin' },
     { label: 'Data Admin', value: 'DataAdmin' },
     { label: 'Data Analyst', value: 'DataAnalyst' },
   ];
-  protected listOfTagOptions: string[] = [];
-  protected isSubmitted = false;
-  @Input({ required: true }) userData: UserData | undefined;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private notificationService: NotificationService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private notificationService: NotificationService
+  ) {}
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  initializeForm() {
     this.roleForm = this.fb.group({
       role: ['', [Validators.required]],
     });
@@ -60,7 +70,7 @@ export class EditRoleComponent implements OnChanges {
           } else if (error.status === 400) {
             errorMessage = 'Bad Request: Please check your input';
           }
-  
+
           this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
         },
       });

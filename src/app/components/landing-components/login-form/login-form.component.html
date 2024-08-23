@@ -38,7 +38,13 @@
         <p>Forgot password?</p>
       </div>
 
-      <button nz-button nzType="primary" class="login__container__form__button">Login</button>
+      <button nz-button nzType="primary" class="login__container__form__button">
+        @if (onWait) {
+          <nz-spin nzSimple></nz-spin>
+        }@else {
+          Login
+        }
+      </button>
     </form>
   </div>
 </div>
