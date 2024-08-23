@@ -8,11 +8,13 @@ import { UserService } from '../../../services/user/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { InputComponent } from "../../input/input.component";
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [NzModalModule, NgIf, NgFor, NgClass, ReactiveFormsModule, NzTypographyModule],
+  imports: [NzModalModule, NgIf, NgFor, NgClass, ReactiveFormsModule, NzTypographyModule, InputComponent, NzIconModule],
   providers: [FormBuilder, Validators],
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss'],
@@ -23,11 +25,11 @@ export class EditProfileComponent implements OnChanges, OnInit {
   protected isSubmitted = false;
   protected isUpdatingProfile = false;
 
-  formControls = [
-    { name: 'firstName', type: 'text', placeholder: 'First Name', minLength: 1 },
-    { name: 'lastName', type: 'text', placeholder: 'Last Name', minLength: 1 },
-    { name: 'email', type: 'email', placeholder: 'Email', minLength: 1 },
-    { name: 'username', type: 'text', placeholder: 'User Name', minLength: 3 },
+  protected formControls = [
+    { name: 'firstName', type: 'text', placeholder: 'Name', minLength: 1, prefixIcon: 'user' },
+    { name: 'lastName', type: 'text', placeholder: 'Last Name', minLength: 1, prefixIcon: 'team' },
+    { name: 'email', type: 'email', placeholder: 'Email', minLength: 1, prefixIcon: 'mail' },
+    { name: 'username', type: 'text', placeholder: 'User Name', minLength: 1, prefixIcon: 'idcard' },
   ];
 
   constructor(
@@ -141,5 +143,23 @@ export class EditProfileComponent implements OnChanges, OnInit {
         console.error('Error logging out', error);
       },
     });
+  }
+
+  protected getErrorTip(control: any): string {
+    const formControl = this.userForm.get(control.name);
+
+    if (formControl?.touched && formControl?.invalid) {
+      if (formControl.hasError('required')) {
+        return '*required';
+      }
+      if (formControl.hasError('minlength')) {
+        return `*at least ${control.minLength} characters`;
+      }
+      if (formControl.hasError('email')) {
+        return '*invalid email';
+      }
+    }
+
+    return '';
   }
 }

@@ -1,7 +1,7 @@
 <div class="edit-profile-container">
   <div class="edit-profile-container__title-container">
     <span class="edit-profile-container__title-container__image">
-      <img class="edit-profile-container__title-container__image__img" src="/profile/profile-white.svg" alt="avatar" />
+      <i nz-icon nzType="user" nzTheme="outline"></i>
     </span>
     <h1 class="edit-profile-container__title-container__title">User Profile</h1>
   </div>
@@ -22,45 +22,14 @@
               <p class="edit-profile-container__main__form__field-container__input-container__label">
                 {{ control.placeholder }}
               </p>
-              <p
-                *ngIf="userForm.get(control.name)?.touched && userForm.get(control.name)?.invalid"
-                class="edit-profile-container__main__form__field-container__input-container__error-container"
-              >
-                <span
-                  *ngIf="userForm.get(control.name)?.hasError('required')"
-                  class="edit-profile-container__main__form__field-container__input-container__error-container__error"
-                >
-                  *required
-                </span>
-                <span
-                  *ngIf="userForm.get(control.name)?.hasError('minlength')"
-                  class="edit-profile-container__main__form__field-container__input-container__error-container__error"
-                >
-                  *at least {{ control.minLength }} characters
-                </span>
-                <span
-                  *ngIf="userForm.get(control.name)?.hasError('email')"
-                  class="edit-profile-container__main__form__field-container__input-container__error-container__error"
-                >
-                  *invalid email
-                </span>
-              </p>
             </div>
-            <input
-              nz-typography
-              #inputField
-              [type]="control.type"
+            <app-input
               [formControlName]="control.name"
-              class="edit-profile-container__main__form__field-container__input-container__input"
-              [ngClass]="{
-                'edit-profile-container__main__form__field-container__input-container__input--invalid':
-                  userForm.get(control.name)?.invalid && userForm.get(control.name)?.touched,
-                'edit-profile-container__main__form__field-container__input-container__input--default': !userForm.get(
-                  control.name
-                )?.touched,
-                shake: isSubmitted && userForm.get(control.name)?.invalid
-              }"
-            />
+              [type]="control.type"
+              [placeholder]="control.placeholder"
+              [errorTip]="getErrorTip(control)"
+              [prefixIcon]="control.prefixIcon"
+            ></app-input>
           </div>
         </ng-container>
       </div>

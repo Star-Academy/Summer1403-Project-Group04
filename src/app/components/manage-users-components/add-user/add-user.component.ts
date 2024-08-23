@@ -39,7 +39,7 @@ export class AddUserComponent {
   userForm: FormGroup;
   isSubmitted = false;
 
-  protected listOfTagOptions = [];
+  protected listOfTagOptions: string[] = [];
   protected listOfOption: userRoles[] = [];
 
   protected passwordValidationMessages = {
@@ -62,7 +62,7 @@ export class AddUserComponent {
 
   protected formControls = [
     { name: 'firstName', type: 'text', placeholder: 'Name', minLength: 1, prefixIcon: 'user' },
-    { name: 'lastName', type: 'text', placeholder: 'Last Name', minLength: 1, prefixIcon: 'user' },
+    { name: 'lastName', type: 'text', placeholder: 'Last Name', minLength: 1, prefixIcon: 'team' },
     { name: 'email', type: 'email', placeholder: 'Email', minLength: 1, prefixIcon: 'mail' },
     {
       name: 'roles',
@@ -71,7 +71,7 @@ export class AddUserComponent {
       options: this.listOfOption,
       prefixIcon: 'usergroup-add',
     },
-    { name: 'username', type: 'text', placeholder: 'User Name', minLength: 1, prefixIcon: 'user' },
+    { name: 'username', type: 'text', placeholder: 'User Name', minLength: 1, prefixIcon: 'idcard' },
     { name: 'password', type: 'password', placeholder: 'Password', minLength: 4, prefixIcon: 'lock' },
   ];
 
@@ -203,7 +203,6 @@ export class AddUserComponent {
   }
 
   protected onTagChange(value: string[]): void {
-    console.log(value);
     this.userForm.get('roles')?.setValue(value);
   }
 }

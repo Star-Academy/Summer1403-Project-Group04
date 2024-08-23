@@ -1,61 +1,78 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { NgClass, NgIf, NgFor } from '@angular/common';
-import { NzSelectModule } from 'ng-zorro-antd/select';
+import { Component, Input, OnChanges } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgClass, NgIf, NgFor, CommonModule } from '@angular/common';
 import { UserService } from '../../../services/user/user.service';
 import { UserData } from '../../../models/user-data';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { userRoles } from '../../../models/role-select';
+import { InputComponent } from '../../input/input.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-edit-role',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass, NgIf, NgFor, NzSelectModule],
+  imports: [CommonModule, NzIconModule, NgIf, NgFor, NgClass, ReactiveFormsModule, FormsModule, InputComponent],
   providers: [FormBuilder, Validators],
   templateUrl: './edit-role.component.html',
   styleUrl: './edit-role.component.scss',
 })
-export class EditRoleComponent implements OnChanges, OnInit {
+export class EditRoleComponent implements OnChanges {
   @Input({ required: true }) userData: UserData | undefined;
 
   protected roleForm!: FormGroup;
-  protected formControls = [{ name: 'role', type: 'text', placeholder: 'Role', minLength: 1 }];
-  protected listOfTagOptions: string[] = [];
   protected isSubmitted = false;
-  protected listOfOption = [
-    { label: 'System Administrator', value: 'Admin' },
-    { label: 'Data Admin', value: 'DataAdmin' },
-    { label: 'Data Analyst', value: 'DataAnalyst' },
+  protected listOfTagOptions: string[] = [];
+  protected listOfOption: userRoles[] = [];
+  protected formControls = [
+    {
+      name: 'roles',
+      type: 'select',
+      placeholder: 'Role',
+      options: this.listOfOption,
+      prefixIcon: 'usergroup-add',
+    },
   ];
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private notificationService: NotificationService
-  ) {}
-  ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  initializeForm() {
+  ) {
     this.roleForm = this.fb.group({
-      role: ['', [Validators.required]],
+      roles: ['', [Validators.required, Validators.minLength(1)]]
+    });
+
+    this.userService.getRoles().subscribe({
+      next: (response) => {
+        const temp: userRoles[] = [];
+
+        response.map((role) => {
+          temp.push({ label: role, value: role });
+        });
+
+        this.formControls.forEach((control) => {
+          if (control.name === 'roles') {
+            control.options = temp;
+          }
+        });
+      },
     });
   }
 
   ngOnChanges() {
     if (this.userData) {
       this.roleForm = this.fb.group({
-        role: [this.userData.roles, [Validators.required]],
+        roles: [this.userData.roles, [Validators.required]],
       });
       this.listOfTagOptions = this.userData.roles;
     }
   }
 
-  onSubmit() {
+  protected onSubmit() {
     this.isSubmitted = true;
     if (this.roleForm.valid) {
-      this.userService.updateRole(this.roleForm.value.role, this.userData ? this.userData.id : 0).subscribe({
+      this.userService.updateRole(this.roleForm.value.roles, this.userData ? this.userData.id : 0).subscribe({
         next: (response) => {
           if (response.message === 'User roles updated successfuly!') {
             this.notificationService.createNotification('success', 'Success', response.message);
@@ -77,5 +94,27 @@ export class EditRoleComponent implements OnChanges, OnInit {
     } else {
       this.roleForm.markAllAsTouched();
     }
+  }
+
+  protected getErrorTip(control: any): string {
+    const formControl = this.roleForm.get(control.name);
+
+    if (formControl?.touched && formControl?.invalid) {
+      if (formControl.hasError('required')) {
+        return '*required';
+      }
+      if (formControl.hasError('minlength')) {
+        return `*at least ${control.minLength} characters`;
+      }
+      if (formControl.hasError('email')) {
+        return '*invalid email';
+      }
+    }
+
+    return '';
+  }
+
+  protected onTagChange(value: string[]): void {
+    this.roleForm.get('roles')?.setValue(value);
   }
 }

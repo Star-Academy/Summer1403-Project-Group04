@@ -12,8 +12,8 @@
   overflow: hidden;
 
   &__title-container {
-    font-size: 2rem;
-    font-weight: bold;
+    font-size: 1.8rem;
+    font-weight: 600;
     background-color: #1f66a8;
     padding: 2rem 2rem;
     display: flex;
@@ -28,17 +28,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-inline: 0.5rem;
-      padding-block: 0.6rem 0.4rem;
-      border-radius: 100%;
-      background-color: #6c757d;
+      color: #fff;
 
-      &__img {
-        width: 1.5rem;
-        height: 1.5rem;
-        border-bottom-left-radius: 50%;
-        border-bottom-right-radius: 50%;
-        align-self: flex-end;
+      i {
+        font-size: 2.4rem;
       }
     }
   }
@@ -63,7 +56,7 @@
       inline-size: 65%;
       margin: auto;
       @include center();
-      gap: 5rem;
+      gap: 2rem;
       transition: all 0.2s ease;
 
       &__field-container {
@@ -88,75 +81,8 @@
 
           &__label {
             font-size: 1.6rem;
+            font-weight: 600;
             color: #565656;
-          }
-
-          &__select {
-            inline-size: 100%;
-            background-color: transparent;
-            font-size: 1.7rem;
-            color: #2c3034;
-
-            ::ng-deep {
-              .ant-select-selector {
-                padding-inline: 1rem 0;
-                padding-block: 0.5rem;
-                gap: 1rem;
-                border: none;
-                border-bottom: 1px solid #565656;
-                background-color: transparent;
-              }
-
-              .ant-select-arrow {
-                color: #565656;
-              }
-
-              .ant-select-selection-item {
-                color: #2c3034;
-              }
-            }
-
-            &--invalid {
-              ::ng-deep .ant-select-selector {
-                border-bottom-color: #c91e1e;
-              }
-            }
-
-            &--default {
-              ::ng-deep .ant-select-selector {
-                border-bottom-color: #565656;
-              }
-            }
-          }
-
-          &__input {
-            inline-size: 100%;
-            background-color: transparent;
-            padding-inline: 1rem 0;
-            padding-block: 0.5rem;
-            outline: 0;
-            font-size: 1.5rem;
-            border: none;
-            border-bottom: 1px solid #565656;
-            color: #2c3034;
-
-            &--invalid {
-              border-bottom-color: #c91e1e;
-            }
-
-            &--default {
-              border-bottom-color: #565656;
-            }
-          }
-
-          &__error-container {
-            margin: 0;
-
-            &__error {
-              color: #c91e1e;
-              font-size: 1.6rem;
-              font-weight: bold;
-            }
           }
         }
       }

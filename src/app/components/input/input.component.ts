@@ -29,7 +29,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   @Input() prefixIcon: string = '';
   @Input() errorTip: string = '';
   @Input() options: userRoles[] = [];
-  @Input() listOfTagOptions = [];
+  @Input() listOfTagOptions: string[] = [];
 
   @Output() tagChange: EventEmitter<any> = new EventEmitter<any>();
 
