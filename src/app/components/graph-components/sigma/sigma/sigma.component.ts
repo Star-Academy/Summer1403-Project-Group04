@@ -302,7 +302,7 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  updateNodesList(nodes: any) {
+  updateNodesList(nodes: {id:string, label:string}[]) {    
     this.sigmaService.updateNodesList(nodes);
   }
 

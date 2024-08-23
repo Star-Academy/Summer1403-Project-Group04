@@ -39,7 +39,7 @@ export class SigmaService {
   private randomLayoutTrigger = new Subject<void>();
   randomLayoutTrigger$ = this.randomLayoutTrigger.asObservable();
 
-  private allNodes = new BehaviorSubject<any>('');
+  private allNodes = new BehaviorSubject<{id:string , label:string}[]>([]);
   allNodesData$ = this.allNodes.asObservable();
 
   private searchedNode = new BehaviorSubject<string>('');
@@ -70,13 +70,11 @@ export class SigmaService {
     this.randomLayoutTrigger.next();
   }
 
-  updateNodesList(data : any){
-    
+  updateNodesList(data : {id:string , label:string}[]){
     this.allNodes.next(data)
   }
 
-  updateSearchedNode(node:any){
-    
+  updateSearchedNode(node:string){    
     this.searchedNode.next(node)
   }
 }

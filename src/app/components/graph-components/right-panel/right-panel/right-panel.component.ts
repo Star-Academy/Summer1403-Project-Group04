@@ -55,7 +55,8 @@ export class RightPanelComponent implements OnInit {
     })
   }
 
-  onNodeChange(value: any): void {
+  onNodeChange(value: string): void {
+    
     this.sigmaService.updateSearchedNode(value);
   }
 }

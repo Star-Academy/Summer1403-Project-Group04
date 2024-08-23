@@ -36,6 +36,7 @@ export class AuthGuardService {
           this.router.navigate(['/']);
           return false;
         } catch (error) {
+          console.log(error);
           this.router.navigate(['/']);
           return false;
         }
