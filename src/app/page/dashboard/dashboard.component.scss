@@ -6,28 +6,19 @@
 }
 
 .app-layout {
-  min-height: 100vh;
+  min-block-size: 100vh;
+  padding-inline: 5rem;
   display: flex;
-  flex-direction: row;
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-  }
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
 }
 
 nz-content {
   margin: 24px;
-  width: 100%;
+  inline-size: 125rem;
 
   .inner-content {
-    // width: 100rem;
     flex-grow: 1;
   }
-}
-
-.app-layout__content {
-  padding: 5rem;
 }

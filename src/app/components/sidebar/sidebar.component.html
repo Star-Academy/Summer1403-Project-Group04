@@ -8,41 +8,26 @@
   nzTheme="light"
 >
   <nz-layout class="sidebar-logo" nzTheme="light">
-    <div class="sidebar-logo__title-container" nzTheme="light">
-      <span
-        sidebar-logo__title-container__logo
-        nz-icon
-        nzType="node-index"
-        nzTheme="outline"
-        class="sidebar-logo__title-container__logo"
-      ></span>
-      <h1 class="sidebar-logo__title-container__title">Negar</h1>
+    <div class="sidebar-logo__title-container" nzTheme="light" routerLink="/dashboard">
+      <div class="sidebar-logo__title-container__title">
+        <span class="sidebar-logo__title-container__title__logo">
+          <img class="sidebar-logo__title-container__title__logo__img" src="/logo.svg" alt="logo" />
+        </span>
+        <h1 class="sidebar-logo__title-container__title__text">Negar</h1>
+      </div>
     </div>
     <nz-content class="sidebar-logo__profile-container" nzTheme="light">
-      <div
-        class="sidebar-logo__profile-container__image"
-        routerLink="/dashboard/profile"
-      >
-        <img
-          class="sidebar-logo__profile-container__image__img"
-          src="/profile/profile.svg"
-          alt="avatar"
-        />
-      </div>
+      <nz-avatar nzIcon="user" class="sidebar-logo__profile-container__image" routerLink="/dashboard/profile"></nz-avatar>
       <span class="sidebar-logo__profile-container__name">
-        {{ userData.firstName[0]?.toUpperCase() }}.{{
-          userData.lastName[0]?.toUpperCase()
-        }}{{ userData.lastName.slice(1) }}
+        <p class="sidebar-logo__profile-container__name__text" routerLink="/dashboard/profile">
+          {{ userData.firstName[0]?.toUpperCase() }}. {{ userData.lastName[0]?.toUpperCase()
+          }}{{ userData.lastName.slice(1) }}
+        </p>
+        <img class="sidebar-logo__profile-container__name__icon" src="/logout.svg" alt="logout" />
       </span>
     </nz-content>
   </nz-layout>
-  <ul
-    class="menu-sidebar__list"
-    nz-menu
-    nzTheme="light"
-    nzMode="inline"
-    [nzInlineCollapsed]="isCollapsed"
-  >
+  <ul class="menu-sidebar__list" nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
     <li
       class="menu-sidebar__list__item"
       nz-menu-item
@@ -52,7 +37,7 @@
       routerLinkActive="ant-menu-item-selected"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-      <span nz-icon nzType="dashboard" class="menu-sidebar__icon"></span>
+      <span nz-icon nzType="home" class="menu-sidebar__icon"></span>
       <span class="menu-sidebar__icon-message">Dashboard</span>
     </li>
     @if (userPermissions.indexOf('/api/Admin') !== -1) {
@@ -80,21 +65,8 @@
       routerLinkActive="ant-menu-item-selected"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-    <span nz-icon nzType="dot-chart" nzTheme="outline"></span>
+      <span nz-icon nzType="dot-chart" class="menu-sidebar__icon"></span>
       <span class="menu-sidebar__icon-message">Graph</span>
     </li>
   </ul>
-  <div class="menu-sidebar__toggle">
-    <span
-      nz-icon
-      [nzType]="isCollapsed ? 'right' : 'left'"
-      nzTheme="outline"
-      (click)="onToggleSidebar()"
-      (keyup.enter)="onToggleSidebar()"
-      (keyup.space)="onToggleSidebar()"
-      tabindex="0"
-      role="button"
-      aria-label="Toggle sidebar"
-    ></span>
-  </div>
 </nz-sider>
