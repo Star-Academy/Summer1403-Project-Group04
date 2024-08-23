@@ -1,23 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DashboardComponent } from './dashboard.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
-import {
-  HomeOutline,
-  UserOutline,
-  NodeIndexOutline,
-  TeamOutline,
-  UserAddOutline,
-  DotChartOutline,
-  MenuOutline,
-  SettingOutline,
-} from '@ant-design/icons-angular/icons';
+import { MenuOutline, UserOutline, SettingOutline } from '@ant-design/icons-angular/icons';
+import { DashboardNavbarComponent } from './dashboard-navbar.component';
 import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+describe('DashboardNavbarComponent', () => {
+  let component: DashboardNavbarComponent;
+  let fixture: ComponentFixture<DashboardNavbarComponent>;
+
   const mockActivatedRoute = {
     params: of({ id: 1 }),
     snapshot: { params: { id: 1 } },
@@ -25,28 +17,19 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DashboardComponent],
+      imports: [DashboardNavbarComponent],
       providers: [
-        NzIconService,
         provideHttpClient(),
+        NzIconService,
         {
           provide: NZ_ICONS,
-          useValue: [
-            NodeIndexOutline,
-            UserAddOutline,
-            TeamOutline,
-            HomeOutline,
-            UserOutline,
-            DotChartOutline,
-            MenuOutline,
-            SettingOutline,
-          ],
+          useValue: [MenuOutline, SettingOutline, UserOutline],
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(DashboardNavbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
