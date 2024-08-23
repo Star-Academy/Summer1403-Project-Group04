@@ -30,32 +30,6 @@
       @include flex();
       gap: 1.5rem;
 
-      nz-form-item {
-        inline-size: 100%;
-        margin: 0;
-      }
-
-      nz-input-group {
-        border-radius: 0.8rem;
-      }
-
-      ::ng-deep {
-        .anticon {
-          font-size: 2rem;
-        }
-
-        .ant-form-item-explain {
-          padding-inline-start: 0.5rem;
-          text-align: left;
-        }
-      }
-
-      input {
-        font-size: 17px;
-        padding-inline: 0.5rem;
-        padding-block: 1rem;
-      }
-
       &__forgot-password {
         align-self: flex-start;
 

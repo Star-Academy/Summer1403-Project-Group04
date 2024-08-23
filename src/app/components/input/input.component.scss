@@ -1,0 +1,79 @@
+:host {
+  display: block;
+  inline-size: 100%;
+}
+
+nz-form-item {
+  inline-size: 100%;
+  margin: 0;
+}
+
+nz-input-group {
+  border-radius: 0.8rem;
+}
+
+::ng-deep {
+  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border: none;
+    box-shadow: none;
+  }
+
+  .anticon {
+    font-size: 2rem;
+  }
+
+  .ant-form-item-explain {
+    padding-inline-start: 0.5rem;
+    text-align: left;
+  }
+}
+
+input {
+  font-size: 1.7rem !important;
+  padding-inline: 0.5rem !important;
+  padding-block: 1rem !important;
+}
+
+.toggle-password-visibility {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ant-select {
+  inline-size: 100%;
+  padding-block: 1rem !important;
+  background-color: transparent;
+  font-size: 1.7rem !important;
+  color: #2c3034;
+  border: none;
+  outline: none;
+
+  ::ng-deep {
+    .ant-select-selector {
+      padding-inline: 0;
+      padding-block: 0;
+      border: none;
+      background-color: transparent;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ant-select-selection-item-remove > span {
+      width: 1.3rem;
+    }
+
+    .ant-select-selection-item {
+      color: #2c3034;
+    }
+  }
+}
+
+.select-arrow-icon {
+  font-size: 1.4rem;
+  color: #454c53;
+}

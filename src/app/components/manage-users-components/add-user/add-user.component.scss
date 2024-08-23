@@ -3,7 +3,6 @@ $color-secondary: #565656;
 $color-error: #c91e1e;
 
 ::ng-deep {
-  //Don't know about that , ng-deep .... well lets just say it needs furtur refactoring :]
   .modalClass {
     max-inline-size: 610px;
     min-inline-size: 550px;
@@ -47,91 +46,14 @@ $color-error: #c91e1e;
   gap: 1.5rem;
   transition: all 0.2s ease;
 
-  &__input-container {
-    @include center();
+  .password-validation {
     inline-size: 100%;
-    gap: 0.5rem;
-    flex-direction: column;
-    align-items: flex-start;
+    padding-inline-start: 1rem;
 
-    &__label-group {
-      inline-size: 100%;
+    &__validation-item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 0.5rem;
-    }
-
-    &__label {
-      font-size: 1.6rem;
-      color: $color-secondary;
-    }
-
-    &__select {
-      inline-size: 100%;
-      background-color: transparent;
-      font-size: 1.5rem;
-      color: $color-primary;
-
-      ::ng-deep {
-        .ant-select-selector {
-          padding-inline: 0;
-          padding-block: 0.5rem;
-          border: none;
-          border-bottom: 1px solid $color-secondary;
-          background-color: transparent;
-        }
-
-        .ant-select-arrow {
-          color: $color-secondary;
-        }
-
-        .ant-select-selection-item {
-          color: $color-primary;
-        }
-      }
-
-      &--invalid {
-        ::ng-deep .ant-select-selector {
-          border-bottom-color: $color-error;
-        }
-      }
-
-      &--default {
-        ::ng-deep .ant-select-selector {
-          border-bottom-color: $color-secondary;
-        }
-      }
-    }
-
-    &__input {
-      inline-size: 100%;
-      background-color: transparent;
-      padding-inline: 0;
-      padding-block: 0.5rem;
-      outline: 0;
-      font-size: 1.5rem;
-      border: none;
-      border-bottom: 1px solid $color-secondary;
-      color: $color-primary;
-
-      &--invalid {
-        border-bottom-color: $color-error;
-      }
-
-      &--default {
-        border-bottom-color: $color-secondary;
-      }
-    }
-
-    &__error-container {
-      margin: 0;
-
-      &__error {
-        color: $color-error;
-        font-size: 1.6rem;
-        font-weight: bold;
-      }
     }
   }
 }
