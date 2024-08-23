@@ -1,6 +1,7 @@
 <nz-layout class="app-layout">
   <app-sidebar [isCollapsed]="isCollapsed"></app-sidebar>
   <nz-content>
+    <app-dashboard-navbar (toggle)="toggleSidebar()"></app-dashboard-navbar>
     <div class="inner-content">
       <router-outlet></router-outlet>
     </div>

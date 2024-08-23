@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthComponent } from './auth.component';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
-import { NodeIndexOutline } from '@ant-design/icons-angular/icons';
+import { NodeIndexOutline, UserOutline } from '@ant-design/icons-angular/icons';
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
@@ -17,7 +17,7 @@ describe('AuthComponent', () => {
         NzIconService,
         {
           provide: NZ_ICONS,
-          useValue: [NodeIndexOutline],
+          useValue: [NodeIndexOutline, UserOutline],
         },
       ],
     }).compileComponents();

@@ -8,6 +8,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SignInComponent } from "../../components/sign-in/sign-in.component";
 import { AuthComponent } from "../auth/auth.component";
 import { UsersTableComponent } from "../../components/manage-users-components/users-table/users-table.component";
+import { DashboardNavbarComponent } from "../../components/dashboard-navbar/dashboard-navbar.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +23,8 @@ import { UsersTableComponent } from "../../components/manage-users-components/us
     SidebarComponent,
     SignInComponent,
     AuthComponent,
-    UsersTableComponent
+    UsersTableComponent,
+    DashboardNavbarComponent
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

@@ -1,4 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
+import {
+  MenuOutline,
+  SettingOutline
+} from '@ant-design/icons-angular/icons';
 import { of } from 'rxjs';
 import { EditUserComponent } from './edit-user.component';
 import { ActivatedRoute } from '@angular/router';
@@ -39,7 +44,12 @@ describe('EditUserComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: UserService, useValue: mockUserService },
-        { provide: PermisionsService, useValue: mockPermisionService }
+        { provide: PermisionsService, useValue: mockPermisionService },
+        NzIconService,
+        {
+          provide: NZ_ICONS,
+          useValue: [MenuOutline, SettingOutline],
+        },
       ],
     }).compileComponents();
 
