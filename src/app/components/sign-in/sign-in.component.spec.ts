@@ -98,12 +98,9 @@ describe('SignInComponent', () => {
     // Act
     component.onSubmit();
     // Assert
-    console.log(component.inputFields);
     component.inputFields.forEach((field) => {
       const element = field.nativeElement;
       const elementName = element.placeholder.toLowerCase().replaceAll('-', '');
-      console.log(element.classList);
-      console.log(element.classList.contains('shake'));
       
       expect(component.signInForm.get(elementName)?.invalid).toBe(true);
       // expect(element.classList.contains('shake')).toBe(true); IDK , IDK , IDK .........

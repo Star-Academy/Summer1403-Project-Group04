@@ -7,7 +7,7 @@ import { SigmaService } from '../../../../services/sigma/sigma.service';
 import { GraphData } from '../../../../models/graph-data';
 import { circular } from 'graphology-layout';
 import { animateNodes } from 'sigma/utils';
-import { EdgeDisplayData, NodeDisplayData, PlainObject } from 'sigma/types';
+import { Coordinates, EdgeDisplayData, NodeDisplayData, PlainObject } from 'sigma/types';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 interface State {
@@ -67,6 +67,22 @@ export class SigmaComponent implements AfterViewInit {
       this.randomLayout();
     });
 
+    this.sigmaService.searchedNodeOb$.subscribe((node)=>{
+      
+      this.state.selectedNode = node;
+      const nodePosition = this.sigmaInstance.getNodeDisplayData(node) as Coordinates;
+      
+      this.sigmaInstance.getCamera().animate(nodePosition , { duration: 500});
+      this.nodeSetting();
+    })
+
+    this.updateNodesList(
+      this.graph.nodes().map((node) => ({
+        id: node,
+        label: this.graph.getNodeAttribute(node, 'label')
+      }))
+    );
+
     // Listen for clicks on nodes in Sigma.js.
     // When a node is clicked, grab its details and tell SigmaService about it.
     // This helps other parts of the app respond to node clicks, like showing node info somewhere else.
@@ -121,27 +137,7 @@ export class SigmaComponent implements AfterViewInit {
       this.setHoveredNode(undefined);
     });
 
-    this.sigmaInstance.setSetting('nodeReducer', (node, data) => {
-      const res: Partial<NodeDisplayData> = { ...data };
-
-      if (this.state.hoveredNeighbors && !this.state.hoveredNeighbors.has(node) && this.state.hoveredNode !== node) {
-        res.label = '';
-        res.color = '#f6f6f6';
-      }
-
-      if (this.state.selectedNode === node) {
-        res.highlighted = true;
-      } else if (this.state.suggestions) {
-        if (this.state.suggestions.has(node)) {
-          res.forceLabel = true;
-        } else {
-          res.label = '';
-          res.color = '#f6f6f6';
-        }
-      }
-
-      return res;
-    });
+    this.nodeSetting(); 
 
     this.sigmaInstance.setSetting('edgeReducer', (edge, data) => {
       const res: Partial<EdgeDisplayData> = { ...data };
@@ -174,7 +170,6 @@ export class SigmaComponent implements AfterViewInit {
 
   zoomIn() {
     const camera = this.sigmaInstance.getCamera();
-    console.log(camera.ratio);
     camera.ratio = camera.ratio * 0.9;
     this.sigmaInstance.refresh();
   }
@@ -195,7 +190,6 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   randomLayout() {
-    console.log('random layout method');
 
     if (this.cancelCurrentAnimation) this.cancelCurrentAnimation();
 
@@ -305,6 +299,39 @@ export class SigmaComponent implements AfterViewInit {
       }
       this.isDragging = false;
       this.draggedNode = null;
+    });
+  }
+
+  updateNodesList(nodes: {id:string, label:string}[]) {    
+    this.sigmaService.updateNodesList(nodes);
+  }
+
+  nodeSetting(){
+    this.sigmaInstance.setSetting('nodeReducer', (node, data) => {
+    
+       
+      const res: Partial<NodeDisplayData> = { ...data };
+      if (this.state.selectedNode === node) {
+        res.highlighted = true;
+      } 
+
+      if (this.state.hoveredNeighbors && !this.state.hoveredNeighbors.has(node) && this.state.hoveredNode !== node) {
+        res.label = '';
+        res.color = '#f6f6f6';
+      }
+
+      if (this.state.selectedNode === node) {
+        res.highlighted = true;
+      } else if (this.state.suggestions) {
+        if (this.state.suggestions.has(node)) {
+          res.forceLabel = true;
+        } else {
+          res.label = '';
+          res.color = '#f6f6f6';
+        }
+      }
+
+      return res;
     });
   }
 }

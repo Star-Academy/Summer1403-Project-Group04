@@ -12,7 +12,6 @@ export class UploadGraphService {
   addNodeCategory(nodeCategory: string) {
     const data = { nodeCategoryName: nodeCategory };
     const headers = { 'Content-Type': 'application/json' };
-    console.log(data);
 
     return this.http.post<loginResponse>(`${this.URL}/api/Node/categories`, data, { headers, withCredentials: true });
   }
