@@ -11,11 +11,12 @@ import { LoginService } from '../../services/login/login.service';
 import { loginResponse } from '../../models/login-response';
 import { NotificationService } from '../../services/notification/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, NgIf, NgClass, NgFor],
+  imports: [RouterModule, ReactiveFormsModule, NgIf, NgClass, NgFor, NzSpinModule],
   providers: [FormBuilder, Validators],
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],

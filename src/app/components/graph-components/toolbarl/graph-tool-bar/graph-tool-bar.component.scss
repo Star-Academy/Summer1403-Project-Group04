@@ -32,7 +32,6 @@
     outline: none;
     border-radius: .375rem 0 0 .375rem;
     padding: 1rem;
-    // margin: 0 0 0 .4em;
     background: none;
     display: flex;
     justify-content: center;
@@ -40,10 +39,6 @@
     cursor: pointer;
     position: relative;
     transition: all 1sec linear ;
-
-    // &:hover{
-       
-    // }
   }
 }
 
@@ -66,4 +61,8 @@
     border-top-right-radius:  1rem;
   }
   
+}
+
+.grow-div{
+  flex-grow: 1;
 }

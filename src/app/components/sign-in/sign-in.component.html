@@ -8,14 +8,9 @@
       data-testid="auth-form"
     >
       <ng-container *ngFor="let control of formControls">
-        <div
-          class="sign-in-container__main-content__auth-form__input-container"
-        >
+        <div class="sign-in-container__main-content__auth-form__input-container">
           <p
-            *ngIf="
-              signInForm.get(control.name)?.touched &&
-              signInForm.get(control.name)?.invalid
-            "
+            *ngIf="signInForm.get(control.name)?.touched && signInForm.get(control.name)?.invalid"
             class="sign-in-container__main-content__auth-form__input-container__error-container"
           >
             <span
@@ -39,20 +34,18 @@
             class="sign-in-container__main-content__auth-form__input-container__input"
             [ngClass]="{
               'sign-in-container__main-content__auth-form__input-container__input--invalid':
-                signInForm.get(control.name)?.invalid &&
-                signInForm.get(control.name)?.touched,
-              'sign-in-container__main-content__auth-form__input-container__input--default':
-                !signInForm.get(control.name)?.touched,
+                signInForm.get(control.name)?.invalid && signInForm.get(control.name)?.touched,
+              'sign-in-container__main-content__auth-form__input-container__input--default': !signInForm.get(
+                control.name
+              )?.touched,
               shake: isSubmitted && signInForm.get(control.name)?.invalid
             }"
           />
         </div>
       </ng-container>
 
-      <button
-        type="submit"
-        class="sign-in-container__main-content__auth-form__button"
-      >
+      <button type="submit" class="sign-in-container__main-content__auth-form__button">
+       
         <span class="front">Log In</span>
       </button>
     </form>

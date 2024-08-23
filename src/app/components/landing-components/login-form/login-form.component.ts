@@ -9,6 +9,7 @@ import { NotificationService } from '../../../services/notification/notification
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-login-form',
@@ -21,6 +22,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzInputModule,
     NgIf,
     NzIconModule,
+    NzSpinModule,
   ],
   providers: [FormBuilder, Validators],
   templateUrl: './login-form.component.html',
@@ -29,6 +31,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 export class LoginFormComponent {
   protected loginForm: FormGroup;
   protected passwordVisible = false;
+  protected onWait = false;
 
   constructor(
     private loginService: LoginService,
@@ -43,7 +46,9 @@ export class LoginFormComponent {
   }
 
   onSubmit() {
+    
     if (this.loginForm.valid) {
+      this.onWait = true;
       const { username, password } = this.loginForm.value;
 
       this.loginService.login(username, password).subscribe({

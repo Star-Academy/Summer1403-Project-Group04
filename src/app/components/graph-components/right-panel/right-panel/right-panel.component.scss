@@ -14,12 +14,11 @@
     min-height: 100%;
     inline-size: 100%;
     overflow-y: auto;
-    padding-top: 0.5rem;
   }
 
   &__panel-block {
     flex-shrink: 0;
-    padding: 2rem;
+    padding: 1.5rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -32,6 +31,7 @@
 
     &__title {
       font-size: 2.3rem;
+      text-align: center;
     }
 
     &__inner {
