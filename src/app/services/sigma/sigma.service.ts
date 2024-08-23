@@ -10,10 +10,9 @@ export class SigmaService {
     numberOfNodes: 0,
     numberOfEdges: 0,
   });
-  
   currentData = this.graphData.asObservable();
 
-  private selectedNodeData = new BehaviorSubject< {
+  private selectedNodeData = new BehaviorSubject<{
     age: number;
     bio: string;
     color: string;
@@ -22,7 +21,7 @@ export class SigmaService {
     size: number;
     x: number;
     y: number;
-  }>( {
+  }>({
     age: 0,
     bio: 'string',
     color: 'string',
@@ -39,6 +38,12 @@ export class SigmaService {
 
   private randomLayoutTrigger = new Subject<void>();
   randomLayoutTrigger$ = this.randomLayoutTrigger.asObservable();
+
+  private allNodes = new BehaviorSubject<any>('');
+  allNodesData$ = this.allNodes.asObservable();
+
+  private searchedNode = new BehaviorSubject<string>('');
+  searchedNodeOb$ = this.searchedNode.asObservable();
 
   changeData(data: GraphData) {
     this.graphData.next(data);
@@ -63,5 +68,15 @@ export class SigmaService {
 
   triggerRandomLayout() {
     this.randomLayoutTrigger.next();
+  }
+
+  updateNodesList(data : any){
+    
+    this.allNodes.next(data)
+  }
+
+  updateSearchedNode(node:any){
+    
+    this.searchedNode.next(node)
   }
 }

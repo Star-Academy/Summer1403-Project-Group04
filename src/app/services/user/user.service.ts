@@ -52,7 +52,6 @@ export class UserService {
     try {
       data = await firstValueFrom(this.http.get<UserData>(apiUrl, { headers, withCredentials: true }));
     } catch (error) {
-      console.log(error);
     }
 
     return data;

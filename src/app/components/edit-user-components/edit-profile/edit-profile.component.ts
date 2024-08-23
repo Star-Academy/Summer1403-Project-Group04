@@ -85,7 +85,6 @@ export class EditProfileComponent implements OnChanges, OnInit {
         if (response.message === 'User updated successfully!') {
           const successMessage = 'Success';
           this.notificationService.createNotification('success', successMessage, response.message);
-          console.log('hey');
           this.logout();
         } else {
           const errorMessage = this.isUpdatingProfile ? 'Error Updating Profile' : 'Error Updating User';
