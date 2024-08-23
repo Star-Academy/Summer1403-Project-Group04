@@ -15,8 +15,11 @@
 }
 
 nz-content {
-  margin: 24px;
+  padding-block: 2.4rem;
   inline-size: 125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 
   .inner-content {
     flex-grow: 1;

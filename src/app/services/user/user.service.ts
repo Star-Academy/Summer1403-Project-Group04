@@ -115,6 +115,13 @@ export class UserService {
     return this.http.patch<loginResponse>(apiUrl, roles, { headers, withCredentials: true });
   }
 
+  getRoles(): Observable<string[]> {
+    const apiUrl = `${this.URL}/api/Admin/roles`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.get<string[]>(apiUrl, { headers, withCredentials: true });
+  }
+
   logout() {
     const apiUrl = `${this.URL}/api/User/logout`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
