@@ -53,7 +53,7 @@ export class SignInComponent {
       this.loginService.login(username, password).subscribe({
         next: (response: loginResponse) => {
           this.notificationService.createNotification('success', 'Successful Login', response.message);
-          setTimeout(() => this.router.navigate(['/dashboard']), 1000);
+          setTimeout(() => this.router.navigate(['/dashboard']), 2000);
         },
         error: (error: HttpErrorResponse) => {
           let errorMessage = 'An unexpected error occurred';

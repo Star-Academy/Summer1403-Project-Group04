@@ -25,7 +25,11 @@ export class DashboardNavbarComponent implements OnInit {
     roles: [],
   };
 
-  constructor(private userService: UserService, private notificationService: NotificationService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private notificationService: NotificationService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.userService.userData$.subscribe((userData) => {
@@ -33,22 +37,29 @@ export class DashboardNavbarComponent implements OnInit {
     });
   }
 
-  toggleSidebar() {
+  protected toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
     this.toggle.emit(this.isCollapsed);
   }
 
-  logout() {
+  protected logout() {
     this.userService.logout().subscribe({
       next: (response) => {
         this.notificationService.createNotification('success', 'Success', response.message);
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 2000);
+      },
+      error: (error) => {
+        let errorMessage = 'An unexpected error occurred';
+        if (error.status === 401) {
+          errorMessage = 'Unauthorized: Invalid username or password';
+        } else if (error.status === 400) {
+          errorMessage = 'Bad Request: Old password is wrong!';
+        }
 
-        setTimeout(() => this.router.navigate(['/']), 2000);
+        this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
       },
     });
-  }
-
-  setUserData(data: UserData) {
-    this.userData = data;
   }
 }

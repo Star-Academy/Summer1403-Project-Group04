@@ -11,7 +11,7 @@ import { UserService } from '../../../services/user/user.service';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { Router } from '@angular/router';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
-import { BreadCrumpComponent } from "../../bread-crump/bread-crump.component";
+import { BreadCrumpComponent } from '../../bread-crump/bread-crump.component';
 import { getRoleColor } from '../../../models/role-color';
 
 @Component({
@@ -26,8 +26,8 @@ import { getRoleColor } from '../../../models/role-color';
     AddUserComponent,
     NzPaginationComponent,
     NzTagComponent,
-    BreadCrumpComponent
-],
+    BreadCrumpComponent,
+  ],
   templateUrl: './users-table.component.html',
   styleUrl: './users-table.component.scss',
 })
@@ -94,16 +94,8 @@ export class UsersTableComponent implements OnInit {
   protected deleteUser(user: UserData): void {
     this.userService.deleteUser(user.id).subscribe({
       next: (response) => {
-        if (response && response.message === 'User Deleted successfully!') {
-          this.notification.createNotification('success', 'User deleted', `User ${user.username} has been deleted`);
-          this.loadDataFromServer(0, 10);
-        } else {
-          this.notification.createNotification(
-            'error',
-            'Error deleting user',
-            `User ${user.username} could not be deleted`
-          );
-        }
+        this.notification.createNotification('success', 'User deleted', `User ${user.username} has been deleted`);
+        this.loadDataFromServer(0, 10);
       },
       error: (error) => {
         console.error('Error deleting user:', error);
