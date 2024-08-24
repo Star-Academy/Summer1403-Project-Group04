@@ -4,10 +4,16 @@ import { UsersTableComponent } from './users-table.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
 import { TeamOutline, UserAddOutline } from '@ant-design/icons-angular/icons';
 import { provideHttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 describe('UsersTableComponent', () => {
   let component: UsersTableComponent;
   let fixture: ComponentFixture<UsersTableComponent>;
+  const mockActivatedRoute = {
+    params: of({ id: 1 }),
+    snapshot: { params: { id: 1 } },
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -18,7 +24,8 @@ describe('UsersTableComponent', () => {
         {
           provide: NZ_ICONS,
           useValue: [UserAddOutline, TeamOutline]
-        }
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute }
       ]
     })
     .compileComponents();

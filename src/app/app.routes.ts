@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-// import { AuthComponent } from './page/auth/auth.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { GraphComponent } from './page/graph/graph/graph.component';
 import { ProfileComponent } from './components/profile/profile.component';

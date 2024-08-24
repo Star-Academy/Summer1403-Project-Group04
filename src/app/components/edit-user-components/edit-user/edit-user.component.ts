@@ -7,11 +7,12 @@ import { PermisionsService } from '../../../services/permisisons/permisions.serv
 import { EditRoleComponent } from '../edit-role/edit-role.component';
 import { ActivatedRoute } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { BreadCrumpComponent } from "../../bread-crump/bread-crump.component";
 
 @Component({
   selector: 'app-edit-user',
   standalone: true,
-  imports: [EditProfileComponent, EditPasswordComponent, EditRoleComponent, NgIf],
+  imports: [EditProfileComponent, EditPasswordComponent, EditRoleComponent, NgIf, BreadCrumpComponent],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.scss',
 })
