@@ -9,6 +9,7 @@ import { InputComponent } from '../../input/input.component';
 import { NzBadgeComponent } from 'ng-zorro-antd/badge';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { userRoles } from '../../../models/role-select';
+import { formInput } from '../../../models/form-input';
 
 @Component({
   selector: 'app-add-user',
@@ -160,7 +161,7 @@ export class AddUserComponent {
     this.isSubmitted = false;
   }
 
-  protected getErrorTip(control: any): string {
+  protected getErrorTip(control: formInput): string {
     const formControl = this.userForm.get(control.name);
 
     if (control.name === 'password') {

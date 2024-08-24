@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { NzFormControlComponent, NzFormItemComponent } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -24,21 +24,21 @@ import { userRoles } from '../../models/role-select';
   styleUrl: './input.component.scss',
 })
 export class InputComponent implements ControlValueAccessor, OnInit {
-  @Input() type: string = 'text';
-  @Input() placeholder: string = '';
-  @Input() prefixIcon: string = '';
-  @Input() errorTip: string = '';
+  @Input() type = 'text';
+  @Input() placeholder = '';
+  @Input() prefixIcon = '';
+  @Input() errorTip = '';
   @Input() options: userRoles[] = [];
   @Input() listOfTagOptions: string[] = [];
 
-  @Output() tagChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() tagChange: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  protected value: string = '';
+  protected value = '';
   protected isDisabled = false;
   protected control: FormControl = new FormControl();
   protected passwordVisible = false;
 
-  constructor(private ngControl: NgControl) {
+  constructor(@Optional() private ngControl: NgControl) {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }
@@ -50,18 +50,22 @@ export class InputComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  onChange: (value: string) => void = () => {
+    // This comment prevents the method from being considered empty
+  };
+  onTouched: () => void = () => {
+    // This comment prevents the method from being considered empty
+  };
 
   writeValue(value: string): void {
     this.value = value;
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 

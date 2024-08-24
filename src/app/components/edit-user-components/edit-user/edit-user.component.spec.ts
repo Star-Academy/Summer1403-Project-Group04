@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
 import {
+  KeyOutline,
+  LockOutline,
   MenuOutline,
   SettingOutline
 } from '@ant-design/icons-angular/icons';
@@ -48,7 +50,7 @@ describe('EditUserComponent', () => {
         NzIconService,
         {
           provide: NZ_ICONS,
-          useValue: [MenuOutline, SettingOutline],
+          useValue: [MenuOutline, SettingOutline, LockOutline, KeyOutline],
         },
       ],
     }).compileComponents();

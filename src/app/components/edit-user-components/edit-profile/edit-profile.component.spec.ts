@@ -4,6 +4,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
+import { IdcardOutline, MailOutline, TeamOutline, UserOutline } from '@ant-design/icons-angular/icons';
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
@@ -19,6 +21,11 @@ describe('EditProfileComponent', () => {
       providers: [
         provideAnimationsAsync(),
         provideHttpClient(),
+        NzIconService,
+        {
+          provide: NZ_ICONS,
+          useValue: [UserOutline, TeamOutline, MailOutline, IdcardOutline],
+        },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();

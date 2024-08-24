@@ -10,6 +10,7 @@ import { NotificationService } from '../../../services/notification/notification
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { InputComponent } from "../../input/input.component";
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { formInput } from '../../../models/form-input';
 
 @Component({
   selector: 'app-edit-profile',
@@ -145,7 +146,7 @@ export class EditProfileComponent implements OnChanges, OnInit {
     });
   }
 
-  protected getErrorTip(control: any): string {
+  protected getErrorTip(control: formInput): string {
     const formControl = this.userForm.get(control.name);
 
     if (formControl?.touched && formControl?.invalid) {

@@ -16,6 +16,7 @@ import { NotificationService } from '../../../services/notification/notification
 import { HttpErrorResponse } from '@angular/common/http';
 import { InputComponent } from '../../input/input.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { formInput } from '../../../models/form-input';
 
 @Component({
   selector: 'app-edit-password',
@@ -114,7 +115,6 @@ export class EditPasswordComponent implements OnInit {
   protected onSubmit() {
     this.isSubmitted = true;
     if (this.passwordForm.valid) {
-      console.log(this.passwordForm.value);
       if (this.isUpdatingProfile) {
         this.handleUpdateProfilePassword();
       } else {
@@ -182,7 +182,7 @@ export class EditPasswordComponent implements OnInit {
     };
   }
 
-  protected getErrorTip(control: any): string {
+  protected getErrorTip(control: formInput): string {
     const formControl = this.passwordForm.get(control.name);
 
     if (control.name === 'newpassword') {

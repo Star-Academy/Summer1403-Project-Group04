@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { userRoles } from '../../../models/role-select';
 import { InputComponent } from '../../input/input.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { formInput } from '../../../models/form-input';
 
 @Component({
   selector: 'app-edit-role',
@@ -96,7 +97,7 @@ export class EditRoleComponent implements OnChanges {
     }
   }
 
-  protected getErrorTip(control: any): string {
+  protected getErrorTip(control: formInput): string {
     const formControl = this.roleForm.get(control.name);
 
     if (formControl?.touched && formControl?.invalid) {
