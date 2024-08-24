@@ -127,6 +127,6 @@ export class UserService {
     const apiUrl = `${this.URL}/api/User/logout`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post(apiUrl, { headers, withCredentials: true });
+    return this.http.post<loginResponse>(apiUrl, null, { headers, withCredentials: true });
   }
 }

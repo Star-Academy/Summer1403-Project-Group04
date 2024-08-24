@@ -55,12 +55,8 @@ export class LoginFormComponent {
         .login(username, password)
         .subscribe({
           next: (response: loginResponse) => {
-            if (response.message === 'Login was successful!') {
-              this.notificationService.createNotification('success', 'Successful Login', response.message);
-              setTimeout(() => this.router.navigate(['/dashboard']), 2000);
-            } else {
-              this.notificationService.createNotification('error', 'Login Failed', response.message);
-            }
+            this.notificationService.createNotification('success', 'Successful Login', response.message);
+            setTimeout(() => this.router.navigate(['/dashboard']), 2000);
           },
           error: (error: HttpErrorResponse) => {
             let errorMessage = 'An unexpected error occurred';

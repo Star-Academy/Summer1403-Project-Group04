@@ -128,13 +128,8 @@ export class EditPasswordComponent implements OnInit {
   private handleUpdateProfilePassword() {
     this.userService.updatePassword(null, this.passwordForm, this.isUpdatingProfile).subscribe({
       next: (response) => {
-        if (response.message === 'User updated successfully!') {
-          const successMessage = 'Success';
-          this.notificationService.createNotification('success', successMessage, response.message);
-        } else {
-          const errorMessage = 'Error Updating Profile';
-          this.notificationService.createNotification('error', errorMessage, response.message);
-        }
+        const successMessage = 'Success';
+        this.notificationService.createNotification('success', successMessage, response.message);
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = 'An unexpected error occurred';
@@ -152,13 +147,8 @@ export class EditPasswordComponent implements OnInit {
   private handleUpdateUserPassword() {
     this.userService.updatePassword(this.userID, this.passwordForm, this.isUpdatingProfile).subscribe({
       next: (response) => {
-        if (response.message === 'User updated successfully!') {
-          const successMessage = 'Success';
-          this.notificationService.createNotification('success', successMessage, response.message);
-        } else {
-          const errorMessage = 'Error Updating User';
-          this.notificationService.createNotification('error', errorMessage, response.message);
-        }
+        const successMessage = 'Success';
+        this.notificationService.createNotification('success', successMessage, response.message);
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = 'An unexpected error occurred';
