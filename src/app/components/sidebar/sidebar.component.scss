@@ -13,6 +13,7 @@
   user-select: none;
 
   &[ng-reflect-is-collapsed='true'] {
+    inline-size: 0;
     nz-sider {
       min-inline-size: 0 !important;
       max-inline-size: 0 !important;

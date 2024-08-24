@@ -6,7 +6,7 @@
   .ant-tag {
     border-radius: 0.5rem;
   }
-  
+
   &__description {
     inline-size: 100%;
     background-color: #fff;
@@ -36,7 +36,7 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 2rem;
     overflow: hidden;
-  
+
     &__description {
       inline-size: 100%;
       padding-block: 2rem;
@@ -45,7 +45,7 @@
       align-items: center;
       justify-content: center;
     }
-  
+
     &__title-container {
       font-size: 2rem;
       font-weight: bold;
@@ -54,11 +54,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-  
+
       &__title {
         color: #fff;
+        font-size: 1.8rem;
+        font-weight: 600;
+        
+        span{
+          font-size: 2.4rem;
+        }
       }
-  
+
       &__button {
         border: none;
         background-color: #ffffff;
@@ -73,17 +79,17 @@
         align-items: center;
         flex-wrap: nowrap;
         gap: 1rem;
-  
-        span{
+
+        span {
           font-size: 2rem;
         }
-  
+
         &:hover {
           transform: scale(1.15);
         }
       }
     }
-  
+
     &__table-container {
       padding: 2rem 3rem 2rem;
     }
