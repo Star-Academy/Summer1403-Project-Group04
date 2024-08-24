@@ -15,9 +15,8 @@ describe('BreadCrumpComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BreadCrumpComponent],
-      providers: [ { provide: ActivatedRoute, useValue: mockActivatedRoute },]
-    })
-    .compileComponents();
+      providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BreadCrumpComponent);
     component = fixture.componentInstance;
