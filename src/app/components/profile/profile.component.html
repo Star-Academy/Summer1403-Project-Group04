@@ -1,31 +1,47 @@
-<div class="profile-container">
-  <div class="profile-container__detail">
-    <div class="profile-container__detail__avatar">
-      <img src="/profile/profile.svg" alt="avatar" />
-    </div>
-    <div class="profile-container__detail__info">
-      <h2 class="profile-container__detail__info__name">
-        {{ userData.firstName[0]?.toUpperCase()
-        }}{{ userData.firstName.slice(1) }}
-        {{ userData.lastName[0]?.toUpperCase()
-        }}{{ userData.lastName.slice(1) }}
-      </h2>
-      <p class="profile-container__detail__info__role">
-        {{ userData.roles[0] }}
+<div class="container">
+  <app-bread-crump></app-bread-crump>
+  <div class="container__description">
+      <h1 class="container__description__title">User Profile</h1>
+      <p class="container__description__text">
+        Here, you can view and update your personal information and customize your preferences
       </p>
     </div>
-    <div class="profile-container__detail__edit">
-      <button
-        class="profile-container__detail__edit__button"
-        routerLink="/dashboard/profile/edit-your-profile"
-      >
-        <img
-          class="profile-container__detail__edit__button__icon"
-          src="/profile/edit.svg"
-          alt="edit"
-        />
-        <p class="profile-container__detail__edit__button__text">Edit</p>
-      </button>
+  <div class="container__profile-container">
+    <div class="container__profile-container__img-container">
+      <img
+        src="https://img.freepik.com/premium-vector/minimal-technology-wallpaper-with-neural-networks-connection-con_262424-749.jpg?w=1380"
+        alt="aks"
+      />
+    </div>
+    <div class="">
+      <nz-avatar nzIcon="user" class="container__profile-container__avatar" routerLink="/dashboard/profile"></nz-avatar>
+    </div>
+    <main class="container__profile-container__main">
+      <div class="container__profile-container__main__header">
+        <div class="container__profile-container__main__header__left">
+          <h3 nz-typography>{{ userData.firstName }} {{ userData.lastName }}</h3>
+          <div class="container__profile-container__main__header__left__tags">
+            <ng-container *ngFor="let role of userData.roles">
+              <nz-tag [nzColor]="getRoleColor(role)">{{ role }}</nz-tag>
+            </ng-container>
+          </div>
+        </div>
+      <button nz-button class="container__profile-container__main__header__btn" routerLink="/dashboard/profile/edit-your-profile">
+          <span nz-icon nzType="edit" nzTheme="outline"></span>Edit
+        </button>
+      </div>
+    </main>
+    <nz-divider></nz-divider>
+    <div class="container__profile-container__content">
+      <nz-descriptions nzTitle="User Info">
+        <nz-descriptions-item nzTitle="UserName">{{ userData.username }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Email">{{ userData.email }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Live">{{ fakeShit('country') }}, {{ fakeShit('city') }} </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Telephone">{{ fakeShit('tel') }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Address">
+          {{ fakeShit('address') }}
+        </nz-descriptions-item>
+      </nz-descriptions>
     </div>
   </div>
 </div>
