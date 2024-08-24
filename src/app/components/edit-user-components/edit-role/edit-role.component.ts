@@ -41,7 +41,7 @@ export class EditRoleComponent implements OnChanges {
     private notificationService: NotificationService
   ) {
     this.roleForm = this.fb.group({
-      roles: ['', [Validators.required, Validators.minLength(1)]]
+      roles: ['', [Validators.required, Validators.minLength(1)]],
     });
 
     this.userService.getRoles().subscribe({
@@ -75,11 +75,7 @@ export class EditRoleComponent implements OnChanges {
     if (this.roleForm.valid) {
       this.userService.updateRole(this.roleForm.value.roles, this.userData ? this.userData.id : 0).subscribe({
         next: (response) => {
-          if (response.message === 'User roles updated successfuly!') {
-            this.notificationService.createNotification('success', 'Success', response.message);
-          } else {
-            this.notificationService.createNotification('error', 'Error Updating Role', response.message);
-          }
+          this.notificationService.createNotification('success', 'Success', response.message);
         },
         error: (error: HttpErrorResponse) => {
           let errorMessage = 'An unexpected error occurred';

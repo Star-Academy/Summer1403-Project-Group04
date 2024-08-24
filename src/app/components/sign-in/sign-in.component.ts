@@ -1,10 +1,5 @@
 import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 import { LoginService } from '../../services/login/login.service';
@@ -57,20 +52,8 @@ export class SignInComponent {
 
       this.loginService.login(username, password).subscribe({
         next: (response: loginResponse) => {
-          if (response.message === 'Login was successful!') {
-            this.notificationService.createNotification(
-              'success',
-              'Successful Login',
-              response.message
-            );
-            setTimeout(() => this.router.navigate(['/dashboard']), 2000);
-          } else {
-            this.notificationService.createNotification(
-              'error',
-              'Login Failed',
-              response.message
-            );
-          }
+          this.notificationService.createNotification('success', 'Successful Login', response.message);
+          setTimeout(() => this.router.navigate(['/dashboard']), 1000);
         },
         error: (error: HttpErrorResponse) => {
           let errorMessage = 'An unexpected error occurred';
@@ -80,11 +63,7 @@ export class SignInComponent {
             errorMessage = 'Bad Request: Please check your input';
           }
 
-          this.notificationService.createNotification(
-            'error',
-            'Login Failed',
-            errorMessage
-          );
+          this.notificationService.createNotification('error', 'Login Failed', errorMessage);
         },
       });
     } else {

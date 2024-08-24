@@ -8,7 +8,7 @@ import { UserService } from '../../../services/user/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { InputComponent } from "../../input/input.component";
+import { InputComponent } from '../../input/input.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { formInput } from '../../../models/form-input';
 
@@ -85,14 +85,9 @@ export class EditProfileComponent implements OnChanges, OnInit {
   private handleUpdateProfile() {
     this.userService.updateUser(null, this.userForm, this.isUpdatingProfile).subscribe({
       next: (response) => {
-        if (response.message === 'User updated successfully!') {
-          const successMessage = 'Success';
-          this.notificationService.createNotification('success', successMessage, response.message);
-          this.logout();
-        } else {
-          const errorMessage = this.isUpdatingProfile ? 'Error Updating Profile' : 'Error Updating User';
-          this.notificationService.createNotification('error', errorMessage, response.message);
-        }
+        const successMessage = 'Success';
+        this.notificationService.createNotification('success', successMessage, response.message);
+        this.logout();
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = 'An unexpected error occurred';
@@ -110,13 +105,8 @@ export class EditProfileComponent implements OnChanges, OnInit {
   private handleUpdateUser() {
     this.userService.updateUser(this.userData.id, this.userForm, this.isUpdatingProfile).subscribe({
       next: (response) => {
-        if (response.message === 'User updated successfully!') {
-          const successMessage = 'Success';
-          this.notificationService.createNotification('success', successMessage, response.message);
-        } else {
-          const errorMessage = 'Error Updating User';
-          this.notificationService.createNotification('error', errorMessage, response.message);
-        }
+        const successMessage = 'Success';
+        this.notificationService.createNotification('success', successMessage, response.message);
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = 'An unexpected error occurred';

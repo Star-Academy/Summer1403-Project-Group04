@@ -104,7 +104,7 @@ export class AddUserComponent {
         response.map((role) => {
           temp.push({ label: role, value: role });
         });
-        
+
         this.formControls.forEach((control) => {
           if (control.name === 'roles') {
             control.options = temp;
@@ -134,11 +134,7 @@ export class AddUserComponent {
     }
     this.userService.addUser(this.userForm).subscribe({
       next: (response) => {
-        if (response.message === 'User Created Successfuly!') {
-          this.notificationService.createNotification('success', 'User Created Successfully', response.message);
-        } else {
-          this.notificationService.createNotification('error', 'Error Creating User', response.message);
-        }
+        this.notificationService.createNotification('success', 'User Created Successfully', response.message);
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = 'An unexpected error occurred';
