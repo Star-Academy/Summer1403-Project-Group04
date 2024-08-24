@@ -3,29 +3,29 @@ import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdow
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserData } from '../../models/user-data';
 import { UserService } from '../../services/user/user.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { NotificationService } from '../../services/notification/notification.service';
 
 @Component({
   selector: 'app-dashboard-navbar',
   standalone: true,
   imports: [NzDropdownMenuComponent, NzDropDownModule, NzIconModule, RouterLink],
   templateUrl: './dashboard-navbar.component.html',
-  styleUrl: './dashboard-navbar.component.scss'
+  styleUrl: './dashboard-navbar.component.scss',
 })
 export class DashboardNavbarComponent implements OnInit {
   @Output() toggle = new EventEmitter();
   private isCollapsed = false;
-  protected userData: UserData = {
+  public userData: UserData = {
     id: 0,
-    username: "",
-    email: "",
-    firstName: "",
-    lastName: "",
-    roles: []
+    username: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    roles: [],
   };
 
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService, private notificationService: NotificationService, private router: Router) {}
 
   ngOnInit() {
     this.userService.userData$.subscribe((userData) => {
@@ -36,5 +36,19 @@ export class DashboardNavbarComponent implements OnInit {
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
     this.toggle.emit(this.isCollapsed);
+  }
+
+  logout() {
+    this.userService.logout().subscribe({
+      next: (response) => {
+        this.notificationService.createNotification('success', 'Success', response.message);
+
+        setTimeout(() => this.router.navigate(['/']), 2000);
+      },
+    });
+  }
+
+  setUserData(data: UserData) {
+    this.userData = data;
   }
 }

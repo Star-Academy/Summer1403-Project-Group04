@@ -28,7 +28,13 @@
             <i nz-icon nzType="setting" nzTheme="outline"></i>
           </li>
           <li nz-menu-divider class="navbar__right__custom-menu__list__divider"></li>
-          <li nz-menu-item class="navbar__right__custom-menu__list__item">
+          <li 
+          nz-menu-item 
+          class="navbar__right__custom-menu__list__item" 
+          (click)="logout()" 
+          (keydown.enter)="logout()" 
+          (keydown.space)="logout()"
+          tabindex="0">
             <span>Sign Out</span>
             <img class="sidebar-logo__profile-container__name__icon" src="/logout.svg" alt="logout" />
           </li>
