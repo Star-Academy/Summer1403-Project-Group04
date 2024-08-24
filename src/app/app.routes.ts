@@ -7,6 +7,7 @@ import { DashboardGuardService } from './services/gaurds/dashboard-guard/dashboa
 import { EditUserComponent } from './components/edit-user-components/edit-user/edit-user.component';
 import { ManageUsersGuardService } from './services/gaurds/manage-users/manage-users-guard.service';
 import { LandingComponent } from './page/landing/landing.component';
+import { DashboardContentComponent } from './components/dashboard-content/dashboard-content.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     children: [
+      {path: '' , component: DashboardContentComponent},
       {
         path: 'profile',
         component: ProfileComponent,

@@ -1,0 +1,42 @@
+<div class="container">
+  <app-bread-crump></app-bread-crump>
+  <div class="container__description">
+    <h1 class="container__description__title">Dashboard</h1>
+    <p class="container__description__text">
+      Here, you can view key metrics, monitor your progress, and access important insights.
+    </p>
+  </div>
+  <main class="container__main">
+    <div class="container__main__content-container">
+      <div class="container__main__content-container__title-container">
+        <h1 class="container__main__content-container__title-container__title">
+          <span nz-icon nzType="comment" nzTheme="outline"></span> Comments
+        </h1>
+      </div>
+      <div class="container__main__content-container__comments">
+        @for (comment of commentList; track comment) {
+        <nz-comment class="container__main__content-container__comments__comment" [nzAuthor]="comment.name">
+          <nz-avatar
+            nz-comment-avatar
+            nzIcon="user"
+            nzSrc="{{comment.img}}"
+          ></nz-avatar>
+          <nz-comment-content>
+            <p>{{comment.comment}}</p>
+          </nz-comment-content>
+          <nz-comment-action>
+            <span nz-tooltip nzTitle="Like" nz-icon nzType="like"></span>
+            <span class="count like">{{comment.likes}}</span>
+          </nz-comment-action>
+          <nz-comment-action>
+            <span nz-tooltip nzTitle="Dislike" nz-icon nzType="dislike"></span>
+            <span class="count dislike">{{comment.dislikes}}</span>
+          </nz-comment-action>
+          <nz-comment-action>Reply to</nz-comment-action>
+        </nz-comment>
+        <nz-divider></nz-divider>
+        }
+      </div>
+    </div>
+  </main>
+</div>
