@@ -123,7 +123,7 @@ export class UserService {
     return this.http.get<string[]>(apiUrl, { headers, withCredentials: true });
   }
 
-  logout() {
+  logout(): Observable<loginResponse> {
     const apiUrl = `${this.URL}/api/User/logout`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

@@ -16,7 +16,7 @@ import { NotificationService } from '../../services/notification/notification.se
 export class DashboardNavbarComponent implements OnInit {
   @Output() toggle = new EventEmitter();
   private isCollapsed = false;
-  protected userData: UserData = {
+  public userData: UserData = {
     id: 0,
     username: '',
     email: '',
@@ -46,7 +46,6 @@ export class DashboardNavbarComponent implements OnInit {
     this.userService.logout().subscribe({
       next: (response) => {
         this.notificationService.createNotification('success', 'Success', response.message);
-
         setTimeout(() => {
           this.router.navigate(['/']);
         }, 2000);
