@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UsersTableComponent } from './users-table.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
-import { UserAddOutline } from '@ant-design/icons-angular/icons';
+import { TeamOutline, UserAddOutline } from '@ant-design/icons-angular/icons';
 import { provideHttpClient } from '@angular/common/http';
 
 describe('UsersTableComponent', () => {
@@ -17,7 +17,7 @@ describe('UsersTableComponent', () => {
         provideHttpClient(),
         {
           provide: NZ_ICONS,
-          useValue: [UserAddOutline]
+          useValue: [UserAddOutline, TeamOutline]
         }
       ]
     })

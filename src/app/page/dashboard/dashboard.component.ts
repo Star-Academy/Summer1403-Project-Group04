@@ -9,6 +9,7 @@ import { SignInComponent } from "../../components/sign-in/sign-in.component";
 import { AuthComponent } from "../auth/auth.component";
 import { UsersTableComponent } from "../../components/manage-users-components/users-table/users-table.component";
 import { DashboardNavbarComponent } from "../../components/dashboard-navbar/dashboard-navbar.component";
+import { NavbarComponent } from "../../components/landing-components/navbar/navbar.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,8 @@ import { DashboardNavbarComponent } from "../../components/dashboard-navbar/dash
     SignInComponent,
     AuthComponent,
     UsersTableComponent,
-    DashboardNavbarComponent
+    DashboardNavbarComponent,
+    NavbarComponent
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
