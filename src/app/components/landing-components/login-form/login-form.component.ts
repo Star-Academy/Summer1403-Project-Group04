@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { InputComponent } from '../../input/input.component';
 
 @Component({
   selector: 'app-login-form',
@@ -23,6 +24,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NgIf,
     NzIconModule,
     NzSpinModule,
+    InputComponent,
   ],
   providers: [FormBuilder, Validators],
   templateUrl: './login-form.component.html',
@@ -30,7 +32,6 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 })
 export class LoginFormComponent {
   protected loginForm: FormGroup;
-  protected passwordVisible = false;
   protected onWait = false;
 
   constructor(
@@ -46,31 +47,35 @@ export class LoginFormComponent {
   }
 
   onSubmit() {
-    
     if (this.loginForm.valid) {
       this.onWait = true;
       const { username, password } = this.loginForm.value;
 
-      this.loginService.login(username, password).subscribe({
-        next: (response: loginResponse) => {
-          if (response.message === 'Login was successful!') {
-            this.notificationService.createNotification('success', 'Successful Login', response.message);
-            setTimeout(() => this.router.navigate(['/dashboard']), 2000);
-          } else {
-            this.notificationService.createNotification('error', 'Login Failed', response.message);
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          let errorMessage = 'An unexpected error occurred';
-          if (error.status === 401) {
-            errorMessage = 'Unauthorized: Invalid username or password';
-          } else if (error.status === 400) {
-            errorMessage = 'Bad Request: Please check your input';
-          }
+      this.loginService
+        .login(username, password)
+        .subscribe({
+          next: (response: loginResponse) => {
+            if (response.message === 'Login was successful!') {
+              this.notificationService.createNotification('success', 'Successful Login', response.message);
+              setTimeout(() => this.router.navigate(['/dashboard']), 2000);
+            } else {
+              this.notificationService.createNotification('error', 'Login Failed', response.message);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            let errorMessage = 'An unexpected error occurred';
+            if (error.status === 401) {
+              errorMessage = 'Unauthorized: Invalid username or password';
+            } else if (error.status === 400) {
+              errorMessage = 'Bad Request: Please check your input';
+            }
 
-          this.notificationService.createNotification('error', 'Login Failed', errorMessage);
-        },
-      });
+            this.notificationService.createNotification('error', 'Login Failed', errorMessage);
+          },
+        })
+        .add(() => {
+          this.onWait = false;
+        });
     } else {
       Object.values(this.loginForm.controls).forEach((control) => {
         if (control.invalid) {

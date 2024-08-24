@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
-import { DotChartOutline } from '@ant-design/icons-angular/icons';
+import { DotChartOutline, UsergroupAddOutline } from '@ant-design/icons-angular/icons';
 import { EditRoleComponent } from './edit-role.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
@@ -18,7 +18,7 @@ describe('EditRoleComponent', () => {
         NzIconService,
         {
           provide: NZ_ICONS,
-          useValue: [DotChartOutline],
+          useValue: [DotChartOutline, UsergroupAddOutline],
         },
       ],
     }).compileComponents();

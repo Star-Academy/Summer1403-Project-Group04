@@ -1,60 +1,73 @@
-<div class="content-container">
-  <div class="content-container__title-container">
-    <h1 class="content-container__title-container__title">Users</h1>
-    <button class="content-container__title-container__button" (click)="showModal()">
-      <p>Add</p>
-      <span nz-icon nzType="user-add" nzTheme="outline"></span>
-    </button>
+<div class="container">
+  <div class="container__description">
+    <h1 class="container__description__title">Manage Users</h1>
+    <p class="container__description__text">
+      Here you can manage the users of the platform. You can add, edit and delete users
+    </p>
   </div>
+  <div class="container__content-container">
+    <div class="container__content-container__title-container">
+      <h1 class="container__content-container__title-container__title">Users</h1>
+      <button class="container__content-container__title-container__button" (click)="showModal()">
+        <p>Add</p>
+        <span nz-icon nzType="user-add" nzTheme="outline"></span>
+      </button>
+    </div>
 
-  <app-add-user
-    [isVisible]="isVisible"
-    (handleCancel)="handleCancel()"
-    (handleOk)="handleOk()"
-    (isVisibleChange)="closeModal()"
-  ></app-add-user>
-  <div class="content-container__table-container">
-    <nz-table
-      [nzData]="listOfData"
-      nzShowSizeChanger
-      [nzFrontPagination]="false"
-      [nzLoading]="isLoading"
-      [nzTotal]="total"
-      [nzPageSize]="pageSize"
-      [nzPageIndex]="pageIndex"
-      (nzQueryParams)="onQueryParamsChange($event)"
-    >
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of listOfData">
-          <td>{{ data.firstName }}</td>
-          <td>{{ data.lastName }}</td>
-          <td>{{ data.email }}</td>
-          <td>{{ data.roles?.join(', ') }}</td>
-          <td>
-            <a (click)="editUser(data)" (keyup.enter)="editUser(data)" (keydown.space)="editUser(data)" tabindex="0">
-              <span nz-icon nzType="edit" nzTheme="outline"></span>
-            </a>
-            <nz-divider nzType="vertical"></nz-divider>
-            <a
-              class="table__delete-icon"
-              nz-popconfirm
-              nzPopconfirmTitle="Sure to delete?"
-              (nzOnConfirm)="deleteUser(data)"
-            >
-              <span nz-icon nzType="delete" nzTheme="outline"></span>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+    <app-add-user
+      [isVisible]="isVisible"
+      (handleCancel)="handleCancel()"
+      (handleOk)="handleOk()"
+      (isVisibleChange)="closeModal()"
+    ></app-add-user>
+
+    <div class="container__content-container__table-container">
+      <nz-table
+        [nzData]="listOfData"
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzLoading]="isLoading"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+      >
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of listOfData">
+            <td>{{ data.firstName }}</td>
+            <td>{{ data.lastName }}</td>
+            <td>{{ data.email }}</td>
+            <td>
+              <ng-container *ngFor="let role of data.roles">
+                <nz-tag [nzColor]="getRoleColor(role)">{{ role }}</nz-tag>
+              </ng-container>
+            </td>
+            <td>
+              <a (click)="editUser(data)" (keyup.enter)="editUser(data)" (keydown.space)="editUser(data)" tabindex="0">
+                <span nz-icon nzType="edit" nzTheme="outline"></span>
+              </a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a
+                class="table__delete-icon"
+                nz-popconfirm
+                nzPopconfirmTitle="Sure to delete?"
+                (nzOnConfirm)="deleteUser(data)"
+              >
+                <span nz-icon nzType="delete" nzTheme="outline"></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
   </div>
 </div>

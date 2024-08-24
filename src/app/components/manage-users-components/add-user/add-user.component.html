@@ -8,83 +8,68 @@
   [nzClassName]="'modalClass'"
 >
   <ng-container *nzModalContent>
-    <h2 class="modal-content__title">
-      Please fill in the form below to add a new user
-    </h2>
-    <form
-      [formGroup]="userForm"
-      class="modal-content-form"
-      data-testid="auth-form"
-    >
+    <h2 class="modal-content__title">Please fill in the form below to add a new user</h2>
+    <form [formGroup]="userForm" class="modal-content-form" data-testid="auth-form">
       <ng-container *ngFor="let control of formControls">
-        <div class="modal-content-form__input-container">
-          <div class="modal-content-form__input-container__label-group">
-            <p class="modal-content-form__input-container__label">
-              {{ control.placeholder }}
-            </p>
-            <p
-              *ngIf="
-                userForm.get(control.name)?.touched &&
-                userForm.get(control.name)?.invalid
-              "
-              class="modal-content-form__input-container__error-container"
-            >
-              <span
-                *ngIf="userForm.get(control.name)?.hasError('required')"
-                class="modal-content-form__input-container__error-container__error"
-              >
-                *required
-              </span>
-              <span
-                *ngIf="userForm.get(control.name)?.hasError('minlength')"
-                class="modal-content-form__input-container__error-container__error"
-              >
-                *at least {{ control.minLength }} characters
-              </span>
-              <span
-                *ngIf="userForm.get(control.name)?.hasError('email')"
-                class="modal-content-form__input-container__error-container__error"
-              >
-                *invalid email
-              </span>
-            </p>
+        <app-input
+          [formControlName]="control.name"
+          [type]="control.type"
+          [placeholder]="control.placeholder"
+          [errorTip]="getErrorTip(control)"
+          [prefixIcon]="control.prefixIcon"
+          [options]="control.options ? control.options : []"
+          (tagChange)="onTagChange($event)"
+          [listOfTagOptions]="listOfTagOptions"
+        ></app-input>
+        <div *ngIf="control.name === 'password'" class="password-validation">
+          <div class="password-validation__validation-item">
+            <i
+              nz-icon
+              [nzType]="passwordValidation.hasDigit ? 'check' : 'close'"
+              [ngStyle]="{ color: passwordValidation.hasDigit ? '#52c41a' : '#ff4d4f' }"
+            ></i>
+            <span>{{ passwordValidationMessages.hasDigit }}</span>
           </div>
-          @if (control.name === 'roles') {
-          <nz-select
-            [formControlName]="control.name"
-            class="modal-content-form__input-container__select"
-            [ngClass]="{
-              'modal-content-form__input-container__select--invalid':
-                userForm.get(control.name)?.invalid &&
-                userForm.get(control.name)?.touched,
-              'modal-content-form__input-container__select--default':
-                !userForm.get(control.name)?.touched,
-              shake: isSubmitted && userForm.get(control.name)?.invalid
-            }"
-            nzMode="tags"
-            [(ngModel)]="listOfTagOptions"
-          >
-            <nz-option
-              *ngFor="let option of listOfOption"
-              [nzLabel]="option.label"
-              [nzValue]="option.value"
-            ></nz-option>
-          </nz-select>
-          } @else {
-          <input
-            [type]="control.type"
-            [formControlName]="control.name"
-            class="modal-content-form__input-container__input"
-            [ngClass]="{
-              'modal-content-form__input-container__input--invalid':
-                userForm.get(control.name)?.invalid &&
-                userForm.get(control.name)?.touched,
-              'modal-content-form__input-container__input--default':
-                !userForm.get(control.name)?.touched,
-              shake: isSubmitted && userForm.get(control.name)?.invalid
-            }"
-          />
-          }
+          <div class="password-validation__validation-item">
+            <i
+              nz-icon
+              [nzType]="passwordValidation.hasLowercase ? 'check' : 'close'"
+              [ngStyle]="{ color: passwordValidation.hasLowercase ? '#52c41a' : '#ff4d4f' }"
+            ></i>
+            <span>{{ passwordValidationMessages.hasLowercase }}</span>
+          </div>
+          <div class="password-validation__validation-item">
+            <i
+              nz-icon
+              [nzType]="passwordValidation.hasUppercase ? 'check' : 'close'"
+              [ngStyle]="{ color: passwordValidation.hasUppercase ? '#52c41a' : '#ff4d4f' }"
+            ></i>
+            <span>{{ passwordValidationMessages.hasUppercase }}</span>
+          </div>
+          <div class="password-validation__validation-item">
+            <i
+              nz-icon
+              [nzType]="passwordValidation.hasSpecialChar ? 'check' : 'close'"
+              [ngStyle]="{ color: passwordValidation.hasSpecialChar ? '#52c41a' : '#ff4d4f' }"
+            ></i>
+            <span>{{ passwordValidationMessages.hasSpecialChar }}</span>
+          </div>
+          <div class="password-validation__validation-item">
+            <i
+              nz-icon
+              [nzType]="passwordValidation.hasNoSpaces ? 'check' : 'close'"
+              [ngStyle]="{ color: passwordValidation.hasNoSpaces ? '#52c41a' : '#ff4d4f' }"
+            ></i>
+            <span>{{ passwordValidationMessages.hasNoSpaces }}</span>
+          </div>
+          <div class="password-validation__validation-item">
+            <i
+              nz-icon
+              [nzType]="passwordValidation.hasValidLength ? 'check' : 'close'"
+              [ngStyle]="{ color: passwordValidation.hasValidLength ? '#52c41a' : '#ff4d4f' }"
+            ></i>
+            <span>{{ passwordValidationMessages.hasValidLength }}</span>
+          </div>
         </div>
       </ng-container>
     </form>

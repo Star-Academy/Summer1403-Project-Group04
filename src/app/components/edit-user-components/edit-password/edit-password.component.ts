@@ -9,17 +9,29 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgIf, NgFor, NgClass, CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { formControl } from '../../../models/form-control';
+import { InputComponent } from '../../input/input.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { formInput } from '../../../models/form-input';
 
 @Component({
   selector: 'app-edit-password',
   standalone: true,
-  imports: [NzModalModule, NgIf, NgFor, NgClass, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    NzIconModule,
+    NzModalModule,
+    NgIf,
+    NgFor,
+    NgClass,
+    ReactiveFormsModule,
+    FormsModule,
+    InputComponent,
+  ],
   providers: [FormBuilder, Validators],
   templateUrl: './edit-password.component.html',
   styleUrl: './edit-password.component.scss',
@@ -29,11 +41,35 @@ export class EditPasswordComponent implements OnInit {
   protected isSubmitted = false;
   protected isUpdatingProfile = false;
   private userID = 0;
-  protected formControls: formControl[] = [
-    { name: 'oldpassword', type: 'password', placeholder: 'Current Password', minLength: 4 },
-    { name: 'newpassword', type: 'password', placeholder: 'New Password', minLength: 4 },
-    { name: 'confirmPassword', type: 'password', placeholder: 'Confirm New Password', minLength: 4 },
+  protected formControls = [
+    { name: 'oldpassword', type: 'password', placeholder: 'Current Password', minLength: 4, prefixIcon: 'lock' },
+    { name: 'newpassword', type: 'password', placeholder: 'New Password', minLength: 1, prefixIcon: 'key' },
+    {
+      name: 'confirmPassword',
+      type: 'password',
+      placeholder: 'Confirm New Password',
+      minLength: 1,
+      prefixIcon: 'check-circle',
+    },
   ];
+
+  protected passwordValidationMessages = {
+    hasDigit: 'Must contain at least one digit (1-9)',
+    hasLowercase: 'Must contain at least one lowercase letter (a-z)',
+    hasUppercase: 'Must contain at least one uppercase letter (A-Z)',
+    hasSpecialChar: 'Must contain at least one special character (!@#$%^&*)',
+    hasNoSpaces: 'Must not contain spaces',
+    hasValidLength: 'Must be 8-16 characters long',
+  };
+
+  protected passwordValidation = {
+    hasDigit: false,
+    hasLowercase: false,
+    hasUppercase: false,
+    hasSpecialChar: false,
+    hasNoSpaces: false,
+    hasValidLength: false,
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -50,9 +86,16 @@ export class EditPasswordComponent implements OnInit {
 
   private initializePasswordForm(): void {
     this.passwordForm = this.fb.group({
-      oldpassword: ['', [Validators.required, Validators.minLength(4)]],
-      newpassword: ['', [Validators.required, Validators.minLength(4)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(4), this.matchPassword('newpassword')]],
+      oldpassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      newpassword: [
+        '',
+        [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])(?!.*\s).{8,16}$/)],
+      ],
+      confirmPassword: ['', [Validators.required, this.matchPassword('newpassword')]],
+    });
+
+    this.passwordForm.get('newpassword')?.valueChanges.subscribe((password) => {
+      this.updatePasswordValidation(password);
     });
   }
 
@@ -69,7 +112,7 @@ export class EditPasswordComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  protected onSubmit() {
     this.isSubmitted = true;
     if (this.passwordForm.valid) {
       if (this.isUpdatingProfile) {
@@ -137,5 +180,50 @@ export class EditPasswordComponent implements OnInit {
       }
       return null;
     };
+  }
+
+  protected getErrorTip(control: formInput): string {
+    const formControl = this.passwordForm.get(control.name);
+
+    if (control.name === 'newpassword') {
+      return '';
+    }
+
+    if (formControl?.touched && formControl?.invalid) {
+      if (formControl.hasError('required')) {
+        return '*required';
+      }
+      if (formControl.hasError('minlength')) {
+        return `*at least ${control.minLength} characters`;
+      }
+      if (formControl.hasError('maxlength')) {
+        return `*at most ${control.minLength} characters`;
+      }
+      if (formControl.hasError('mismatch')) {
+        return '*passwords do not match';
+      }
+    }
+
+    return '';
+  }
+
+  protected updatePasswordValidation(password: string) {
+    this.passwordValidation = this.getPasswordValidationStatus(password);
+  }
+
+  protected getPasswordValidationStatus(password: string) {
+    return {
+      hasDigit: /\d/.test(password),
+      hasLowercase: /[a-z]/.test(password),
+      hasUppercase: /[A-Z]/.test(password),
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+      hasNoSpaces: !/\s/.test(password),
+      hasValidLength: password.length >= 8 && password.length <= 16,
+    };
+  }
+
+  protected isPasswordValid() {
+    const passwordControl = this.passwordForm.get('newpassword');
+    return passwordControl?.valid && passwordControl?.touched;
   }
 }

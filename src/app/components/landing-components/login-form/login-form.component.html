@@ -2,37 +2,21 @@
   <div class="login__container">
     <h1 class="login__container__header">Login</h1>
     <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__container__form">
-      <nz-form-item>
-        <nz-form-control nzErrorTip="*Required">
-          <nz-input-group nzPrefixIcon="user">
-            <input type="text" nz-input formControlName="username" placeholder="Enter your username" />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
+      <app-input
+        formControlName="username"
+        type="text"
+        placeholder="Enter your username"
+        prefixIcon="user"
+        errorTip="*Required"
+      ></app-input>
 
-      <nz-form-item>
-        <nz-form-control nzErrorTip="*Required">
-          <nz-input-group nzPrefixIcon="lock">
-            <input
-              [type]="passwordVisible ? 'text' : 'password'"
-              nz-input
-              formControlName="password"
-              placeholder="Enter your password"
-            />
-            <span
-              nz-icon
-              [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-              class="toggle-password-visibility"
-              (click)="passwordVisible = !passwordVisible"
-              (keydown.enter)="passwordVisible = !passwordVisible"
-              tabindex="0"
-              role="button"
-              aria-label="Toggle password visibility"
-              style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%)"
-            ></span>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
+      <app-input
+        formControlName="password"
+        type="password"
+        placeholder="Enter your password"
+        prefixIcon="lock"
+        errorTip="*Required"
+      ></app-input>
 
       <div class="login__container__form__forgot-password">
         <p>Forgot password?</p>

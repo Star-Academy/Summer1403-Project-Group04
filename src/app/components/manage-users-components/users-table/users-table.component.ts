@@ -10,6 +10,7 @@ import { NzPaginationComponent } from 'ng-zorro-antd/pagination';
 import { UserService } from '../../../services/user/user.service';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { Router } from '@angular/router';
+import { NzTagComponent } from 'ng-zorro-antd/tag';
 
 @Component({
   selector: 'app-users-table',
@@ -22,6 +23,7 @@ import { Router } from '@angular/router';
     NzIconModule,
     AddUserComponent,
     NzPaginationComponent,
+    NzTagComponent,
   ],
   templateUrl: './users-table.component.html',
   styleUrl: './users-table.component.scss',
@@ -35,11 +37,7 @@ export class UsersTableComponent implements OnInit {
   protected currentPage = 1;
   protected total = 10;
 
-  constructor(
-    private userService: UserService,
-    private notification: NotificationService,
-    private route: Router
-  ) {}
+  constructor(private userService: UserService, private notification: NotificationService, private route: Router) {}
 
   ngOnInit(): void {
     this.loadDataFromServer(this.pageIndex - 1, this.pageSize);
@@ -87,18 +85,14 @@ export class UsersTableComponent implements OnInit {
   }
 
   protected editUser(user: UserData): void {
-    this.route.navigate([`/dashboard/manage-users/edit`] , {queryParams : {'id' : user.id}});
+    this.route.navigate([`/dashboard/manage-users/edit`], { queryParams: { id: user.id } });
   }
 
   protected deleteUser(user: UserData): void {
     this.userService.deleteUser(user.id).subscribe({
       next: (response) => {
         if (response && response.message === 'User Deleted successfully!') {
-          this.notification.createNotification(
-            'success',
-            'User deleted',
-            `User ${user.username} has been deleted`
-          );
+          this.notification.createNotification('success', 'User deleted', `User ${user.username} has been deleted`);
           this.loadDataFromServer(0, 10);
         } else {
           this.notification.createNotification(
@@ -117,5 +111,18 @@ export class UsersTableComponent implements OnInit {
         );
       },
     });
+  }
+
+  protected getRoleColor(role: string): string {
+    switch (role) {
+      case 'Admin':
+        return 'green';
+      case 'DataAdmin':
+        return 'orange';
+      case 'DataAnalyst':
+        return 'blue';
+      default:
+        return 'default';
+    }
   }
 }
