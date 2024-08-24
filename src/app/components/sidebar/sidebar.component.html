@@ -20,7 +20,7 @@
       <nz-avatar nzIcon="user" class="sidebar-logo__profile-container__image" routerLink="/dashboard/profile"></nz-avatar>
       <span class="sidebar-logo__profile-container__name">
         <p class="sidebar-logo__profile-container__name__text" routerLink="/dashboard/profile">
-          {{ userData.firstName[0]!.toUpperCase() }}. {{ userData.lastName[0]!.toUpperCase()
+          {{ userData.firstName[0]?.toUpperCase() }}. {{ userData.lastName[0]?.toUpperCase()
           }}{{ userData.lastName.slice(1) }}
         </p>
         <img class="sidebar-logo__profile-container__name__icon" src="/logout.svg" alt="logout" />

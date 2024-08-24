@@ -11,7 +11,8 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerComponent } from 'ng-zorro-antd/divider';
-import { faker, Faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
+import { getRoleColor } from '../../models/role-color';
 
 @Component({
   selector: 'app-profile',
@@ -43,41 +44,33 @@ export class ProfileComponent implements OnInit {
     roles: [],
   };
 
+  protected fakeData = {
+    country: '',
+    city: '',
+    tel: '',
+    address: '',
+  };
+
   constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.userService.userData$.subscribe((userData) => {
       this.userData = userData;
     });
+
+    this.generateFakeData();
   }
+
+  protected generateFakeData() {
+    this.fakeData = {
+      country: faker.location.country(),
+      city: faker.location.city(),
+      tel: faker.phone.number(),
+      address: `${faker.location.street()}, ${faker.location.city()}, ${faker.location.state()}, ${faker.location.zipCode()}`,
+    };
+  }
+
   protected getRoleColor(role: string): string {
-    switch (role) {
-      case 'Admin':
-        return 'green';
-      case 'DataAdmin':
-        return 'orange';
-      case 'DataAnalyst':
-        return 'blue';
-      default:
-        return 'default';
-    }
-  }
-
-  fakeShit(type: string) {
-    switch (type) {
-      case 'city':
-        return faker.location.city();
-      case 'country':
-        return faker.location.country();
-
-      case 'tel':
-        return faker.phone.number();
-
-      case 'address':
-        return `${faker.location.street()}, ${faker.location.city()}, ${faker.location.state()}, ${faker.location.zipCode()}`;
-
-      default:
-        return '';
-    }
+    return getRoleColor(role);
   }
 }

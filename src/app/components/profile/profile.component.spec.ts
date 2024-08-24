@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
 import { ProfileComponent } from './profile.component';
 import { provideHttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user/user.service';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { UserOutline } from '@ant-design/icons-angular/icons';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -16,27 +18,29 @@ describe('ProfileComponent', () => {
       email: 'testuser@example.com',
       firstName: 'Test',
       lastName: 'User',
-      roles: ['user']
-    })
+      roles: ['user'],
+    }),
   };
 
   const mockActivatedRoute = {
     params: of({ id: 1 }),
-    snapshot: { params: { id: 1 } }
+    snapshot: { params: { id: 1 } },
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        ProfileComponent
-      ],
+      imports: [ProfileComponent],
       providers: [
         provideHttpClient,
+        NzIconService,
+        {
+          provide: NZ_ICONS,
+          useValue: [UserOutline],
+        },
         { provide: UserService, useValue: mockUserService },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute }
-      ]
-    })
-    .compileComponents();
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
