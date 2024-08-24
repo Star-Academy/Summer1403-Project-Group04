@@ -12,6 +12,7 @@ import { NotificationService } from '../../../services/notification/notification
 import { Router } from '@angular/router';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { BreadCrumpComponent } from "../../bread-crump/bread-crump.component";
+import { getRoleColor } from '../../../models/role-color';
 
 @Component({
   selector: 'app-users-table',
@@ -116,15 +117,6 @@ export class UsersTableComponent implements OnInit {
   }
 
   protected getRoleColor(role: string): string {
-    switch (role) {
-      case 'Admin':
-        return 'green';
-      case 'DataAdmin':
-        return 'orange';
-      case 'DataAnalyst':
-        return 'blue';
-      default:
-        return 'default';
-    }
+    return getRoleColor(role);
   }
 }
