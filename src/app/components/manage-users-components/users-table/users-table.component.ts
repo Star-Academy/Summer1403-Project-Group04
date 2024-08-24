@@ -93,7 +93,7 @@ export class UsersTableComponent implements OnInit {
 
   protected deleteUser(user: UserData): void {
     this.userService.deleteUser(user.id).subscribe({
-      next: (response) => {
+      next: () => {
         this.notification.createNotification('success', 'User deleted', `User ${user.username} has been deleted`);
         this.loadDataFromServer(0, 10);
       },

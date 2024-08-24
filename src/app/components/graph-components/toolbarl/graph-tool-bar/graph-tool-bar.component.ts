@@ -7,13 +7,25 @@ import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { LayoutsComponent } from '../toolbar-components/layouts/layouts.component';
-import { UploadComponentsComponent } from "../toolbar-components/upload-component/upload-layout/upload-components.component";
+import { UploadComponentsComponent } from '../toolbar-components/upload-component/upload-layout/upload-components.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-graph-tool-bar',
   standalone: true,
-  imports: [NzIconModule, NgClass, NzToolTipModule, NzFlexModule, NzButtonModule, NzPopoverModule, LayoutsComponent, UploadComponentsComponent , NzSwitchModule],
+  imports: [
+    RouterLink,
+    NzIconModule,
+    NgClass,
+    NzToolTipModule,
+    NzFlexModule,
+    NzButtonModule,
+    NzPopoverModule,
+    LayoutsComponent,
+    UploadComponentsComponent,
+    NzSwitchModule,
+  ],
   providers: [],
   templateUrl: './graph-tool-bar.component.html',
   styleUrl: './graph-tool-bar.component.scss',

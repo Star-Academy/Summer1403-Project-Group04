@@ -11,15 +11,21 @@ import {
   SyncOutline,
   UserOutline,
   FullscreenOutline,
-  FilterOutline ,
-  SettingOutline ,
-  GithubOutline 
+  FilterOutline,
+  SettingOutline,
+  GithubOutline,
 } from '@ant-design/icons-angular/icons';
-
+import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 describe('GraphToolBarComponent', () => {
   let component: GraphToolBarComponent;
   let fixture: ComponentFixture<GraphToolBarComponent>;
+
+  const mockActivatedRoute = {
+    params: of({ id: 1 }),
+    snapshot: { params: { id: 1 } },
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -37,14 +43,14 @@ describe('GraphToolBarComponent', () => {
             SyncOutline,
             UserOutline,
             FullscreenOutline,
-            FilterOutline ,
-            SettingOutline ,
-            GithubOutline 
+            FilterOutline,
+            SettingOutline,
+            GithubOutline,
           ],
         },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GraphToolBarComponent);
     component = fixture.componentInstance;

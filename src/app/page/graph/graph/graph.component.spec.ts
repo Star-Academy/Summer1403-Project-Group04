@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { GraphComponent } from './graph.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
+
 import {
   ProjectOutline,
   NodeIndexOutline,
@@ -16,10 +16,17 @@ import {
   SettingOutline,
   GithubOutline,
 } from '@ant-design/icons-angular/icons';
+import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 describe('GraphComponent', () => {
   let component: GraphComponent;
   let fixture: ComponentFixture<GraphComponent>;
+
+  const mockActivatedRoute = {
+    params: of({ id: 1 }),
+    snapshot: { params: { id: 1 } },
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -43,6 +50,7 @@ describe('GraphComponent', () => {
             GithubOutline,
           ],
         },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 

@@ -1,26 +1,24 @@
 <div nz-flex [nzVertical]="true" class="toolbar-container">
-
-  <button nzType="default" title="Negar" type="button" class="toolbar-container__logo">
-    <span nz-icon nzType="node-index" nzTheme="outline"></span>
+  <button nzType="default" title="Negar" type="button" class="toolbar-container__logo" routerLink="/dashboard">
+    <img class="sidebar-logo__title-container__title__logo__img" src="/logo.svg" alt="logo" />
   </button>
 
   <br />
 
   <div nz-flex [nzVertical]="true" class="toolbar-container__btn-container">
-
-      <button
-        nzPopoverTrigger="click"
-        nz-popover
-        nzPopoverTitle="Upload"
-        [nzPopoverContent]="upload"
-        nzPopoverPlacement="right"
-        type="button"
-        class="toolbar-container__btn"
-        [ngClass]="{ active: activeButton === 0 }"
-        (click)="setActiveButton(0)"
-      >
-        <span nz-icon nzType="import" nzTheme="outline"></span>
-      </button>
+    <button
+      nzPopoverTrigger="click"
+      nz-popover
+      nzPopoverTitle="Upload"
+      [nzPopoverContent]="upload"
+      nzPopoverPlacement="right"
+      type="button"
+      class="toolbar-container__btn"
+      [ngClass]="{ active: activeButton === 0 }"
+      (click)="setActiveButton(0)"
+    >
+      <span nz-icon nzType="import" nzTheme="outline"></span>
+    </button>
 
     <button
       nzPopoverTrigger="click"
@@ -51,18 +49,17 @@
     >
       <span nz-icon nzType="setting" nzTheme="outline"></span>
     </button>
-    
   </div>
 
   <div class="grow-div"></div>
 
   <div nz-flex [nzVertical]="true" class="toolbar-container__btn-container">
-
     <button nz-tooltip nzTooltipTitle="Github repo" title="info" type="button" class="toolbar-container__btn">
       <a
         href="https://github.com/Star-Academy/Summer1403-Project-Group04-Frontend"
         target="_blank"
         rel="noopener noreferrer"
+        class="toolbar-container__btn__github"
         ><span nz-icon nzType="github" nzTheme="outline"></span>
       </a>
     </button>
@@ -72,11 +69,10 @@
       type="button"
       class="toolbar-container__btn"
       [ngClass]="{ active: activeButton === 3 }"
-      (click)="setActiveButton(3)"
+      routerLink="/dashboard/profile"
     >
       <span nz-icon nzType="user" nzTheme="outline"></span>
     </button>
-
   </div>
 </div>
 
