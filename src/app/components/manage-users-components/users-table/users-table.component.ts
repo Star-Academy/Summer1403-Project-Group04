@@ -11,6 +11,7 @@ import { UserService } from '../../../services/user/user.service';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { Router } from '@angular/router';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
+import { BreadCrumpComponent } from "../../bread-crump/bread-crump.component";
 
 @Component({
   selector: 'app-users-table',
@@ -24,7 +25,8 @@ import { NzTagComponent } from 'ng-zorro-antd/tag';
     AddUserComponent,
     NzPaginationComponent,
     NzTagComponent,
-  ],
+    BreadCrumpComponent
+],
   templateUrl: './users-table.component.html',
   styleUrl: './users-table.component.scss',
 })
