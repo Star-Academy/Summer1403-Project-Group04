@@ -1,6 +1,6 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
+import {NavigationEnd, Router, RouterLink } from '@angular/router';
 import { NzBreadCrumbComponent, NzBreadCrumbItemComponent } from 'ng-zorro-antd/breadcrumb';
 import { filter } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { filter } from 'rxjs';
   styleUrl: './bread-crump.component.scss',
 })
 export class BreadCrumpComponent implements OnInit {
-  breadcrumbs: Array<{label: string, url: string}> = [];
+  breadcrumbs: {label: string, url: string}[] = [];
 
   constructor(private router: Router) {}
 
