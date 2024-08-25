@@ -9,6 +9,7 @@ import { circular } from 'graphology-layout';
 import { animateNodes } from 'sigma/utils';
 import { Coordinates, EdgeDisplayData, NodeDisplayData, PlainObject } from 'sigma/types';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import sigma from 'sigma';
 
 interface State {
   hoveredNode?: string;
@@ -54,6 +55,8 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement);
     this.sigmaInstance.refresh();
 
+    this.hideAllOtherNodes('0');
+
     // Listen for the circular layout trigger from SigmaService.
     // When it’s triggered, apply the circular layout to the graph.
     // We need this because the button that triggers the layout is in a different component (toolbar).
@@ -67,19 +70,18 @@ export class SigmaComponent implements AfterViewInit {
       this.randomLayout();
     });
 
-    this.sigmaService.searchedNodeOb$.subscribe((node)=>{
-      
+    this.sigmaService.searchedNodeOb$.subscribe((node) => {
       this.state.selectedNode = node;
       const nodePosition = this.sigmaInstance.getNodeDisplayData(node) as Coordinates;
-      
-      this.sigmaInstance.getCamera().animate(nodePosition , { duration: 500});
+
+      this.sigmaInstance.getCamera().animate(nodePosition, { duration: 500 });
       this.nodeSetting();
-    })
+    });
 
     this.updateNodesList(
       this.graph.nodes().map((node) => ({
         id: node,
-        label: this.graph.getNodeAttribute(node, 'label')
+        label: this.graph.getNodeAttribute(node, 'label'),
       }))
     );
 
@@ -103,6 +105,14 @@ export class SigmaComponent implements AfterViewInit {
         }
       );
     });
+
+    this.sigmaInstance.on('doubleClickNode', (event) => {
+      event.preventSigmaDefault();
+      this.expandNode(event.node);
+    });
+    this.sigmaInstance.on('doubleClickStage', (e)=>{
+      e.preventSigmaDefault();
+    })
 
     // Send graph info like the number of nodes and edges to SigmaService.
     // This lets other components that are subscribed to SigmaService display this data.
@@ -130,14 +140,14 @@ export class SigmaComponent implements AfterViewInit {
     });
 
     this.sigmaInstance.on('enterNode', ({ node }) => {
-      this.setHoveredNode(node);
+      // this.setHoveredNode(node);
     });
 
     this.sigmaInstance.on('leaveNode', () => {
       this.setHoveredNode(undefined);
     });
 
-    this.nodeSetting(); 
+    this.nodeSetting();
 
     this.sigmaInstance.setSetting('edgeReducer', (edge, data) => {
       const res: Partial<EdgeDisplayData> = { ...data };
@@ -182,6 +192,7 @@ export class SigmaComponent implements AfterViewInit {
 
   circularLayout() {
     const circularPositions = circular(this.graph, { scale: 100 });
+    console.log(circularPositions);
 
     this.cancelCurrentAnimation = animateNodes(this.graph, circularPositions, {
       duration: 2000,
@@ -190,7 +201,6 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   randomLayout() {
-
     if (this.cancelCurrentAnimation) this.cancelCurrentAnimation();
 
     const xExtents = { min: 0, max: 0 };
@@ -212,6 +222,7 @@ export class SigmaComponent implements AfterViewInit {
         y: Math.random() * (yExtents.max - yExtents.min),
       };
     });
+    console.log(randomPositions);
 
     this.cancelCurrentAnimation = animateNodes(this.graph, randomPositions, { duration: 2000 });
   }
@@ -250,9 +261,6 @@ export class SigmaComponent implements AfterViewInit {
         y: node.y,
         size: node.size,
         color: node.color,
-        age: node.age,
-        job: node.job,
-        bio: node.bio,
       });
     });
   }
@@ -302,18 +310,16 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  updateNodesList(nodes: {id:string, label:string}[]) {    
+  updateNodesList(nodes: { id: string; label: string }[]) {
     this.sigmaService.updateNodesList(nodes);
   }
 
-  nodeSetting(){
+  nodeSetting() {
     this.sigmaInstance.setSetting('nodeReducer', (node, data) => {
-    
-       
       const res: Partial<NodeDisplayData> = { ...data };
       if (this.state.selectedNode === node) {
         res.highlighted = true;
-      } 
+      }
 
       if (this.state.hoveredNeighbors && !this.state.hoveredNeighbors.has(node) && this.state.hoveredNode !== node) {
         res.label = '';
@@ -333,5 +339,49 @@ export class SigmaComponent implements AfterViewInit {
 
       return res;
     });
+  }
+
+  hideAllOtherNodes(id: string) {
+    this.graph.forEachNode((node) => {
+      this.graph.setNodeAttribute(node, 'hidden', true);
+    });
+
+    // this.graph.forEachEdge((edge) => {
+    //   this.graph.setEdgeAttribute(edge, 'hidden', true);
+    // });
+
+    // Make the initial node visible
+    this.graph.setNodeAttribute(id, 'hidden', false);
+
+    // Refresh the renderer
+    this.sigmaInstance.refresh();
+  }
+
+  expandNode(id: string) {
+    const neighbors = this.graph.neighbors(id);
+    const centerX = this.graph.getNodeAttribute(id, 'x');
+    const centerY = this.graph.getNodeAttribute(id, 'y');
+    console.log(`${centerX} , ${centerY}`);
+
+    const newPositions: PlainObject<PlainObject<number>> = {};
+    if (centerX !== undefined && centerY !== undefined) {
+      neighbors.forEach((node, index) => {
+
+        this.graph.setNodeAttribute(node, 'hidden', false);
+        this.graph.setNodeAttribute(node, 'x', centerX);
+        this.graph.setNodeAttribute(node, 'y', centerY);
+        const angle = (index * (2 * Math.PI)) / neighbors.length;
+        const radius = 0.2;
+
+        const newX = centerX + radius * Math.cos(angle);
+        const newY = centerY + radius * Math.sin(angle);
+
+        newPositions[node] = {
+          x: newX,
+          y: newY,
+        };
+      });
+      animateNodes(this.graph, newPositions, { duration: 300 });
+    }
   }
 }
