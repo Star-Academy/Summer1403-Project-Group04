@@ -15,6 +15,7 @@ import {
   FilterOutline,
   SettingOutline,
   GithubOutline,
+  CloudDownloadOutline,
 } from '@ant-design/icons-angular/icons';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -48,6 +49,7 @@ describe('GraphComponent', () => {
             FilterOutline,
             SettingOutline,
             GithubOutline,
+            CloudDownloadOutline
           ],
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
