@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UploadEdgeComponent } from './upload-edge.component';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('UploadEdgeComponent', () => {
   let component: UploadEdgeComponent;
@@ -8,7 +9,8 @@ describe('UploadEdgeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UploadEdgeComponent]
+      imports: [UploadEdgeComponent],
+      providers: [provideHttpClient()]
     })
     .compileComponents();
 
