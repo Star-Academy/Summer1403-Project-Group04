@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import  { MultiGraph } from 'graphology';
+import { MultiGraph } from 'graphology';
 import Sigma from 'sigma';
 import { nodes, edges } from './data';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -9,9 +9,9 @@ import { circular } from 'graphology-layout';
 import { animateNodes } from 'sigma/utils';
 import { Coordinates, EdgeDisplayData, NodeDisplayData, PlainObject } from 'sigma/types';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { EdgeArrowProgram } from "sigma/rendering";
+import { EdgeArrowProgram } from 'sigma/rendering';
 import { EdgeCurvedArrowProgram } from '@sigma/edge-curve';
-
+import { MockBackService } from '../../../../services/mock-back/mock-back.service';
 
 interface State {
   hoveredNode?: string;
@@ -43,29 +43,37 @@ export class SigmaComponent implements AfterViewInit {
 
   cancelCurrentAnimation: (() => void) | null = null;
 
-  constructor(private sigmaService: SigmaService) {}
+  constructor(private sigmaService: SigmaService, private mockBack: MockBackService) {}
 
   ngAfterViewInit() {
     //Initialize new graph
     this.graph = new MultiGraph();
 
     //Add nodes and edges to the graph
-    this.addNodes();
-    this.addEdges();
+    // this.addNodes();
+    // this.addEdges();
 
     // Initialize Sigma.js
-    this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement,{
+    this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement, {
       allowInvalidContainer: true,
-      defaultEdgeType: "curved",
+      defaultEdgeType: 'curved',
       renderEdgeLabels: true,
       edgeProgramClasses: {
         straight: EdgeArrowProgram,
-        curved: EdgeCurvedArrowProgram, 
+        curved: EdgeCurvedArrowProgram,
       },
     });
     this.sigmaInstance.refresh();
 
-    this.hideAllOtherNodes('0');
+    this.graph.addNode(this.mockBack.addSingleNode('0')?.id, {
+      label: this.mockBack.addSingleNode('0')?.label,
+      x: this.mockBack.addSingleNode('0')?.x,
+      y: this.mockBack.addSingleNode('0')?.y,
+      size: this.mockBack.addSingleNode('0')?.size,
+      color: this.mockBack.addSingleNode('0')?.color,
+    });
+
+    // this.hideAllOtherNodes('0');
 
     // Listen for the circular layout trigger from SigmaService.
     // When it’s triggered, apply the circular layout to the graph.
@@ -118,7 +126,7 @@ export class SigmaComponent implements AfterViewInit {
 
     this.sigmaInstance.on('doubleClickNode', (event) => {
       event.preventSigmaDefault();
-      this.expandNode(event.node);
+      this.expandNode(event.node, this.mockBack.getNeighbours(event.node));
     });
     this.sigmaInstance.on('doubleClickStage', (e) => {
       e.preventSigmaDefault();
@@ -150,7 +158,7 @@ export class SigmaComponent implements AfterViewInit {
     });
 
     this.sigmaInstance.on('enterNode', ({ node }) => {
-      this.setHoveredNode(node);
+      // this.setHoveredNode(node);
     });
 
     this.sigmaInstance.on('leaveNode', () => {
@@ -365,43 +373,69 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaInstance.refresh();
   }
 
-  expandNode(id: string) {
-    const neighbors = this.graph.neighbors(id);
+  expandNode(id: string, neighbors: any) {
     const centerX = this.graph.getNodeAttribute(id, 'x');
     const centerY = this.graph.getNodeAttribute(id, 'y');
     const newPositions: PlainObject<PlainObject<number>> = {};
+    const hasOtherNeighbors = (nodeId: string, clickedNodeId: string) => {
+      const allNeighbors = this.graph.neighbors(nodeId);
+      return allNeighbors.some((neighborId: string) => neighborId !== clickedNodeId);
+  };  
     if (this.graph.getNodeAttribute(id, 'expanded') === true) {
-      neighbors.forEach((node)=>{
-        newPositions[node] = {
-          x: centerX,
-          y: centerY,
-        };
-        setTimeout(() => {
-          this.graph.setNodeAttribute(node , 'hidden' , true)
-        }, 300);
+      console.log('alr');
+      console.log(neighbors);
+      
+      neighbors.forEach((node: any) => {
        
-      })
+
+       
+        if (!hasOtherNeighbors(node.id, id)) {
+          newPositions[node.id] = {
+            x: centerX,
+            y: centerY,
+          };
+          setTimeout(() => {
+              this.graph.dropNode(node.id);
+          }, 300);
+      }
+      });
       this.graph.setNodeAttribute(id, 'expanded', false);
       animateNodes(this.graph, newPositions, { duration: 300 });
     } else {
-      console.log(`${centerX} , ${centerY}`);
-
-     
       if (centerX !== undefined && centerY !== undefined) {
-        neighbors.forEach((node, index) => {
-          this.graph.setNodeAttribute(node, 'hidden', false);
-          this.graph.setNodeAttribute(node, 'x', centerX);
-          this.graph.setNodeAttribute(node, 'y', centerY);
+        console.log(neighbors);
+
+        neighbors.forEach((node: any, index: any) => {
           const angle = (index * (2 * Math.PI)) / neighbors.length;
           const radius = 0.2;
 
           const newX = centerX + radius * Math.cos(angle);
           const newY = centerY + radius * Math.sin(angle);
 
-          newPositions[node] = {
-            x: newX,
-            y: newY,
-          };
+          
+
+          console.log(node);
+          if (!this.graph.hasNode(node.id)) {
+            this.graph.addNode(node.id, {
+              label: node.label,
+              x: node.x,
+              y: node.y,
+              size: node.size,
+              color: node.color,
+            });
+            this.graph.setNodeAttribute(node.id, 'x', centerX);
+            this.graph.setNodeAttribute(node.id, 'y', centerY);
+            newPositions[node.id] = {
+              x: newX,
+              y: newY,
+            };
+          }
+
+          this.sigmaInstance.refresh();
+          this.graph.setNodeAttribute(node.id, 'hidden', false);
+        });
+        this.mockBack.getEdgesForNeighbors(id).forEach((edge) => {
+          this.graph.addEdge(edge.source, edge.target, edge.attr);
         });
         this.graph.setNodeAttribute(id, 'expanded', true);
         animateNodes(this.graph, newPositions, { duration: 300 });
