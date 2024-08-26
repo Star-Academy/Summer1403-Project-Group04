@@ -10,9 +10,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NgIf } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UploadGraphService } from '../../../../../../services/upload-graph/upload-graph.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotificationService } from '../../../../../../services/notification/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-upload-node',
@@ -27,22 +28,35 @@ import { HttpErrorResponse } from '@angular/common/http';
     NzUploadModule,
     NzIconModule,
     FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    NzSpinModule
+    
   ],
-  providers: [NgIf],
+  providers: [FormControl],
   templateUrl: './upload-node.component.html',
   styleUrl: './upload-node.component.scss',
 })
 export class UploadNodeComponent {
+  uploadForm: FormGroup;
   nodecategory = '';
   nodeCategoryList!: string[];
   current = 0;
   selectedFile: NzUploadFile | null = null;
+  isPending = false;
 
   constructor(
+    private fb: FormBuilder,
     private msg: NzMessageService,
     private uploadGraphService: UploadGraphService,
     private notificationService: NotificationService
-  ) {}
+  ) {
+    this.uploadForm = this.fb.group({
+      NodeCategoryName: ['', Validators.required],
+      UniqueKeyHeaderName: ['', Validators.required],
+      File: [null, Validators.required],
+    });
+  }
 
   next() {
     if (this.current !== 1) {
@@ -66,7 +80,7 @@ export class UploadNodeComponent {
         if (error.status === 401) {
           errorMessage = 'Unauthorized: Invalid username or password';
         } else if (error.status === 400) {
-          errorMessage = 'Bad Request: Old password is wrong!';
+          errorMessage = 'Bad Request: input cannot be empty!';
         }
 
         this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
@@ -89,20 +103,39 @@ export class UploadNodeComponent {
 
   beforeUpload = (file: NzUploadFile): boolean => {
     this.selectedFile = file;
-    this.msg.success(`${file.name} file uploaded successfully`);
+    this.uploadForm.patchValue({ 'File': file });
+    this.uploadForm.get('File')?.updateValueAndValidity();
+    this.msg.success(`${file.name} file selected successfully`);
+
+    console.log(this.uploadForm.value);
     return false;
   };
 
   submit() {
-    if (this.selectedFile) {
-      // this.uploadGraphService.uploadNodeData(this.selectedFile).subscribe({
-      //   next: (response) => {
-      //     console.log(response);
-      //   },
-      //   error: (error: HttpErrorResponse) => {
-      //     console.log(error);
-      //   },
-      // });
+    if (this.uploadForm.valid) {
+      this.isPending = true;
+      const formData = new FormData();
+      formData.append('NodeCategoryName', this.uploadForm.value.NodeCategoryName);
+      formData.append('UniqueKeyHeaderName', this.uploadForm.value.UniqueKeyHeaderName);
+      formData.append('File', this.uploadForm.get('File')?.value as File);
+      
+      
+      this.uploadGraphService.uploadNodeData(formData).subscribe({
+        next: (response) => {
+          this.notificationService.createNotification('success', 'Success', response.message);
+          this.isPending = false;
+        },
+        error: (error: HttpErrorResponse) => {
+          let errorMessage = 'An unexpected error occurred';
+          if (error.status === 401) {
+            errorMessage = 'Unauthorized: Invalid username or password';
+          } else if (error.status === 400) {
+            errorMessage = error.error.message;
+          }
+  
+          this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
+        },
+      });
     }
   }
 }
