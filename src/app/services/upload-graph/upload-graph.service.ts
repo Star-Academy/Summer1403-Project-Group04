@@ -23,7 +23,6 @@ export class UploadGraphService {
   }
 
   uploadNodeData(data: FormData) {
-    console.log(data.get('file'));
     
     return this.http.post<loginResponse>(`${this.URL}/api/Node`, data, {withCredentials: true});
   }
@@ -38,6 +37,10 @@ export class UploadGraphService {
   getEdgeCategories() {
     const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.get<loginResponse>(`${this.URL}/api/Edge/categories`, { headers, withCredentials: true });
+    return this.http.get<string[]>(`${this.URL}/api/Edge/categories`, { headers, withCredentials: true });
+  }
+
+  uploadEdgeData(data: FormData){
+    return this.http.post<loginResponse>(`${this.URL}/api/Edge`, data, {withCredentials: true});
   }
 }

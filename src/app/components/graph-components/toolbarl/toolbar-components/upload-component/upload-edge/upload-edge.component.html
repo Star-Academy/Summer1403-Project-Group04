@@ -7,7 +7,7 @@
 <div class="upload-container">
   <h4 nz-typography>Create an edge category</h4>
   <p nz-paragraph>Or dont , you can use existing categories</p>
-  <input nz-input placeholder="Edge category" type="number" />
+  <input nz-input placeholder="Edge category" type="text" [(ngModel)]="edgeCategory" />
   <div class="upload-container__btn-container">
     
     <div class="upload-container__btn-container__nav-btn-container">
@@ -16,47 +16,47 @@
       }
       <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round" (click)="next()">Next</button>
     </div>
-    <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round">Submit</button>
+    <button class="btn" nz-button nzType="primary" [nzSize]="'default'" nzShape="round" (click)="addEdgeCategory()">Submit</button>
   </div>
 </div>
 } @case (1) {
 <div class="upload-container">
   <h4 nz-typography>Upload edges file</h4>
   <h5 nz-typography>Select which edge category</h5>
-  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select an edge category">
-    <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-    <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-    <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select an edge category" [(ngModel)]="edgeCategory">
+    @for (item of edgeCategoryList; track $index) {
+      <nz-option nzLabel="{{ item }}" nzValue="{{ item }}"></nz-option>
+      }
   </nz-select>
   <h5 nz-typography>Edge <span nz-typography nz-tooltip nzTooltipTitle="Unique key header name"><u>UKHN</u></span></h5>
-  <input nz-input placeholder="UniqueKey header name" type="number" />
+  <input nz-input placeholder="UniqueKey header name" type="number" formControlName="UniqueKeyHeaderName" />
   <div class="key-container">
     <div>
         <h5 nz-typography>Source node category</h5>
-        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a node category category">
-          <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-          <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-          <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a node category category"  [(ngModel)]="sourceNodeCategory">
+          @for (item of nodeCategoryList; track $index) {
+            <nz-option nzLabel="{{ item }}" nzValue="{{ item }}"></nz-option>
+            }
         </nz-select>
     </div>
     <div>
         <h5 nz-typography>Source <span nz-typography nz-tooltip nzTooltipTitle="Unique key header name"><u>UKHN</u></span></h5>
-        <input nz-input placeholder="Source UKHN" type="number" />
+        <input nz-input placeholder="Source UKHN" type="number" formControlName="SourceNodeHeaderName" />
     </div>
     
   </div>
   <div class="key-container">
     <div>
         <h5 nz-typography>Target node category</h5>
-        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a node category category">
-          <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
-          <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
-          <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a node category category" [(ngModel)]="targetNodeCategory">
+          @for (item of nodeCategoryList; track $index) {
+            <nz-option nzLabel="{{ item }}" nzValue="{{ item }}"></nz-option>
+            }
         </nz-select>
     </div>
     <div>
         <h5 nz-typography>Target <span nz-typography nz-tooltip nzTooltipTitle="Unique key header name"><u>UKHN</u></span></h5>
-        <input nz-input placeholder="Target UKHN" type="number" />
+        <input nz-input placeholder="Target UKHN" type="number" formControlName="TargetNodeHeaderName" />
     </div>
   </div>
   <h5 nz-typography>Upload edges file</h5>
@@ -64,6 +64,7 @@
     nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
     [nzHeaders]="{ authorization: 'authorization-text' }"
     (nzChange)="handleChange($event)"
+    [nzBeforeUpload]="beforeUpload"
   >
     <button nz-button>
       <span nz-icon nzType="upload"></span>
