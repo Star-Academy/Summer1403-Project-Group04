@@ -10,7 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NgIf } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UploadGraphService } from '../../../../../../services/upload-graph/upload-graph.service';
 import { NotificationService } from '../../../../../../services/notification/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -31,7 +31,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
   ],
-  providers: [NgIf],
+  providers: [FormControl],
   templateUrl: './upload-edge.component.html',
   styleUrl: './upload-edge.component.scss',
 })
@@ -143,6 +143,8 @@ export class UploadEdgeComponent {
     console.log('fucking submit bech');
     
     if(this.uploadForm.valid){
+      console.log('raft too if');
+      
       this.isPending = true;
       const formData = new FormData();
       formData.append('EdgeCategoryName', this.uploadForm.value.EdgeCategoryName);

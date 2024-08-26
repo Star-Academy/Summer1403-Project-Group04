@@ -4,7 +4,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -14,5 +13,4 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = environment;
 }
