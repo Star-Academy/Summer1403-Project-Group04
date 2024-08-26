@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { GraphToolBarComponent } from './graph-tool-bar.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
 import {
@@ -14,6 +13,7 @@ import {
   FilterOutline,
   SettingOutline,
   GithubOutline,
+  CloudDownloadOutline,
 } from '@ant-design/icons-angular/icons';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -46,6 +46,7 @@ describe('GraphToolBarComponent', () => {
             FilterOutline,
             SettingOutline,
             GithubOutline,
+            CloudDownloadOutline
           ],
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },

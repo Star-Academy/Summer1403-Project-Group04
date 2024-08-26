@@ -1,0 +1,39 @@
+nz-select {
+  width: 100%;
+}
+
+.container {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    inline-size: 25rem;
+
+    &__input-container {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      inline-size: 100%;
+    }
+
+    &__btn-container {
+      inline-size: fit-content;
+      align-self: flex-end;
+
+      &__button {
+        background-color: #1f66a8;
+        border: 0;
+
+        &:disabled {
+          color: rgba(0, 0, 0, 0.25);
+          border-color: #d9d9d9;
+          background: #f5f5f5;
+          text-shadow: none;
+          box-shadow: none;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

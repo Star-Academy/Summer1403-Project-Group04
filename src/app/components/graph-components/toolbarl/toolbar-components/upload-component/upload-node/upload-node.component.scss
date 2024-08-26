@@ -3,7 +3,8 @@
   flex-direction: column;
   gap: 2rem;
 
-  h4, h5 {
+  h4,
+  h5 {
     margin: 0;
   }
 
@@ -16,11 +17,6 @@
   &__btn-container {
     display: flex;
     justify-content: space-between;
-
-    &__nav-btn-container {
-      display: flex;
-      gap: 1rem;
-    }
   }
 
   form {

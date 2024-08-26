@@ -10,6 +10,7 @@ import { LayoutsComponent } from '../toolbar-components/layouts/layouts.componen
 import { UploadComponentsComponent } from '../toolbar-components/upload-component/upload-layout/upload-components.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { RouterLink } from '@angular/router';
+import { GetGraphComponent } from "../toolbar-components/get-graph/get-graph.component";
 
 @Component({
   selector: 'app-graph-tool-bar',
@@ -25,7 +26,8 @@ import { RouterLink } from '@angular/router';
     LayoutsComponent,
     UploadComponentsComponent,
     NzSwitchModule,
-  ],
+    GetGraphComponent
+],
   providers: [],
   templateUrl: './graph-tool-bar.component.html',
   styleUrl: './graph-tool-bar.component.scss',
