@@ -5,12 +5,13 @@ import { UserData } from '../../models/user-data';
 import { loginResponse } from '../../models/login-response';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private URL = 'http://localhost:5293';
+  private URL = environment.API_URL;
   private userDataSubject: BehaviorSubject<UserData> = new BehaviorSubject<UserData>({
     id: 0,
     username: '',

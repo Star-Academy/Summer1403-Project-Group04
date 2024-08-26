@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { loginResponse } from '../../models/login-response';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadGraphService {
-  private URL = 'http://localhost:5293';
+  private URL = environment.API_URL;
   constructor(private http: HttpClient) {}
 
   addNodeCategory(nodeCategory: string) {

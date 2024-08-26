@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    API_URL: 'negar-backend.abriment.com'
+    production: false,
+    API_URL: 'http://localhost:5293'
 };
