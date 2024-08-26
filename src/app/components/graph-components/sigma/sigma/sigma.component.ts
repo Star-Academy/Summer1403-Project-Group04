@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import Graph from 'graphology';
+import Graph, { MultiGraph } from 'graphology';
 import Sigma from 'sigma';
 import { nodes, edges } from './data';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -9,7 +9,9 @@ import { circular } from 'graphology-layout';
 import { animateNodes } from 'sigma/utils';
 import { Coordinates, EdgeDisplayData, NodeDisplayData, PlainObject } from 'sigma/types';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import sigma from 'sigma';
+import { EdgeArrowProgram } from "sigma/rendering";
+import { EdgeCurvedArrowProgram } from '@sigma/edge-curve';
+
 
 interface State {
   hoveredNode?: string;
@@ -36,7 +38,7 @@ export class SigmaComponent implements AfterViewInit {
   nodes = 0;
   draggedNode: string | null = null;
   isDragging = false;
-  graph!: Graph;
+  graph!: MultiGraph;
   state: State = { searchQuery: '' };
 
   cancelCurrentAnimation: (() => void) | null = null;
@@ -45,14 +47,22 @@ export class SigmaComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     //Initialize new graph
-    this.graph = new Graph();
+    this.graph = new MultiGraph();
 
     //Add nodes and edges to the graph
     this.addNodes();
     this.addEdges();
 
     // Initialize Sigma.js
-    this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement);
+    this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement,{
+      allowInvalidContainer: true,
+      defaultEdgeType: "curved",
+      renderEdgeLabels: true,
+      edgeProgramClasses: {
+        straight: EdgeArrowProgram,
+        curved: EdgeCurvedArrowProgram, 
+      },
+    });
     this.sigmaInstance.refresh();
 
     this.hideAllOtherNodes('0');
@@ -110,9 +120,9 @@ export class SigmaComponent implements AfterViewInit {
       event.preventSigmaDefault();
       this.expandNode(event.node);
     });
-    this.sigmaInstance.on('doubleClickStage', (e)=>{
+    this.sigmaInstance.on('doubleClickStage', (e) => {
       e.preventSigmaDefault();
-    })
+    });
 
     // Send graph info like the number of nodes and edges to SigmaService.
     // This lets other components that are subscribed to SigmaService display this data.
@@ -191,7 +201,7 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   circularLayout() {
-    const circularPositions = circular(this.graph, { scale: 100 });
+    const circularPositions = circular(this.graph, { scale: 1 });
     console.log(circularPositions);
 
     this.cancelCurrentAnimation = animateNodes(this.graph, circularPositions, {
@@ -268,9 +278,7 @@ export class SigmaComponent implements AfterViewInit {
   addEdges() {
     // Add edges
     edges.forEach((edge) => {
-      this.graph.addEdge(edge.source, edge.target, {
-        label: edge.label,
-      });
+      this.graph.addEdge(edge.source, edge.target, edge.attr);
     });
   }
 
@@ -361,27 +369,43 @@ export class SigmaComponent implements AfterViewInit {
     const neighbors = this.graph.neighbors(id);
     const centerX = this.graph.getNodeAttribute(id, 'x');
     const centerY = this.graph.getNodeAttribute(id, 'y');
-    console.log(`${centerX} , ${centerY}`);
-
     const newPositions: PlainObject<PlainObject<number>> = {};
-    if (centerX !== undefined && centerY !== undefined) {
-      neighbors.forEach((node, index) => {
-
-        this.graph.setNodeAttribute(node, 'hidden', false);
-        this.graph.setNodeAttribute(node, 'x', centerX);
-        this.graph.setNodeAttribute(node, 'y', centerY);
-        const angle = (index * (2 * Math.PI)) / neighbors.length;
-        const radius = 0.2;
-
-        const newX = centerX + radius * Math.cos(angle);
-        const newY = centerY + radius * Math.sin(angle);
-
+    if (this.graph.getNodeAttribute(id, 'expanded') === true) {
+      neighbors.forEach((node)=>{
         newPositions[node] = {
-          x: newX,
-          y: newY,
+          x: centerX,
+          y: centerY,
         };
-      });
+        setTimeout(() => {
+          this.graph.setNodeAttribute(node , 'hidden' , true)
+        }, 300);
+       
+      })
+      this.graph.setNodeAttribute(id, 'expanded', false);
       animateNodes(this.graph, newPositions, { duration: 300 });
+    } else {
+      console.log(`${centerX} , ${centerY}`);
+
+     
+      if (centerX !== undefined && centerY !== undefined) {
+        neighbors.forEach((node, index) => {
+          this.graph.setNodeAttribute(node, 'hidden', false);
+          this.graph.setNodeAttribute(node, 'x', centerX);
+          this.graph.setNodeAttribute(node, 'y', centerY);
+          const angle = (index * (2 * Math.PI)) / neighbors.length;
+          const radius = 0.2;
+
+          const newX = centerX + radius * Math.cos(angle);
+          const newY = centerY + radius * Math.sin(angle);
+
+          newPositions[node] = {
+            x: newX,
+            y: newY,
+          };
+        });
+        this.graph.setNodeAttribute(id, 'expanded', true);
+        animateNodes(this.graph, newPositions, { duration: 300 });
+      }
     }
   }
 }

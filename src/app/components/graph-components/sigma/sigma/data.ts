@@ -50,7 +50,7 @@
 export const nodes = [
   {
     id: '0',
-    label: '0',
+    label: 'A',
     x: 0,
     y: 0,
     size: 20,
@@ -58,7 +58,7 @@ export const nodes = [
   },
   {
     id: '1',
-    label: '1',
+    label: 'B',
     x: 0,
     y: 0,
     size: 20,
@@ -66,7 +66,7 @@ export const nodes = [
   },
   {
     id: '2',
-    label: '2',
+    label: 'C',
     x: 0,
     y: 0,
     size: 20,
@@ -74,7 +74,7 @@ export const nodes = [
   },
   {
     id: '3',
-    label: '3',
+    label: 'D',
     x: 0,
     y: 0,
     size: 20,
@@ -82,15 +82,7 @@ export const nodes = [
   },
   {
     id: '4',
-    label: '4',
-    x: 0,
-    y: 0,
-    size: 20,
-    color: '#000',
-  },
-  {
-    id: '5',
-    label: '5',
+    label: 'E',
     x: 0,
     y: 0,
     size: 20,
@@ -100,28 +92,54 @@ export const nodes = [
 
 export const edges = [
   {
-    source: '0',
-    target: '1',
-    label: '1'
+    source: '3',
+    target: '0',
+    attr: {
+      label: 'Mamad',
+      size: 10,
+    },
   },
   {
-    source: '0',
-    target: '2',
-    label: '1'
+    source: '1',
+    target: '0',
+    attr: {
+      label: 'Mamad',
+      size: 10,
+    },
   },
   {
-    source: '0',
-    target: '3',
-    label: '1'
+    source: '2',
+    target: '0',
+    attr: {
+      label: 'Mamad',
+      size: 10,
+    },
   },
   {
     source: '0',
     target: '4',
-    label: '1'
+    attr: {
+      label: 'Mamad',
+      size: 10,
+      curvature: 0.1
+    },
   },
   {
     source: '0',
-    target: '5',
-    label: '1'
+    target: '4',
+    attr: {
+      label: 'Mamad 2',
+      size: 10,
+      curvature: 1
+    },
+  },
+  {
+    source: '4',
+    target: '0',
+    attr: {
+      label: 'Mamad 2',
+      size: 10,
+      curvature: 0.8
+    },
   },
 ];
