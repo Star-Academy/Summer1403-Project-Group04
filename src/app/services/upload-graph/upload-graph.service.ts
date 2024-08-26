@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { loginResponse } from '../../models/login-response';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadGraphService {
-  private URL = 'http://localhost:5293';
+  private URL = environment.API_URL;
   constructor(private http: HttpClient) {}
 
   addNodeCategory(nodeCategory: string) {
@@ -23,7 +24,6 @@ export class UploadGraphService {
   }
 
   uploadNodeData(data: FormData) {
-    console.log(data.get('file'));
     
     return this.http.post<loginResponse>(`${this.URL}/api/Node`, data, {withCredentials: true});
   }
@@ -38,6 +38,10 @@ export class UploadGraphService {
   getEdgeCategories() {
     const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.get<loginResponse>(`${this.URL}/api/Edge/categories`, { headers, withCredentials: true });
+    return this.http.get<string[]>(`${this.URL}/api/Edge/categories`, { headers, withCredentials: true });
+  }
+
+  uploadEdgeData(data: FormData){
+    return this.http.post<loginResponse>(`${this.URL}/api/Edge`, data, {withCredentials: true});
   }
 }

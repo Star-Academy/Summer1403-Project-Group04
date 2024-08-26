@@ -6,12 +6,13 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { loginResponse } from '../../models/login-response';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private URL = 'http://localhost:5293';
+  private URL = environment.API_URL;
   constructor(private http: HttpClient) {}
 
   login(
