@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import Graph, { MultiGraph } from 'graphology';
+import  { MultiGraph } from 'graphology';
 import Sigma from 'sigma';
 import { nodes, edges } from './data';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -150,7 +150,7 @@ export class SigmaComponent implements AfterViewInit {
     });
 
     this.sigmaInstance.on('enterNode', ({ node }) => {
-      // this.setHoveredNode(node);
+      this.setHoveredNode(node);
     });
 
     this.sigmaInstance.on('leaveNode', () => {
