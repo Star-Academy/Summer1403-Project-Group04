@@ -20,7 +20,7 @@
 
 nz-content {
   padding-block: 2.4rem;
-  inline-size: 125rem;
+  // inline-size: 125rem;
   display: flex;
   flex-direction: column;
   gap: 4rem;
@@ -30,6 +30,6 @@ nz-content {
   } 
 }
 
-.app-layout__content {
-  padding-inline: 5rem;
-}
+// .app-layout__content {
+//   // padding-inline: 5rem;
+// }

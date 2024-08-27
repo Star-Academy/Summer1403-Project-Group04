@@ -15,7 +15,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     children: [
-      {path: '' , component: DashboardContentComponent},
+      { path: '', component: DashboardContentComponent },
       {
         path: 'profile',
         component: ProfileComponent,
@@ -34,8 +34,8 @@ export const routes: Routes = [
         component: EditUserComponent,
         canActivate: [ManageUsersGuardService],
       },
+      { path: 'graph', component: GraphComponent },
     ],
     canActivate: [DashboardGuardService],
   },
-  { path: 'graph', component: GraphComponent },
 ];
