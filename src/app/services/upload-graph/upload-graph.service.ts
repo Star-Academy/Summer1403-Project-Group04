@@ -44,4 +44,10 @@ export class UploadGraphService {
   uploadEdgeData(data: FormData){
     return this.http.post<loginResponse>(`${this.URL}/api/Edge`, data, {withCredentials: true});
   }
+
+  getGraph(){
+    const headers = { 'Content-Type': 'application/json' };
+
+    return this.http.get<any>(`${this.URL}/api/Graph`, { headers, withCredentials: true });
+  }
 }
