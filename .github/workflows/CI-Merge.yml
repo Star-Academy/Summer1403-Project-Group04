@@ -38,3 +38,34 @@ jobs:
         run: |
           docker tag ${{ vars.DOCKERHUB_USERNAME }}/negar-frontend:latest ${{ vars.DOCKERHUB_USERNAME }}/negar-frontend:${{ steps.tag_version.outputs.new_tag }}
           docker push ${{ vars.DOCKERHUB_USERNAME }}/negar-frontend:${{ steps.tag_version.outputs.new_tag }}
+
+      - name: Install yq 
+        run: |  
+          sudo apt-get update
+          sudo snap install yq
+
+      - name: Clone Deployment Repository
+        uses: GuillaumeFalourd/clone-github-repo-action@v2.3
+        with:
+          depth: 1
+          branch: 'main'
+          owner: 'Star-Academy'
+          repository: 'Summer1403-Project-Group04-Deployment'
+
+      - name: Update values.yaml for frontend  
+        run: |  
+          echo "Updating values.yaml for frontend..."  
+          cd Summer1403-Project-Group04-Deployment 
+          yq eval ".frontend.tag = \"${{ steps.tag_version.outputs.new_tag }}\"" -i values.yaml  
+
+          git config --local user.email "m.h.chah4@gmail.com"  
+          git config --local user.name "muhuchah"  
+          
+          git add values.yaml  
+          git commit -m "Update frontend tag to ${{ steps.tag_version.outputs.new_tag }}"  
+
+      - name: Push changes
+        run: |
+          cd Summer1403-Project-Group04-Deployment
+          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/Star-Academy/Summer1403-Project-Group04-Deployment.git
+          git push origin main
