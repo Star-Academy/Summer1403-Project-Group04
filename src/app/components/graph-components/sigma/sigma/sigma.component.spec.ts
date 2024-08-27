@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SigmaComponent } from './sigma.component';
 import { NZ_ICONS, NzIconService } from 'ng-zorro-antd/icon';
-import { CloudDownloadOutline, CloudOutline, FilterOutline, FullscreenOutline, ImportOutline, SettingOutline } from '@ant-design/icons-angular/icons';
+import { CloudDownloadOutline, FilterOutline, FullscreenOutline, ImportOutline, SettingOutline } from '@ant-design/icons-angular/icons';
 
 describe('SigmaComponent', () => {
   let component: SigmaComponent;
