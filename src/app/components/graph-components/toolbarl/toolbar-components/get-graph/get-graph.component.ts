@@ -6,11 +6,12 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { UploadGraphService } from '../../../../../services/upload-graph/upload-graph.service';
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { SigmaService } from '../../../../../services/sigma/sigma.service';
 
 @Component({
   selector: 'app-get-graph',
   standalone: true,
-  imports: [NzSelectModule, NzTypographyModule ,ReactiveFormsModule , NzButtonComponent],
+  imports: [NzSelectModule, NzTypographyModule, ReactiveFormsModule, NzButtonComponent],
   templateUrl: './get-graph.component.html',
   styleUrl: './get-graph.component.scss',
 })
@@ -21,9 +22,8 @@ export class GetGraphComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private msg: NzMessageService,
     private uploadGraphService: UploadGraphService,
-    private notificationService: NotificationService
+    private sigmaService: SigmaService
   ) {
     this.form = this.fb.group({
       SourceNodeCategoryName: ['', Validators.required],
@@ -53,7 +53,10 @@ export class GetGraphComponent implements OnInit {
   }
 
   protected submit() {
-console.log("fu");
-
+    this.uploadGraphService.getGraph().subscribe({
+      next: (data) => {
+        this.sigmaService.setGetGraph(data);
+      },
+    });
   }
 }
