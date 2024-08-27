@@ -87,7 +87,10 @@ export class EditProfileComponent implements OnChanges, OnInit {
       next: (response) => {
         const successMessage = 'Success';
         this.notificationService.createNotification('success', successMessage, response.message);
-        this.logout();
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = 'An unexpected error occurred';
@@ -107,6 +110,14 @@ export class EditProfileComponent implements OnChanges, OnInit {
       next: (response) => {
         const successMessage = 'Success';
         this.notificationService.createNotification('success', successMessage, response.message);
+
+        this.userService.userData$.subscribe((data) => {
+          if (data.id === this.userData.id) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+        });
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = 'An unexpected error occurred';
@@ -117,20 +128,6 @@ export class EditProfileComponent implements OnChanges, OnInit {
         }
 
         this.notificationService.createNotification('error', 'Unexpected Error', errorMessage);
-      },
-    });
-  }
-
-  private logout() {
-    this.userService.logout().subscribe({
-      next: () => {
-        this.notificationService.createNotification('info', 'Logged Out', 'You have been logged out successfully.');
-        setTimeout(() => {
-          this.router.navigate(['/landing']);
-        }, 2000);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('Error logging out', error);
       },
     });
   }

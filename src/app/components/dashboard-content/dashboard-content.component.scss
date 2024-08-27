@@ -1,4 +1,5 @@
 .container {
+  inline-size: calc(100vw - 41.4rem);
   display: flex;
   flex-direction: column;
   gap: 4rem;

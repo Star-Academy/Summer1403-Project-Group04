@@ -76,6 +76,11 @@ export class EditRoleComponent implements OnChanges {
       this.userService.updateRole(this.roleForm.value.roles, this.userData ? this.userData.id : 0).subscribe({
         next: (response) => {
           this.notificationService.createNotification('success', 'Success', response.message);
+          this.userService.userData$.subscribe((data) => {
+            if (data.id === this.userData?.id) {
+              this.logout();
+            }
+          });
         },
         error: (error: HttpErrorResponse) => {
           let errorMessage = 'An unexpected error occurred';
@@ -113,5 +118,19 @@ export class EditRoleComponent implements OnChanges {
 
   protected onTagChange(value: string[]): void {
     this.roleForm.get('roles')?.setValue(value);
+  }
+
+  private logout() {
+    this.userService.logout().subscribe({
+      next: () => {
+        this.notificationService.createNotification('info', 'Logged Out', 'You have been logged out successfully.');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error logging out', error);
+      },
+    });
   }
 }
