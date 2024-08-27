@@ -12,16 +12,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { EdgeArrowProgram } from 'sigma/rendering';
 import { EdgeCurvedArrowProgram } from '@sigma/edge-curve';
 import { MockBackService } from '../../../../services/mock-back/mock-back.service';
-
-interface State {
-  hoveredNode?: string;
-  searchQuery: string;
-
-  selectedNode?: string;
-  suggestions?: Set<string>;
-
-  hoveredNeighbors?: Set<string>;
-}
+import { State } from '../../../../models/graph-state';
 
 // ********** This component can be a bit confusing so I have to use comments to ease the understanding (Sorry if the comments are a bit informal ^.^) **********
 
@@ -33,37 +24,25 @@ interface State {
   styleUrl: './sigma.component.scss',
 })
 export class SigmaComponent implements AfterViewInit {
-  initialCameraState: { x: number; y: number; ratio: number } | null = null;
-  sigmaInstance!: Sigma;
-  nodes = 0;
-  draggedNode: string | null = null;
-  isDragging = false;
-  graph!: MultiGraph;
-  state: State = { searchQuery: '' };
-
-  cancelCurrentAnimation: (() => void) | null = null;
+  private initialCameraState: { x: number; y: number; ratio: number } | null = null;
+  private sigmaInstance!: Sigma;
+  private nodes = 0;
+  private draggedNode: string | null = null;
+  private isDragging = false;
+  private graph!: MultiGraph;
+  private state: State = { searchQuery: '' };
+  private cancelCurrentAnimation: (() => void) | null = null;
 
   constructor(private sigmaService: SigmaService, private mockBack: MockBackService) {}
 
   ngAfterViewInit() {
-    //Initialize new graph
     this.graph = new MultiGraph();
 
-    //Add nodes and edges to the graph
-    // this.addNodes();
-    // this.addEdges();
-
-    // Initialize Sigma.js
-    this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement, {
-      allowInvalidContainer: true,
-      defaultEdgeType: 'curved',
-      renderEdgeLabels: true,
-      edgeProgramClasses: {
-        straight: EdgeArrowProgram,
-        curved: EdgeCurvedArrowProgram,
-      },
+    document.getElementById('sigma-container')?.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
     });
-    this.sigmaInstance.refresh();
+
+    this.initializeGraph();
 
     this.graph.addNode(this.mockBack.addSingleNode('0')?.id, {
       label: this.mockBack.addSingleNode('0')?.label,
@@ -73,28 +52,7 @@ export class SigmaComponent implements AfterViewInit {
       color: this.mockBack.addSingleNode('0')?.color,
     });
 
-    // this.hideAllOtherNodes('0');
-
-    // Listen for the circular layout trigger from SigmaService.
-    // When it’s triggered, apply the circular layout to the graph.
-    // We need this because the button that triggers the layout is in a different component (toolbar).
-    // So, we use SigmaService to pass the event to this component.
-    this.sigmaService.circularLayoutTrigger$.subscribe(() => {
-      this.circularLayout();
-    });
-
-    //Same as above
-    this.sigmaService.randomLayoutTrigger$.subscribe(() => {
-      this.randomLayout();
-    });
-
-    this.sigmaService.searchedNodeOb$.subscribe((node) => {
-      this.state.selectedNode = node;
-      const nodePosition = this.sigmaInstance.getNodeDisplayData(node) as Coordinates;
-
-      this.sigmaInstance.getCamera().animate(nodePosition, { duration: 500 });
-      this.nodeSetting();
-    });
+    this.subscribeToServices();
 
     this.updateNodesList(
       this.graph.nodes().map((node) => ({
@@ -103,89 +61,28 @@ export class SigmaComponent implements AfterViewInit {
       }))
     );
 
-    // Listen for clicks on nodes in Sigma.js.
-    // When a node is clicked, grab its details and tell SigmaService about it.
-    // This helps other parts of the app respond to node clicks, like showing node info somewhere else.
-    this.sigmaInstance.on('clickNode', async (event) => {
-      const nodeId = event.node;
-      const nodeAttributes = this.graph.getNodeAttributes(nodeId);
+    this.nodeClickHandler();
 
-      this.sigmaService.changeSelectedNode(
-        nodeAttributes as {
-          age: number;
-          bio: string;
-          color: string;
-          job: string;
-          label: string;
-          size: number;
-          x: number;
-          y: number;
-        }
-      );
-    });
+    this.doubleClickHandler();
 
-    this.sigmaInstance.on('doubleClickNode', (event) => {
-      event.preventSigmaDefault();
-      this.expandNode(event.node, this.mockBack.getNeighbours(event.node));
-    });
-    this.sigmaInstance.on('doubleClickStage', (e) => {
-      e.preventSigmaDefault();
-    });
+    this.sendGraphData();
 
-    // Send graph info like the number of nodes and edges to SigmaService.
-    // This lets other components that are subscribed to SigmaService display this data.
-    const data: GraphData = {
-      numberOfNodes: this.graph.order,
-      numberOfEdges: this.graph.size,
-    };
-    this.sigmaService.changeData(data);
-
-    //Sets the initial state of camera (used later for zoom in and out)
-    const camera = this.sigmaInstance.getCamera();
-    this.initialCameraState = {
-      x: camera.x,
-      y: camera.y,
-      ratio: camera.ratio,
-    };
+    this.initializeCameraState();
 
     this.addDragNodeFuntionality();
 
-    // On mouse down, check if a custom bounding box is set for the Sigma instance.
-    // If not, set it to the current bounding box. This ensures the graph’s viewport
-    // remains consistent and prevents unintended camera movements during interactions.
     this.sigmaInstance.getMouseCaptor().on('mousedown', () => {
       if (!this.sigmaInstance.getCustomBBox()) this.sigmaInstance.setCustomBBox(this.sigmaInstance.getBBox());
     });
 
-    this.sigmaInstance.on('enterNode', ({ node }) => {
-      // this.setHoveredNode(node);
-    });
-
-    this.sigmaInstance.on('leaveNode', () => {
-      this.setHoveredNode(undefined);
-    });
+    this.handleLeaveNode();
 
     this.nodeSetting();
 
-    this.sigmaInstance.setSetting('edgeReducer', (edge, data) => {
-      const res: Partial<EdgeDisplayData> = { ...data };
-
-      if (this.state.hoveredNode && !this.graph.hasExtremity(edge, this.state.hoveredNode)) {
-        res.hidden = true;
-      }
-
-      if (
-        this.state.suggestions &&
-        (!this.state.suggestions.has(this.graph.source(edge)) || !this.state.suggestions.has(this.graph.target(edge)))
-      ) {
-        res.hidden = true;
-      }
-
-      return res;
-    });
+    this.setReducerSetting();
   }
 
-  resetCamera() {
+  protected resetCamera() {
     if (this.initialCameraState) {
       const camera = this.sigmaInstance.getCamera();
       camera.setState({
@@ -196,19 +93,19 @@ export class SigmaComponent implements AfterViewInit {
     }
   }
 
-  zoomIn() {
+  protected zoomIn() {
     const camera = this.sigmaInstance.getCamera();
     camera.ratio = camera.ratio * 0.9;
     this.sigmaInstance.refresh();
   }
 
-  zoomOut() {
+  protected zoomOut() {
     const camera = this.sigmaInstance.getCamera();
     camera.ratio = camera.ratio * 1.1;
     this.sigmaInstance.refresh();
   }
 
-  circularLayout() {
+  protected circularLayout() {
     const circularPositions = circular(this.graph, { scale: 1 });
     console.log(circularPositions);
 
@@ -218,7 +115,7 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  randomLayout() {
+  protected randomLayout() {
     if (this.cancelCurrentAnimation) this.cancelCurrentAnimation();
 
     const xExtents = { min: 0, max: 0 };
@@ -245,7 +142,7 @@ export class SigmaComponent implements AfterViewInit {
     this.cancelCurrentAnimation = animateNodes(this.graph, randomPositions, { duration: 2000 });
   }
 
-  setHoveredNode(node?: string) {
+  protected setHoveredNode(node?: string) {
     if (node) {
       this.state.hoveredNode = node;
       this.state.hoveredNeighbors = new Set(this.graph.neighbors(node));
@@ -271,7 +168,7 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  addNodes() {
+  private addNodes() {
     nodes.forEach((node) => {
       this.graph.addNode(node.id, {
         label: node.label,
@@ -283,16 +180,14 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  addEdges() {
+  private addEdges() {
     // Add edges
     edges.forEach((edge) => {
       this.graph.addEdge(edge.source, edge.target, edge.attr);
     });
   }
 
-  addDragNodeFuntionality() {
-    // When a node is clicked and held down, start dragging it.
-    // Set the node as highlighted to show it’s being dragged.
+  private addDragNodeFuntionality() {
     this.sigmaInstance.on('downNode', (e) => {
       this.isDragging = true;
       this.draggedNode = e.node;
@@ -326,11 +221,11 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  updateNodesList(nodes: { id: string; label: string }[]) {
+  private updateNodesList(nodes: { id: string; label: string }[]) {
     this.sigmaService.updateNodesList(nodes);
   }
 
-  nodeSetting() {
+  private nodeSetting() {
     this.sigmaInstance.setSetting('nodeReducer', (node, data) => {
       const res: Partial<NodeDisplayData> = { ...data };
       if (this.state.selectedNode === node) {
@@ -357,54 +252,31 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  hideAllOtherNodes(id: string) {
-    this.graph.forEachNode((node) => {
-      this.graph.setNodeAttribute(node, 'hidden', true);
-    });
-
-    // this.graph.forEachEdge((edge) => {
-    //   this.graph.setEdgeAttribute(edge, 'hidden', true);
-    // });
-
-    // Make the initial node visible
-    this.graph.setNodeAttribute(id, 'hidden', false);
-
-    // Refresh the renderer
-    this.sigmaInstance.refresh();
-  }
-
-  expandNode(id: string, neighbors: any) {
+  private expandNode(id: string, neighbors: any) {
     const centerX = this.graph.getNodeAttribute(id, 'x');
     const centerY = this.graph.getNodeAttribute(id, 'y');
     const newPositions: PlainObject<PlainObject<number>> = {};
     const hasOtherNeighbors = (nodeId: string, clickedNodeId: string) => {
       const allNeighbors = this.graph.neighbors(nodeId);
       return allNeighbors.some((neighborId: string) => neighborId !== clickedNodeId);
-  };  
-    if (this.graph.getNodeAttribute(id, 'expanded') === true) {
-      console.log('alr');
-      console.log(neighbors);
-      
-      neighbors.forEach((node: any) => {
-       
+    };
 
-       
+    if (this.graph.getNodeAttribute(id, 'expanded') === true) {
+      neighbors.forEach((node: any) => {
         if (!hasOtherNeighbors(node.id, id)) {
           newPositions[node.id] = {
             x: centerX,
             y: centerY,
           };
           setTimeout(() => {
-              this.graph.dropNode(node.id);
+            this.graph.dropNode(node.id);
           }, 300);
-      }
+        }
       });
       this.graph.setNodeAttribute(id, 'expanded', false);
       animateNodes(this.graph, newPositions, { duration: 300 });
     } else {
       if (centerX !== undefined && centerY !== undefined) {
-        console.log(neighbors);
-
         neighbors.forEach((node: any, index: any) => {
           const angle = (index * (2 * Math.PI)) / neighbors.length;
           const radius = 0.2;
@@ -412,9 +284,6 @@ export class SigmaComponent implements AfterViewInit {
           const newX = centerX + radius * Math.cos(angle);
           const newY = centerY + radius * Math.sin(angle);
 
-          
-
-          console.log(node);
           if (!this.graph.hasNode(node.id)) {
             this.graph.addNode(node.id, {
               label: node.label,
@@ -441,5 +310,114 @@ export class SigmaComponent implements AfterViewInit {
         animateNodes(this.graph, newPositions, { duration: 300 });
       }
     }
+  }
+
+  private initializeGraph() {
+    this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement, {
+      allowInvalidContainer: true,
+      defaultEdgeType: 'curved',
+      renderEdgeLabels: true,
+      edgeProgramClasses: {
+        straight: EdgeArrowProgram,
+        curved: EdgeCurvedArrowProgram,
+      },
+    });
+    this.sigmaInstance.refresh();
+  }
+
+  private subscribeToServices() {
+    this.sigmaService.circularLayoutTrigger$.subscribe(() => {
+      this.circularLayout();
+    });
+
+    this.sigmaService.randomLayoutTrigger$.subscribe(() => {
+      this.randomLayout();
+    });
+
+    this.sigmaService.searchedNodeOb$.subscribe((node) => {
+      this.state.selectedNode = node;
+      const nodePosition = this.sigmaInstance.getNodeDisplayData(node) as Coordinates;
+
+      this.sigmaInstance.getCamera().animate(nodePosition, { duration: 500 });
+      this.nodeSetting();
+    });
+  }
+
+  private nodeClickHandler() {
+    this.sigmaInstance.on('clickNode', async (event) => {
+      const nodeId = event.node;
+      const nodeAttributes = this.graph.getNodeAttributes(nodeId);
+
+      this.sigmaService.changeSelectedNode(
+        nodeAttributes as {
+          age: number;
+          bio: string;
+          color: string;
+          job: string;
+          label: string;
+          size: number;
+          x: number;
+          y: number;
+        }
+      );
+    });
+  }
+
+  private doubleClickHandler() {
+    this.sigmaInstance.on('doubleClickNode', (event) => {
+      event.preventSigmaDefault();
+      this.expandNode(event.node, this.mockBack.getNeighbours(event.node));
+    });
+    this.sigmaInstance.on('doubleClickStage', (e) => {
+      e.preventSigmaDefault();
+    });
+  }
+
+  private sendGraphData() {
+    const data: GraphData = {
+      numberOfNodes: this.graph.order,
+      numberOfEdges: this.graph.size,
+    };
+    this.sigmaService.changeData(data);
+  }
+
+  private initializeCameraState() {
+    const camera = this.sigmaInstance.getCamera();
+    this.initialCameraState = {
+      x: camera.x,
+      y: camera.y,
+      ratio: camera.ratio,
+    };
+  }
+
+  private handleEnterNode() {
+    this.sigmaInstance.on('enterNode', ({ node }) => {
+      this.setHoveredNode(node);
+    });
+  }
+
+  private handleLeaveNode() {
+    this.sigmaInstance.on('leaveNode', () => {
+      this.setHoveredNode(undefined);
+    });
+  }
+
+  private setReducerSetting() {
+    this.sigmaInstance.setSetting('edgeReducer', (edge, data) => {
+      const res: Partial<EdgeDisplayData> = { ...data };
+
+      if (this.state.hoveredNode && !this.graph.hasExtremity(edge, this.state.hoveredNode)) {
+        res.hidden = true;
+      }
+
+      if (
+        this.state.suggestions &&
+        (!this.state.suggestions.has(this.graph.source(edge)) || !this.state.suggestions.has(this.graph.target(edge)))
+      ) {
+        res.hidden = true;
+      }
+
+      return res;
+    });
   }
 }
