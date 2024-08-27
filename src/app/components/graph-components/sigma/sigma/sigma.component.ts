@@ -252,7 +252,9 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  private expandNode(id: string, neighbors: any) {
+  private expandNode(id: string, neighbors: {id:string , label: string , x: number , y:number , size: number , color:string}[]) {
+    console.log(neighbors);
+    
     const centerX = this.graph.getNodeAttribute(id, 'x');
     const centerY = this.graph.getNodeAttribute(id, 'y');
     const newPositions: PlainObject<PlainObject<number>> = {};
@@ -262,7 +264,7 @@ export class SigmaComponent implements AfterViewInit {
     };
 
     if (this.graph.getNodeAttribute(id, 'expanded') === true) {
-      neighbors.forEach((node: any) => {
+      neighbors.forEach((node: {id:string , label: string , x: number , y:number , size: number , color:string}) => {
         if (!hasOtherNeighbors(node.id, id)) {
           newPositions[node.id] = {
             x: centerX,
@@ -277,7 +279,7 @@ export class SigmaComponent implements AfterViewInit {
       animateNodes(this.graph, newPositions, { duration: 300 });
     } else {
       if (centerX !== undefined && centerY !== undefined) {
-        neighbors.forEach((node: any, index: any) => {
+        neighbors.forEach((node: {id:string , label: string , x: number , y:number , size: number , color:string}, index: number) => {
           const angle = (index * (2 * Math.PI)) / neighbors.length;
           const radius = 0.2;
 

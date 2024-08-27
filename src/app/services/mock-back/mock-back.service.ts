@@ -1,13 +1,11 @@
-import { Injectable, OnInit } from '@angular/core';
-import { EdgeCurvedArrowProgram } from '@sigma/edge-curve';
+import { Injectable } from '@angular/core';
 import { MultiGraph } from 'graphology';
 import Sigma from 'sigma';
-import { EdgeArrowProgram } from 'sigma/rendering';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MockBackService implements OnInit {
+export class MockBackService {
   graph!: MultiGraph;
   sigmaInstance!: Sigma;
 
@@ -101,7 +99,6 @@ export class MockBackService implements OnInit {
       color: '#000',
     },
   ];
-  
 
   edges = [
     {
@@ -206,25 +203,9 @@ export class MockBackService implements OnInit {
       },
     },
   ];
-  
 
   constructor() {
     this.graph = new MultiGraph();
-
-    // this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement, {
-    //   allowInvalidContainer: true,
-    //   defaultEdgeType: 'curved',
-    //   renderEdgeLabels: true,
-    //   edgeProgramClasses: {
-    //     straight: EdgeArrowProgram,
-    //     curved: EdgeCurvedArrowProgram,
-    //   },
-    // });
-    // this.sigmaInstance.refresh();
-    this.addNodes();
-    this.addEdges();
-  }
-  ngOnInit(): void {
     this.addNodes();
     this.addEdges();
   }
@@ -251,15 +232,14 @@ export class MockBackService implements OnInit {
       this.graph.addEdge(edge.source, edge.target, edge.attr);
     });
     console.log(this.graph);
-    
   }
 
-  getNeighbours(id:string){
+  getNeighbours(id: string) {
     const neighborIds = this.graph.neighbors(id);
 
     // Filter nodes that match the neighbor IDs
     const matchingNodes = this.nodes.filter((node) => neighborIds.includes(node.id));
-  
+
     return matchingNodes;
   }
 
@@ -268,12 +248,12 @@ export class MockBackService implements OnInit {
 
     // Include the original node ID to get edges connected to the node and its neighbors
     const relevantIds = [id, ...neighborIds];
-  
+
     // Filter edges where both ends are in the relevant IDs (direct neighbors)
     const matchingEdges = this.edges.filter(
       (edge) => relevantIds.includes(edge.source) && relevantIds.includes(edge.target)
     );
-  
+
     return matchingEdges;
   }
 }
