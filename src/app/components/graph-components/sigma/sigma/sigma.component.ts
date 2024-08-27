@@ -13,13 +13,14 @@ import { EdgeArrowProgram } from 'sigma/rendering';
 import { EdgeCurvedArrowProgram } from '@sigma/edge-curve';
 import { MockBackService } from '../../../../services/mock-back/mock-back.service';
 import { State } from '../../../../models/graph-state';
+import { GraphToolBarComponent } from "../../toolbarl/graph-tool-bar/graph-tool-bar.component";
 
 // ********** This component can be a bit confusing so I have to use comments to ease the understanding (Sorry if the comments are a bit informal ^.^) **********
 
 @Component({
   selector: 'app-sigma',
   standalone: true,
-  imports: [NzIconModule, NzToolTipModule],
+  imports: [NzIconModule, NzToolTipModule, GraphToolBarComponent],
   templateUrl: './sigma.component.html',
   styleUrl: './sigma.component.scss',
 })

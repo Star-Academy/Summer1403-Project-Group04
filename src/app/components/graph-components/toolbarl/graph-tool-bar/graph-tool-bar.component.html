@@ -1,17 +1,13 @@
-<div nz-flex [nzVertical]="true" class="toolbar-container">
-  <button nzType="default" title="Negar" type="button" class="toolbar-container__logo" routerLink="/dashboard">
-    <img class="sidebar-logo__title-container__title__logo__img" src="/logo.svg" alt="logo" />
-  </button>
-
-  <br />
-
-  <div nz-flex [nzVertical]="true" class="toolbar-container__btn-container">
+<div nz-flex class="toolbar-container">
+  <div nz-flex class="toolbar-container__btn-container">
     <button
       nzPopoverTrigger="click"
       nz-popover
+      nz-tooltip
+      nzTooltipTitle="Upload"  
       nzPopoverTitle="Upload"
       [nzPopoverContent]="upload"
-      nzPopoverPlacement="right"
+      nzPopoverPlacement="bottom"
       type="button"
       class="toolbar-container__btn"
       [ngClass]="{ active: activeButton === 0 }"
@@ -23,23 +19,27 @@
     <button
       nzPopoverTrigger="click"
       nz-popover
+      nz-tooltip
+      nzTooltipTitle="Get Graph"  
       nzPopoverTitle="Download"
       [nzPopoverContent]="download"
-      nzPopoverPlacement="right"
+      nzPopoverPlacement="bottom"
       type="button"
       class="toolbar-container__btn"
       [ngClass]="{ active: activeButton === 1 }"
       (click)="setActiveButton(1)"
     >
-    <span nz-icon nzType="cloud-download" nzTheme="outline"></span>
+      <span nz-icon nzType="cloud-download" nzTheme="outline"></span>
     </button>
 
     <button
       nzPopoverTrigger="click"
       nz-popover
+      nz-tooltip
+      nzTooltipTitle="Layouts"  
       nzPopoverTitle="Layouts"
       [nzPopoverContent]="layouts"
-      nzPopoverPlacement="right"
+      nzPopoverPlacement="bottom"
       nzTitle="Layouts"
       type="button"
       class="toolbar-container__btn"
@@ -52,9 +52,11 @@
     <button
       nzPopoverTrigger="click"
       nz-popover
+      nz-tooltip
+      nzTooltipTitle="Settings"  
       nzPopoverTitle="Settings"
       [nzPopoverContent]="Options"
-      nzPopoverPlacement="right"
+      nzPopoverPlacement="bottom"
       nzTitle="Layouts"
       type="button"
       class="toolbar-container__btn"
@@ -63,30 +65,6 @@
     >
       <span nz-icon nzType="setting" nzTheme="outline"></span>
     </button>
-  </div>
-
-  <div class="grow-div"></div>
-
-  <div nz-flex [nzVertical]="true" class="toolbar-container__btn-container">
-    <button nz-tooltip nzTooltipTitle="Github repo" title="info" type="button" class="toolbar-container__btn">
-      <a
-        href="https://github.com/Star-Academy/Summer1403-Project-Group04-Frontend"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="toolbar-container__btn__github"
-        ><span nz-icon nzType="github" nzTheme="outline"></span>
-      </a>
-    </button>
-
-    <button
-      title="user"
-      type="button"
-      class="toolbar-container__btn"
-      [ngClass]="{ active: activeButton === 4}"
-      routerLink="/dashboard/profile"
-    >
-      <span nz-icon nzType="user" nzTheme="outline"></span>
-  </button>
   </div>
 </div>
 
@@ -110,9 +88,8 @@
   </div>
 </ng-template>
 
-
 <ng-template #download>
   <div>
-    <app-get-graph></app-get-graph> 
+    <app-get-graph></app-get-graph>
   </div>
 </ng-template>
