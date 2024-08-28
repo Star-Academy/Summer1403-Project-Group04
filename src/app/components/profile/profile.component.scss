@@ -25,7 +25,7 @@
     inline-size: 100%;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     padding-block: 4rem;
     display: flex;
     flex-direction: column;
@@ -46,7 +46,7 @@
   }
 
   &__profile-container {
-    border-radius: 2rem;
+    border-radius: 1rem;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
     position: relative;
@@ -69,8 +69,8 @@
     }
 
     &__img-container {
-      border-top-left-radius: 2rem;
-      border-top-right-radius: 2rem;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
       inline-size: 100%;
       overflow: hidden;
 

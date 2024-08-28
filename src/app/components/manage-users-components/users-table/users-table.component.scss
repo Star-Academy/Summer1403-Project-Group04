@@ -12,7 +12,7 @@
     inline-size: 100%;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     padding-block: 4rem;
     display: flex;
     flex-direction: column;
@@ -35,7 +35,7 @@
   &__content-container {
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    border-radius: 2rem;
+    border-radius: 1rem;
     overflow: hidden;
 
     &__description {
@@ -70,7 +70,7 @@
         border: none;
         background-color: #ffffff;
         color: #1f66a8;
-        border-radius: 1rem;
+        border-radius: 0.5rem;
         font-size: 1.5rem;
         cursor: pointer;
         transition: all 0.2s linear;
@@ -86,7 +86,11 @@
         }
 
         &:hover {
-          transform: scale(1.15);
+          transform: scale(1.05);
+        }
+
+        &:active {
+          transform: scale(1);
         }
       }
     }
@@ -98,7 +102,6 @@
 }
 
 .table {
-  border-radius: 2rem;
 
   &__delete-icon {
     color: red;
