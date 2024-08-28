@@ -5,6 +5,32 @@
   background-color: #f8f6f4;
 }
 
+::ng-deep {
+  .ant-drawer-mask {
+    display: none;
+  }
+
+  .ant-drawer-right > .ant-drawer-content-wrapper {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  }
+
+  .ant-badge-status.ant-badge-not-a-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .ant-badge-status-dot {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+
+  .ant-badge-status-text {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+}
+
 .sigma-container {
   flex-grow: 1;
   height: 100%;
@@ -28,6 +54,30 @@
       color: #fff;
       font-size: 1.5rem;
       cursor: pointer;
+    }
+  }
+}
+
+.node-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__node-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    &__header {
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+
+    &__value {
+      font-size: 1.6rem;
+      align-self: flex-end;
+      direction: rtl;
     }
   }
 }

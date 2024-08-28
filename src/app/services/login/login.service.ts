@@ -36,6 +36,6 @@ export class LoginService {
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.get<{ permissions: string }>(apiUrl, { headers, withCredentials: true });
+    return this.http.get<{ permissions: string }>(apiUrl, { headers, withCredentials: true });  
   }
 }

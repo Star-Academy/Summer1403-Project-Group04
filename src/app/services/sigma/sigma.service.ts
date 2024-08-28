@@ -31,7 +31,7 @@ export class SigmaService {
     x: 0,
     y: 0,
   });
-  nodeData = this.selectedNodeData.asObservable();
+  nodeData$ = this.selectedNodeData.asObservable();
 
   private circularLayoutTrigger = new Subject<void>();
   circularLayoutTrigger$ = this.circularLayoutTrigger.asObservable();

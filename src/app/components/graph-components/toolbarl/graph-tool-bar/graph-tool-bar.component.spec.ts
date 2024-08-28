@@ -14,6 +14,7 @@ import {
   SettingOutline,
   GithubOutline,
   CloudDownloadOutline,
+  MenuOutline,
 } from '@ant-design/icons-angular/icons';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -46,7 +47,8 @@ describe('GraphToolBarComponent', () => {
             FilterOutline,
             SettingOutline,
             GithubOutline,
-            CloudDownloadOutline
+            CloudDownloadOutline,
+            MenuOutline
           ],
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
