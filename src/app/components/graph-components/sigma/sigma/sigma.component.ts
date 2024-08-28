@@ -14,7 +14,7 @@ import { EdgeCurvedArrowProgram } from '@sigma/edge-curve';
 import { MockBackService } from '../../../../services/mock-back/mock-back.service';
 import { State } from '../../../../models/graph-state';
 import { GraphNode } from '../../../../models/graph-Nodes';
-import { GraphToolBarComponent } from "../../toolbarl/graph-tool-bar/graph-tool-bar.component";
+import { GraphToolBarComponent } from '../../toolbarl/graph-tool-bar/graph-tool-bar.component';
 
 @Component({
   selector: 'app-sigma',
@@ -44,13 +44,13 @@ export class SigmaComponent implements AfterViewInit {
 
     this.initializeGraph();
 
-    this.graph.addNode(this.mockBack.addSingleNode('0')?.id, {
-      label: this.mockBack.addSingleNode('0')?.label,
-      x: this.mockBack.addSingleNode('0')?.x,
-      y: this.mockBack.addSingleNode('0')?.y,
-      size: this.mockBack.addSingleNode('0')?.size,
-      color: this.mockBack.addSingleNode('0')?.color,
-    });
+    // this.graph.addNode(this.mockBack.addSingleNode('0')?.id, {
+    //   label: this.mockBack.addSingleNode('0')?.label,
+    //   x: this.mockBack.addSingleNode('0')?.x,
+    //   y: this.mockBack.addSingleNode('0')?.y,
+    //   size: this.mockBack.addSingleNode('0')?.size,
+    //   color: this.mockBack.addSingleNode('0')?.color,
+    // });
 
     this.subscribeToServices();
 
@@ -175,17 +175,19 @@ export class SigmaComponent implements AfterViewInit {
         x: node.x,
         y: node.y,
         color: node.color,
-        size: node.size,
+        size: 20,
         expanded: node.expanded,
       });
     });
   }
 
   private addEdges(edges: any) {
-    console.log(edges);
-
+    const attr = {
+      label: 'test',
+      size: 10,
+    };
     edges.forEach((edge: any) => {
-      this.graph.addEdge(edge.source, edge.target);
+      this.graph.addEdge(edge.source, edge.target, attr);
     });
   }
 
