@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NgClass } from '@angular/common';
 import { SigmaService } from '../../../../services/sigma/sigma.service';
@@ -35,8 +35,14 @@ import { GetGraphComponent } from "../toolbar-components/get-graph/get-graph.com
 export class GraphToolBarComponent {
   constructor(private sigmaService: SigmaService) {}
   activeButton: number | null = null;
+  @Output() openDrawer: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   setActiveButton(index: number) {
     this.activeButton = index;
+  }
+
+  openMenu(){
+    this.setActiveButton(4);
+    this.openDrawer.emit(true);
   }
 }

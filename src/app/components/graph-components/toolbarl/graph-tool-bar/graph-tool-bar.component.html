@@ -21,8 +21,8 @@
       nz-popover
       nz-tooltip
       nzTooltipTitle="Get Graph"  
-      nzPopoverTitle="Download"
-      [nzPopoverContent]="download"
+      nzPopoverTitle="Get Graph"
+      [nzPopoverContent]="getGgraph"
       nzPopoverPlacement="bottom"
       type="button"
       class="toolbar-container__btn"
@@ -65,6 +65,19 @@
     >
       <span nz-icon nzType="setting" nzTheme="outline"></span>
     </button>
+
+    <button
+      nz-tooltip
+      nzTooltipTitle="Overview"  
+      nzPopoverTitle="Overview"
+      nzTitle="Layouts"
+      type="button"
+      class="toolbar-container__btn"
+      (click)="openMenu()"
+      [ngClass]="{ active: activeButton === 4 }"
+    >
+    <span nz-icon nzType="menu" nzTheme="outline"></span>
+    </button>
   </div>
 </div>
 
@@ -88,7 +101,7 @@
   </div>
 </ng-template>
 
-<ng-template #download>
+<ng-template #getGgraph>
   <div>
     <app-get-graph></app-get-graph>
   </div>

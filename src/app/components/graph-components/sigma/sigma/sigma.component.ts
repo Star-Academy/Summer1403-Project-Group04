@@ -14,11 +14,31 @@ import { MockBackService } from '../../../../services/mock-back/mock-back.servic
 import { State } from '../../../../models/graph-state';
 import { GraphNode } from '../../../../models/graph-Nodes';
 import { GraphToolBarComponent } from '../../toolbarl/graph-tool-bar/graph-tool-bar.component';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { UploadGraphService } from '../../../../services/upload-graph/upload-graph.service';
+import { nodeData } from '../../../../models/node-data';
+import { CommonModule, NgFor } from '@angular/common';
+import { edgeData } from '../../../../models/edge-data';
+import { NzBadgeComponent } from 'ng-zorro-antd/badge';
 
 @Component({
   selector: 'app-sigma',
   standalone: true,
-  imports: [NzIconModule, NzToolTipModule, GraphToolBarComponent],
+  imports: [
+    NzIconModule,
+    NzToolTipModule,
+    GraphToolBarComponent,
+    NzDrawerModule,
+    NzInputModule,
+    NzButtonModule,
+    NzDividerModule,
+    NgFor,
+    CommonModule,
+    NzBadgeComponent
+  ],
   templateUrl: './sigma.component.html',
   styleUrl: './sigma.component.scss',
 })
@@ -31,8 +51,17 @@ export class SigmaComponent implements AfterViewInit {
   private state: State = { searchQuery: '' };
   private cancelCurrentAnimation: (() => void) | null = null;
   private nodesList: GraphNode[] = [];
+  protected visible = false;
+  protected selectedNode: nodeData | null = null;
+  protected selectedEdge: edgeData | null = null;
+  protected selectedNodeId!: string;
+  protected selectedEdgeId!: string;
 
-  constructor(private sigmaService: SigmaService, private mockBack: MockBackService) {}
+  constructor(
+    private sigmaService: SigmaService,
+    private mockBack: MockBackService,
+    private uploadService: UploadGraphService
+  ) {}
 
   ngAfterViewInit() {
     this.graph = new MultiGraph();
@@ -42,14 +71,6 @@ export class SigmaComponent implements AfterViewInit {
     });
 
     this.initializeGraph();
-
-    // this.graph.addNode(this.mockBack.addSingleNode('0')?.id, {
-    //   label: this.mockBack.addSingleNode('0')?.label,
-    //   x: this.mockBack.addSingleNode('0')?.x,
-    //   y: this.mockBack.addSingleNode('0')?.y,
-    //   size: this.mockBack.addSingleNode('0')?.size,
-    //   color: this.mockBack.addSingleNode('0')?.color,
-    // });
 
     this.subscribeToServices();
 
@@ -61,6 +82,8 @@ export class SigmaComponent implements AfterViewInit {
     );
 
     this.nodeClickHandler();
+
+    this.edgeClickHandler();
 
     this.doubleClickHandler();
 
@@ -180,12 +203,12 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  private addEdges(edges: {id:string , source: string , target: string}[]) {
+  private addEdges(edges: { id: string; source: string; target: string }[]) {
     const attr = {
       label: 'test',
       size: 10,
     };
-    edges.forEach((edge: {id:string , source: string , target: string}) => {
+    edges.forEach((edge: { id: string; source: string; target: string }) => {
       this.graph.addEdge(edge.source, edge.target, attr);
     });
   }
@@ -324,6 +347,7 @@ export class SigmaComponent implements AfterViewInit {
   private initializeGraph() {
     this.sigmaInstance = new Sigma(this.graph, document.getElementById('sigma-container') as HTMLDivElement, {
       allowInvalidContainer: true,
+      enableEdgeEvents: true,
       defaultEdgeType: 'curved',
       renderEdgeLabels: true,
       edgeProgramClasses: {
@@ -355,7 +379,7 @@ export class SigmaComponent implements AfterViewInit {
       const nodes = data['nodes'];
       const edges = data['edges'];
 
-      nodes.forEach((element: {id:string, label:string}) => {
+      nodes.forEach((element: { id: string; label: string }) => {
         this.nodesList.push({
           id: element.id,
           label: element.label,
@@ -374,21 +398,31 @@ export class SigmaComponent implements AfterViewInit {
 
   private nodeClickHandler() {
     this.sigmaInstance.on('clickNode', async (event) => {
-      const nodeId = event.node;
-      const nodeAttributes = this.graph.getNodeAttributes(nodeId);
+      this.selectedNodeId = event.node;
 
-      this.sigmaService.changeSelectedNode(
-        nodeAttributes as {
-          age: number;
-          bio: string;
-          color: string;
-          job: string;
-          label: string;
-          size: number;
-          x: number;
-          y: number;
-        }
-      );
+      this.uploadService.getNodeById(event.node).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.selectedNode = data;
+        },
+      });
+      this.selectedEdge = null;
+      this.open();
+    });
+  }
+
+  private edgeClickHandler() {
+    this.sigmaInstance.on('clickEdge', (event) => {
+      this.selectedEdgeId = (parseInt(event.edge.charAt(event.edge.length - 1)) + 1).toString();
+
+      this.uploadService.getEdgeById(event.edge.charAt(event.edge.length - 1)).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.selectedEdge = data;
+        },
+      });
+      this.selectedNode = null;
+      this.open();
     });
   }
 
@@ -451,5 +485,15 @@ export class SigmaComponent implements AfterViewInit {
 
       return res;
     });
+  }
+
+  protected open(): void {
+    this.visible = true;
+  }
+
+  protected close(): void {
+    this.visible = false;
+    this.selectedEdge = null;
+    this.selectedNode = null;
   }
 }

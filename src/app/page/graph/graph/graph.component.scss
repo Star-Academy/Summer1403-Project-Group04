@@ -1,15 +1,12 @@
 .graph-page-container {
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
-  
-  
-  &__graph-container{
+  position: relative;
+
+  &__graph-container {
     flex-grow: 1;
     flex-shrink: 1;
     position: relative;
   }
-
- 
 }
