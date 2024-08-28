@@ -39,11 +39,14 @@ export class SigmaService {
   private randomLayoutTrigger = new Subject<void>();
   randomLayoutTrigger$ = this.randomLayoutTrigger.asObservable();
 
-  private allNodes = new BehaviorSubject<{id:string , label:string}[]>([]);
+  private allNodes = new BehaviorSubject<{ id: string; label: string }[]>([]);
   allNodesData$ = this.allNodes.asObservable();
 
   private searchedNode = new BehaviorSubject<string>('');
   searchedNodeOb$ = this.searchedNode.asObservable();
+
+  private getGraph = new BehaviorSubject<{nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}>({nodes : [], edges : []});
+  getGraph$ = this.getGraph.asObservable();
 
   changeData(data: GraphData) {
     this.graphData.next(data);
@@ -70,11 +73,17 @@ export class SigmaService {
     this.randomLayoutTrigger.next();
   }
 
-  updateNodesList(data : {id:string , label:string}[]){
-    this.allNodes.next(data)
+  updateNodesList(data: { id: string; label: string }[]) {
+    this.allNodes.next(data);
   }
 
-  updateSearchedNode(node:string){    
-    this.searchedNode.next(node)
+  updateSearchedNode(node: string) {
+    this.searchedNode.next(node);
+  }
+
+  setGetGraph(data: {nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}) {
+    console.log(data);
+    
+    this.getGraph.next(data);
   }
 }

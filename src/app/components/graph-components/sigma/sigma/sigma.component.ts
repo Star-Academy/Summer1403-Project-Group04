@@ -1,7 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { MultiGraph } from 'graphology';
 import Sigma from 'sigma';
-import { nodes, edges } from './data';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SigmaService } from '../../../../services/sigma/sigma.service';
 import { GraphData } from '../../../../models/graph-data';
@@ -13,9 +12,8 @@ import { EdgeArrowProgram } from 'sigma/rendering';
 import { EdgeCurvedArrowProgram } from '@sigma/edge-curve';
 import { MockBackService } from '../../../../services/mock-back/mock-back.service';
 import { State } from '../../../../models/graph-state';
-import { GraphToolBarComponent } from "../../toolbarl/graph-tool-bar/graph-tool-bar.component";
-
-// ********** This component can be a bit confusing so I have to use comments to ease the understanding (Sorry if the comments are a bit informal ^.^) **********
+import { GraphNode } from '../../../../models/graph-Nodes';
+import { GraphToolBarComponent } from '../../toolbarl/graph-tool-bar/graph-tool-bar.component';
 
 @Component({
   selector: 'app-sigma',
@@ -27,12 +25,12 @@ import { GraphToolBarComponent } from "../../toolbarl/graph-tool-bar/graph-tool-
 export class SigmaComponent implements AfterViewInit {
   private initialCameraState: { x: number; y: number; ratio: number } | null = null;
   private sigmaInstance!: Sigma;
-  private nodes = 0;
   private draggedNode: string | null = null;
   private isDragging = false;
   private graph!: MultiGraph;
   private state: State = { searchQuery: '' };
   private cancelCurrentAnimation: (() => void) | null = null;
+  private nodesList: GraphNode[] = [];
 
   constructor(private sigmaService: SigmaService, private mockBack: MockBackService) {}
 
@@ -45,13 +43,13 @@ export class SigmaComponent implements AfterViewInit {
 
     this.initializeGraph();
 
-    this.graph.addNode(this.mockBack.addSingleNode('0')?.id, {
-      label: this.mockBack.addSingleNode('0')?.label,
-      x: this.mockBack.addSingleNode('0')?.x,
-      y: this.mockBack.addSingleNode('0')?.y,
-      size: this.mockBack.addSingleNode('0')?.size,
-      color: this.mockBack.addSingleNode('0')?.color,
-    });
+    // this.graph.addNode(this.mockBack.addSingleNode('0')?.id, {
+    //   label: this.mockBack.addSingleNode('0')?.label,
+    //   x: this.mockBack.addSingleNode('0')?.x,
+    //   y: this.mockBack.addSingleNode('0')?.y,
+    //   size: this.mockBack.addSingleNode('0')?.size,
+    //   color: this.mockBack.addSingleNode('0')?.color,
+    // });
 
     this.subscribeToServices();
 
@@ -169,22 +167,26 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  private addNodes() {
-    nodes.forEach((node) => {
+  private addNodes(nodes: GraphNode[]) {
+    nodes.forEach((node: GraphNode) => {
       this.graph.addNode(node.id, {
         label: node.label,
         x: node.x,
         y: node.y,
-        size: node.size,
         color: node.color,
+        size: 20,
+        expanded: node.expanded,
       });
     });
   }
 
-  private addEdges() {
-    // Add edges
-    edges.forEach((edge) => {
-      this.graph.addEdge(edge.source, edge.target, edge.attr);
+  private addEdges(edges: {id:string , source: string , target: string}[]) {
+    const attr = {
+      label: 'test',
+      size: 10,
+    };
+    edges.forEach((edge: {id:string , source: string , target: string}) => {
+      this.graph.addEdge(edge.source, edge.target, attr);
     });
   }
 
@@ -253,9 +255,10 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  private expandNode(id: string, neighbors: {id:string , label: string , x: number , y:number , size: number , color:string}[]) {
+  private expandNode(id: string, neighbors: GraphNode[]) {
+    console.log(this.graph.getNodeAttribute(id, 'expanded'));
     console.log(neighbors);
-    
+
     const centerX = this.graph.getNodeAttribute(id, 'x');
     const centerY = this.graph.getNodeAttribute(id, 'y');
     const newPositions: PlainObject<PlainObject<number>> = {};
@@ -265,7 +268,7 @@ export class SigmaComponent implements AfterViewInit {
     };
 
     if (this.graph.getNodeAttribute(id, 'expanded') === true) {
-      neighbors.forEach((node: {id:string , label: string , x: number , y:number , size: number , color:string}) => {
+      neighbors.forEach((node: GraphNode) => {
         if (!hasOtherNeighbors(node.id, id)) {
           newPositions[node.id] = {
             x: centerX,
@@ -280,7 +283,7 @@ export class SigmaComponent implements AfterViewInit {
       animateNodes(this.graph, newPositions, { duration: 300 });
     } else {
       if (centerX !== undefined && centerY !== undefined) {
-        neighbors.forEach((node: {id:string , label: string , x: number , y:number , size: number , color:string}, index: number) => {
+        neighbors.forEach((node: GraphNode, index: number) => {
           const angle = (index * (2 * Math.PI)) / neighbors.length;
           const radius = 0.2;
 
@@ -294,6 +297,7 @@ export class SigmaComponent implements AfterViewInit {
               y: node.y,
               size: node.size,
               color: node.color,
+              expanded: true,
             });
             this.graph.setNodeAttribute(node.id, 'x', centerX);
             this.graph.setNodeAttribute(node.id, 'y', centerY);
@@ -306,9 +310,11 @@ export class SigmaComponent implements AfterViewInit {
           this.sigmaInstance.refresh();
           this.graph.setNodeAttribute(node.id, 'hidden', false);
         });
+
         this.mockBack.getEdgesForNeighbors(id).forEach((edge) => {
           this.graph.addEdge(edge.source, edge.target, edge.attr);
         });
+
         this.graph.setNodeAttribute(id, 'expanded', true);
         animateNodes(this.graph, newPositions, { duration: 300 });
       }
@@ -344,6 +350,26 @@ export class SigmaComponent implements AfterViewInit {
       this.sigmaInstance.getCamera().animate(nodePosition, { duration: 500 });
       this.nodeSetting();
     });
+
+    this.sigmaService.getGraph$.subscribe((data) => {
+      const nodes = data['nodes'];
+      const edges = data['edges'];
+
+      nodes.forEach((element: {id:string, label:string}) => {
+        this.nodesList.push({
+          id: element.id,
+          label: element.label,
+          x: Math.random() * 2,
+          y: Math.random() * 2,
+          color: '#000',
+          size: 10,
+          expanded: true,
+        });
+      });
+
+      this.addNodes(this.nodesList);
+      this.addEdges(edges);
+    });
   }
 
   private nodeClickHandler() {
@@ -368,8 +394,11 @@ export class SigmaComponent implements AfterViewInit {
 
   private doubleClickHandler() {
     this.sigmaInstance.on('doubleClickNode', (event) => {
+      const neighbors = this.graph.neighbors(event.node);
+      const neighborNodes = this.nodesList.filter((node) => neighbors.includes(node.id));
+
       event.preventSigmaDefault();
-      this.expandNode(event.node, this.mockBack.getNeighbours(event.node));
+      this.expandNode(event.node, neighborNodes);
     });
     this.sigmaInstance.on('doubleClickStage', (e) => {
       e.preventSigmaDefault();

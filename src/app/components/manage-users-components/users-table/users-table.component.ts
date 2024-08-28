@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { BreadCrumpComponent } from '../../bread-crump/bread-crump.component';
 import { getRoleColor } from '../../../models/role-color';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-users-table',
@@ -27,6 +28,7 @@ import { getRoleColor } from '../../../models/role-color';
     NzPaginationComponent,
     NzTagComponent,
     BreadCrumpComponent,
+    NzButtonComponent
   ],
   templateUrl: './users-table.component.html',
   styleUrl: './users-table.component.scss',

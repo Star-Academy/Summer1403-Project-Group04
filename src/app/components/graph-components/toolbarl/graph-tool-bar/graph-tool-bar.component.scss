@@ -8,9 +8,11 @@
   flex-direction: row;
   padding-block-end: 0.25rem; 
   position: absolute;
-z-index: 999999999999999999999999;
+  z-index: 10;
+  
   &__btn-container{
     gap: 2rem !important;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     padding-inline: 1rem;
     background-color: #fff;
     border-radius: 2rem;
