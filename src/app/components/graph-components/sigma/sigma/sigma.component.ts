@@ -1,7 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { MultiGraph } from 'graphology';
 import Sigma from 'sigma';
-import { nodes, edges } from './data';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SigmaService } from '../../../../services/sigma/sigma.service';
 import { GraphData } from '../../../../models/graph-data';
@@ -181,12 +180,12 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  private addEdges(edges: any) {
+  private addEdges(edges: {id:string , source: string , target: string}[]) {
     const attr = {
       label: 'test',
       size: 10,
     };
-    edges.forEach((edge: any) => {
+    edges.forEach((edge: {id:string , source: string , target: string}) => {
       this.graph.addEdge(edge.source, edge.target, attr);
     });
   }
@@ -356,7 +355,7 @@ export class SigmaComponent implements AfterViewInit {
       const nodes = data['nodes'];
       const edges = data['edges'];
 
-      nodes.forEach((element: any) => {
+      nodes.forEach((element: {id:string, label:string}) => {
         this.nodesList.push({
           id: element.id,
           label: element.label,

@@ -45,7 +45,7 @@ export class SigmaService {
   private searchedNode = new BehaviorSubject<string>('');
   searchedNodeOb$ = this.searchedNode.asObservable();
 
-  private getGraph = new BehaviorSubject<any>('');
+  private getGraph = new BehaviorSubject<{nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}>({nodes : [], edges : []});
   getGraph$ = this.getGraph.asObservable();
 
   changeData(data: GraphData) {
@@ -81,7 +81,9 @@ export class SigmaService {
     this.searchedNode.next(node);
   }
 
-  setGetGraph(data: any) {
+  setGetGraph(data: {nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}) {
+    console.log(data);
+    
     this.getGraph.next(data);
   }
 }

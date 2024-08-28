@@ -48,6 +48,6 @@ export class UploadGraphService {
   getGraph(){
     const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.get<any>(`${this.URL}/api/Graph`, { headers, withCredentials: true });
+    return this.http.get<{nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}>(`${this.URL}/api/Graph`, { headers, withCredentials: true });
   }
 }

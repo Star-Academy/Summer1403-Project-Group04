@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { UploadGraphService } from '../../../../../services/upload-graph/upload-graph.service';
@@ -23,7 +22,8 @@ export class GetGraphComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private uploadGraphService: UploadGraphService,
-    private sigmaService: SigmaService
+    private sigmaService: SigmaService,
+    private notificationService : NotificationService
   ) {
     this.form = this.fb.group({
       SourceNodeCategoryName: ['', Validators.required],
@@ -56,6 +56,7 @@ export class GetGraphComponent implements OnInit {
     this.uploadGraphService.getGraph().subscribe({
       next: (data) => {
         this.sigmaService.setGetGraph(data);
+        this.notificationService.createNotification('success', 'Success', 'Graph data loaded successfully!');
       },
     });
   }
