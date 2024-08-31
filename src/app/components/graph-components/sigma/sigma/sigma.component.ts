@@ -282,66 +282,70 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   private expandNode(id: string, neighbors: graphRecords) {
-    const centerX = this.graph.getNodeAttribute(id, 'x');
-    const centerY = this.graph.getNodeAttribute(id, 'y');
-    const newPositions: PlainObject<PlainObject<number>> = {};
-    const hasOtherNeighbors = (nodeId: string, clickedNodeId: string) => {
-      const allNeighbors = this.graph.neighbors(nodeId);
-      return allNeighbors.some((neighborId: string) => neighborId !== clickedNodeId);
-    };
+    console.log(id , neighbors);
+    
+    // const centerX = this.graph.getNodeAttribute(id, 'x');
+    // const centerY = this.graph.getNodeAttribute(id, 'y');
+    // const newPositions: PlainObject<PlainObject<number>> = {};
+    // const hasOtherNeighbors = (nodeId: string, clickedNodeId: string) => {
+    //   const allNeighbors = this.graph.neighbors(nodeId);
+    //   return allNeighbors.some((neighborId: string) => neighborId !== clickedNodeId);
+    // };
 
-    if (this.graph.getNodeAttribute(id, 'expanded') === true) {
-      neighbors.nodes.forEach((node: any) => {
-        if (!hasOtherNeighbors(node.id, id)) {
-          newPositions[node.id] = {
-            x: centerX,
-            y: centerY,
-          };
-          setTimeout(() => {
-            this.graph.dropNode(node.id);
-          }, 300);
-        }
-      });
-      this.graph.setNodeAttribute(id, 'expanded', false);
-      animateNodes(this.graph, newPositions, { duration: 300 });
-    } else {
-      if (centerX !== undefined && centerY !== undefined) {
-        neighbors.nodes.forEach((node: any, index: number) => {
-          const angle = (index * (2 * Math.PI)) / neighbors.nodes.length;
-          const radius = 0.2;
+    // if (this.graph.getNodeAttribute(id, 'expanded') === true) {
+    //   neighbors.nodes.forEach((node: any) => {
+    //     console.log(node);
+        
+    //     if (!hasOtherNeighbors(node.id, id)) {
+    //       newPositions[node.id] = {
+    //         x: centerX,
+    //         y: centerY,
+    //       };
+    //       setTimeout(() => {
+    //         this.graph.dropNode(node.id);
+    //       }, 300);
+    //     }
+    //   });
+    //   this.graph.setNodeAttribute(id, 'expanded', false);
+    //   animateNodes(this.graph, newPositions, { duration: 300 });
+    // } else {
+    //   if (centerX !== undefined && centerY !== undefined) {
+    //     neighbors.nodes.forEach((node: any, index: number) => {
+    //       const angle = (index * (2 * Math.PI)) / neighbors.nodes.length;
+    //       const radius = 0.2;
 
-          const newX = centerX + radius * Math.cos(angle);
-          const newY = centerY + radius * Math.sin(angle);
+    //       const newX = centerX + radius * Math.cos(angle);
+    //       const newY = centerY + radius * Math.sin(angle);
 
-          if (!this.graph.hasNode(node.id)) {
-            this.graph.addNode(node.id, {
-              label: node.label,
-              x: node.x,
-              y: node.y,
-              size: node.size,
-              color: node.color,
-              expanded: true,
-            });
-            this.graph.setNodeAttribute(node.id, 'x', centerX);
-            this.graph.setNodeAttribute(node.id, 'y', centerY);
-            newPositions[node.id] = {
-              x: newX,
-              y: newY,
-            };
-          }
+    //       if (!this.graph.hasNode(node.id)) {
+    //         this.graph.addNode(node.id, {
+    //           label: node.label,
+    //           x: node.x,
+    //           y: node.y,
+    //           size: node.size,
+    //           color: node.color,
+    //           expanded: true,
+    //         });
+    //         this.graph.setNodeAttribute(node.id, 'x', centerX);
+    //         this.graph.setNodeAttribute(node.id, 'y', centerY);
+    //         newPositions[node.id] = {
+    //           x: newX,
+    //           y: newY,
+    //         };
+    //       }
 
-          this.sigmaInstance.refresh();
-          this.graph.setNodeAttribute(node.id, 'hidden', false);
-        });
+    //       this.sigmaInstance.refresh();
+    //       this.graph.setNodeAttribute(node.id, 'hidden', false);
+    //     });
 
-        this.mockBack.getEdgesForNeighbors(id).forEach((edge) => {
-          this.graph.addEdge(edge.source, edge.target, edge.attr);
-        });
+    //     this.mockBack.getEdgesForNeighbors(id).forEach((edge) => {
+    //       this.graph.addEdge(edge.source, edge.target, edge.attr);
+    //     });
 
-        this.graph.setNodeAttribute(id, 'expanded', true);
-        animateNodes(this.graph, newPositions, { duration: 300 });
-      }
-    }
+    //     this.graph.setNodeAttribute(id, 'expanded', true);
+    //     animateNodes(this.graph, newPositions, { duration: 300 });
+    //   }
+    // }
   }
 
   private initializeGraph() {
