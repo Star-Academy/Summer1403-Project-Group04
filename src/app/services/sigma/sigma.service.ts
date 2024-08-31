@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { GraphData } from '../../models/graph-data';
+import { graphCategory } from '../../models/graph-category';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,13 @@ export class SigmaService {
   private getGraph = new BehaviorSubject<{nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}>({nodes : [], edges : []});
   getGraph$ = this.getGraph.asObservable();
 
+  private selectedGraphCategories = new BehaviorSubject<graphCategory>( {
+    sourceCategoryName: '',
+    targetCategoryName: '',
+    edgeCategoryName: '',
+  });
+  selectedGraphCategories$ = this.selectedGraphCategories.asObservable();
+
   changeData(data: GraphData) {
     this.graphData.next(data);
   }
@@ -85,5 +93,10 @@ export class SigmaService {
     console.log(data);
     
     this.getGraph.next(data);
+  }
+
+  setSelectedCategories(data:graphCategory){
+    this.selectedGraphCategories.next(data);
+    
   }
 }

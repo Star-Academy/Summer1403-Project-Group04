@@ -23,6 +23,8 @@ import { nodeData } from '../../../../models/node-data';
 import { CommonModule, NgFor } from '@angular/common';
 import { edgeData } from '../../../../models/edge-data';
 import { NzBadgeComponent } from 'ng-zorro-antd/badge';
+import { graphCategory } from '../../../../models/graph-category';
+import { graphRecords } from '../../../../models/graph-records';
 
 @Component({
   selector: 'app-sigma',
@@ -37,7 +39,7 @@ import { NzBadgeComponent } from 'ng-zorro-antd/badge';
     NzDividerModule,
     NgFor,
     CommonModule,
-    NzBadgeComponent
+    NzBadgeComponent,
   ],
   templateUrl: './sigma.component.html',
   styleUrl: './sigma.component.scss',
@@ -56,6 +58,7 @@ export class SigmaComponent implements AfterViewInit {
   protected selectedEdge: edgeData | null = null;
   protected selectedNodeId!: string;
   protected selectedEdgeId!: string;
+  protected selectedCategories!: graphCategory;
 
   constructor(
     private sigmaService: SigmaService,
@@ -278,70 +281,71 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  private expandNode(id: string, neighbors: GraphNode[]) {
-    console.log(this.graph.getNodeAttribute(id, 'expanded'));
-    console.log(neighbors);
+  private expandNode(id: string, neighbors: graphRecords) {
+    console.log(id , neighbors);
+    
+    // const centerX = this.graph.getNodeAttribute(id, 'x');
+    // const centerY = this.graph.getNodeAttribute(id, 'y');
+    // const newPositions: PlainObject<PlainObject<number>> = {};
+    // const hasOtherNeighbors = (nodeId: string, clickedNodeId: string) => {
+    //   const allNeighbors = this.graph.neighbors(nodeId);
+    //   return allNeighbors.some((neighborId: string) => neighborId !== clickedNodeId);
+    // };
 
-    const centerX = this.graph.getNodeAttribute(id, 'x');
-    const centerY = this.graph.getNodeAttribute(id, 'y');
-    const newPositions: PlainObject<PlainObject<number>> = {};
-    const hasOtherNeighbors = (nodeId: string, clickedNodeId: string) => {
-      const allNeighbors = this.graph.neighbors(nodeId);
-      return allNeighbors.some((neighborId: string) => neighborId !== clickedNodeId);
-    };
+    // if (this.graph.getNodeAttribute(id, 'expanded') === true) {
+    //   neighbors.nodes.forEach((node: any) => {
+    //     console.log(node);
+        
+    //     if (!hasOtherNeighbors(node.id, id)) {
+    //       newPositions[node.id] = {
+    //         x: centerX,
+    //         y: centerY,
+    //       };
+    //       setTimeout(() => {
+    //         this.graph.dropNode(node.id);
+    //       }, 300);
+    //     }
+    //   });
+    //   this.graph.setNodeAttribute(id, 'expanded', false);
+    //   animateNodes(this.graph, newPositions, { duration: 300 });
+    // } else {
+    //   if (centerX !== undefined && centerY !== undefined) {
+    //     neighbors.nodes.forEach((node: any, index: number) => {
+    //       const angle = (index * (2 * Math.PI)) / neighbors.nodes.length;
+    //       const radius = 0.2;
 
-    if (this.graph.getNodeAttribute(id, 'expanded') === true) {
-      neighbors.forEach((node: GraphNode) => {
-        if (!hasOtherNeighbors(node.id, id)) {
-          newPositions[node.id] = {
-            x: centerX,
-            y: centerY,
-          };
-          setTimeout(() => {
-            this.graph.dropNode(node.id);
-          }, 300);
-        }
-      });
-      this.graph.setNodeAttribute(id, 'expanded', false);
-      animateNodes(this.graph, newPositions, { duration: 300 });
-    } else {
-      if (centerX !== undefined && centerY !== undefined) {
-        neighbors.forEach((node: GraphNode, index: number) => {
-          const angle = (index * (2 * Math.PI)) / neighbors.length;
-          const radius = 0.2;
+    //       const newX = centerX + radius * Math.cos(angle);
+    //       const newY = centerY + radius * Math.sin(angle);
 
-          const newX = centerX + radius * Math.cos(angle);
-          const newY = centerY + radius * Math.sin(angle);
+    //       if (!this.graph.hasNode(node.id)) {
+    //         this.graph.addNode(node.id, {
+    //           label: node.label,
+    //           x: node.x,
+    //           y: node.y,
+    //           size: node.size,
+    //           color: node.color,
+    //           expanded: true,
+    //         });
+    //         this.graph.setNodeAttribute(node.id, 'x', centerX);
+    //         this.graph.setNodeAttribute(node.id, 'y', centerY);
+    //         newPositions[node.id] = {
+    //           x: newX,
+    //           y: newY,
+    //         };
+    //       }
 
-          if (!this.graph.hasNode(node.id)) {
-            this.graph.addNode(node.id, {
-              label: node.label,
-              x: node.x,
-              y: node.y,
-              size: node.size,
-              color: node.color,
-              expanded: true,
-            });
-            this.graph.setNodeAttribute(node.id, 'x', centerX);
-            this.graph.setNodeAttribute(node.id, 'y', centerY);
-            newPositions[node.id] = {
-              x: newX,
-              y: newY,
-            };
-          }
+    //       this.sigmaInstance.refresh();
+    //       this.graph.setNodeAttribute(node.id, 'hidden', false);
+    //     });
 
-          this.sigmaInstance.refresh();
-          this.graph.setNodeAttribute(node.id, 'hidden', false);
-        });
+    //     this.mockBack.getEdgesForNeighbors(id).forEach((edge) => {
+    //       this.graph.addEdge(edge.source, edge.target, edge.attr);
+    //     });
 
-        this.mockBack.getEdgesForNeighbors(id).forEach((edge) => {
-          this.graph.addEdge(edge.source, edge.target, edge.attr);
-        });
-
-        this.graph.setNodeAttribute(id, 'expanded', true);
-        animateNodes(this.graph, newPositions, { duration: 300 });
-      }
-    }
+    //     this.graph.setNodeAttribute(id, 'expanded', true);
+    //     animateNodes(this.graph, newPositions, { duration: 300 });
+    //   }
+    // }
   }
 
   private initializeGraph() {
@@ -394,6 +398,12 @@ export class SigmaComponent implements AfterViewInit {
       this.addNodes(this.nodesList);
       this.addEdges(edges);
     });
+
+    this.sigmaService.selectedGraphCategories$.subscribe({
+      next: (data) => {
+        this.selectedCategories = data;
+      },
+    });
   }
 
   private nodeClickHandler() {
@@ -428,11 +438,14 @@ export class SigmaComponent implements AfterViewInit {
 
   private doubleClickHandler() {
     this.sigmaInstance.on('doubleClickNode', (event) => {
-      const neighbors = this.graph.neighbors(event.node);
-      const neighborNodes = this.nodesList.filter((node) => neighbors.includes(node.id));
 
-      event.preventSigmaDefault();
-      this.expandNode(event.node, neighborNodes);
+      this.uploadService.getNeighboursById(parseInt(event.node), this.selectedCategories).subscribe({
+        next: (data) => {
+          event.preventSigmaDefault();
+          this.expandNode(event.node, data);
+        },
+      });
+  
     });
     this.sigmaInstance.on('doubleClickStage', (e) => {
       e.preventSigmaDefault();

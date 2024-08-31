@@ -4,6 +4,8 @@ import { loginResponse } from '../../models/login-response';
 import { environment } from '../../../environments/environment';
 import { nodeData } from '../../models/node-data';
 import { edgeData } from '../../models/edge-data';
+import { graphRecords } from '../../models/graph-records';
+import { graphCategory } from '../../models/graph-category';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +28,7 @@ export class UploadGraphService {
   }
 
   uploadNodeData(data: FormData) {
-    
-    return this.http.post<loginResponse>(`${this.URL}/api/Node`, data, {withCredentials: true});
+    return this.http.post<loginResponse>(`${this.URL}/api/Node`, data, { withCredentials: true });
   }
 
   addEdgeCategory(edgeCategory: string) {
@@ -43,25 +44,37 @@ export class UploadGraphService {
     return this.http.get<string[]>(`${this.URL}/api/Edge/categories`, { headers, withCredentials: true });
   }
 
-  uploadEdgeData(data: FormData){
-    return this.http.post<loginResponse>(`${this.URL}/api/Edge`, data, {withCredentials: true});
+  uploadEdgeData(data: FormData) {
+    return this.http.post<loginResponse>(`${this.URL}/api/Edge`, data, { withCredentials: true });
   }
 
-  getGraph(){
+  getGraph() {
     const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.get<{nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}>(`${this.URL}/api/Graph`, { headers, withCredentials: true });
+    return this.http.get<graphRecords>(`${this.URL}/api/Graph`, { headers, withCredentials: true });
   }
 
-  getNodeById(id:string){
+  getNodeById(id: string) {
     const headers = { 'Content-Type': 'application/json' };
 
     return this.http.get<nodeData>(`${this.URL}/api/Node?nodeId=${parseInt(id)}`, { headers, withCredentials: true });
   }
 
-  getEdgeById(id:string) {
+  getEdgeById(id: string) {
     const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.get<edgeData>(`${this.URL}/api/Edge?edgeId=${parseInt(id) + 1}`, { headers, withCredentials: true });
+    return this.http.get<edgeData>(`${this.URL}/api/Edge?edgeId=${parseInt(id) + 1}`, {
+      headers,
+      withCredentials: true,
+    });
+  }
+
+  getNeighboursById(id: number, categories: graphCategory) {
+    const headers = { 'Content-Type': 'application/json' };
+
+    return this.http.get<graphRecords>(
+      `${this.URL}/api/Graph/expansion?nodeId=${id}&sourceCategoryName=${categories.sourceCategoryName}&targetCategoryName=${categories.targetCategoryName}&edgeCategoryName=${categories.edgeCategoryName}`,
+      { headers, withCredentials: true }
+    );
   }
 }
