@@ -23,6 +23,8 @@ import { nodeData } from '../../../../models/node-data';
 import { CommonModule, NgFor } from '@angular/common';
 import { edgeData } from '../../../../models/edge-data';
 import { NzBadgeComponent } from 'ng-zorro-antd/badge';
+import { graphCategory } from '../../../../models/graph-category';
+import { graphRecords } from '../../../../models/graph-records';
 
 @Component({
   selector: 'app-sigma',
@@ -37,7 +39,7 @@ import { NzBadgeComponent } from 'ng-zorro-antd/badge';
     NzDividerModule,
     NgFor,
     CommonModule,
-    NzBadgeComponent
+    NzBadgeComponent,
   ],
   templateUrl: './sigma.component.html',
   styleUrl: './sigma.component.scss',
@@ -56,6 +58,7 @@ export class SigmaComponent implements AfterViewInit {
   protected selectedEdge: edgeData | null = null;
   protected selectedNodeId!: string;
   protected selectedEdgeId!: string;
+  protected selectedCategories!: graphCategory;
 
   constructor(
     private sigmaService: SigmaService,
@@ -278,10 +281,7 @@ export class SigmaComponent implements AfterViewInit {
     });
   }
 
-  private expandNode(id: string, neighbors: GraphNode[]) {
-    console.log(this.graph.getNodeAttribute(id, 'expanded'));
-    console.log(neighbors);
-
+  private expandNode(id: string, neighbors: graphRecords) {
     const centerX = this.graph.getNodeAttribute(id, 'x');
     const centerY = this.graph.getNodeAttribute(id, 'y');
     const newPositions: PlainObject<PlainObject<number>> = {};
@@ -291,7 +291,7 @@ export class SigmaComponent implements AfterViewInit {
     };
 
     if (this.graph.getNodeAttribute(id, 'expanded') === true) {
-      neighbors.forEach((node: GraphNode) => {
+      neighbors.nodes.forEach((node: any) => {
         if (!hasOtherNeighbors(node.id, id)) {
           newPositions[node.id] = {
             x: centerX,
@@ -306,8 +306,8 @@ export class SigmaComponent implements AfterViewInit {
       animateNodes(this.graph, newPositions, { duration: 300 });
     } else {
       if (centerX !== undefined && centerY !== undefined) {
-        neighbors.forEach((node: GraphNode, index: number) => {
-          const angle = (index * (2 * Math.PI)) / neighbors.length;
+        neighbors.nodes.forEach((node: any, index: number) => {
+          const angle = (index * (2 * Math.PI)) / neighbors.nodes.length;
           const radius = 0.2;
 
           const newX = centerX + radius * Math.cos(angle);
@@ -394,6 +394,12 @@ export class SigmaComponent implements AfterViewInit {
       this.addNodes(this.nodesList);
       this.addEdges(edges);
     });
+
+    this.sigmaService.selectedGraphCategories$.subscribe({
+      next: (data) => {
+        this.selectedCategories = data;
+      },
+    });
   }
 
   private nodeClickHandler() {
@@ -428,11 +434,14 @@ export class SigmaComponent implements AfterViewInit {
 
   private doubleClickHandler() {
     this.sigmaInstance.on('doubleClickNode', (event) => {
-      const neighbors = this.graph.neighbors(event.node);
-      const neighborNodes = this.nodesList.filter((node) => neighbors.includes(node.id));
 
-      event.preventSigmaDefault();
-      this.expandNode(event.node, neighborNodes);
+      this.uploadService.getNeighboursById(parseInt(event.node), this.selectedCategories).subscribe({
+        next: (data) => {
+          event.preventSigmaDefault();
+          this.expandNode(event.node, data);
+        },
+      });
+  
     });
     this.sigmaInstance.on('doubleClickStage', (e) => {
       e.preventSigmaDefault();

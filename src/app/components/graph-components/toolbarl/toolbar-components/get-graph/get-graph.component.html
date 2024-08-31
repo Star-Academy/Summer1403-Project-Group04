@@ -20,7 +20,7 @@
 
     <div class="container__form__input-container">
       <h5 nz-typography>Edge category</h5>
-      <nz-select nzPlaceHolder="Edge Category" formControlName="EdgeCategoryName">
+      <nz-select nzPlaceHolder="Edge Category" formControlName="EdgeCategoryName" >
         @for (item of edgeCategoryList; track item) {
         <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
         }

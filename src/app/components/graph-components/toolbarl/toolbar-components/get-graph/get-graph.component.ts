@@ -23,7 +23,7 @@ export class GetGraphComponent implements OnInit {
     private fb: FormBuilder,
     private uploadGraphService: UploadGraphService,
     private sigmaService: SigmaService,
-    private notificationService : NotificationService
+    private notificationService: NotificationService
   ) {
     this.form = this.fb.group({
       SourceNodeCategoryName: ['', Validators.required],
@@ -57,7 +57,9 @@ export class GetGraphComponent implements OnInit {
       next: (data) => {
         this.sigmaService.setGetGraph(data);
         this.notificationService.createNotification('success', 'Success', 'Graph data loaded successfully!');
+       
       },
     });
+    this.sigmaService.setSelectedCategories(this.form.value)
   }
 }
