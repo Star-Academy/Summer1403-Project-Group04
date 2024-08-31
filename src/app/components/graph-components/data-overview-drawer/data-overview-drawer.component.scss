@@ -1,0 +1,122 @@
+@mixin flex {
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep {
+  .ant-drawer-mask {
+    display: none;
+  }
+
+  .ant-drawer-right > .ant-drawer-content-wrapper {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  }
+
+  .ant-badge-status.ant-badge-not-a-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .ant-badge-status-dot {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+
+  .ant-badge-status-text {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #454c53;
+  }
+}
+
+.node-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    &__options {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      font-weight: bold;
+      padding-block: 0.5rem;
+      padding-inline: 1.2rem;
+      border-radius: 50%;
+      color: #454c53;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #d8dadd;
+      }
+    }
+
+    &__custom-menu-list {
+      min-width: 15rem;
+      @include flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding-block: 0.8rem;
+      background-color: white;
+      border-radius: 0.8rem;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      overflow: hidden;
+
+      &__item {
+        inline-size: 90%;
+        align-self: center;
+        border-radius: 0.7rem;
+
+        &:hover {
+          background-color: #ddd;
+        }
+      }
+
+      ::ng-deep {
+        .ant-dropdown-menu-item {
+          span {
+            @include flex;
+            inline-size: 100%;
+            justify-content: space-between;
+
+            i {
+              font-size: 1.6rem;
+              color: #454c53;
+            }
+
+            img {
+              width: 2rem;
+              height: 2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__node-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    &__header {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: #454c53;
+    }
+
+    &__value {
+      font-size: 1.6rem;
+      align-self: flex-end;
+      direction: rtl;
+    }
+  }
+}

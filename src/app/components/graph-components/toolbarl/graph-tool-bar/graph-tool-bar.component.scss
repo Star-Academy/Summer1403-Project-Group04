@@ -1,7 +1,6 @@
 .toolbar-container {
   width: 100%;
   justify-content: center;
-  overflow-x: hidden;
   padding-right: 0;
   padding-left: 0;
   display: flex;
@@ -12,7 +11,7 @@
   
   &__btn-container{
     gap: 2rem !important;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
     padding-inline: 1rem;
     background-color: #fff;
     border-radius: 2rem;
@@ -47,13 +46,13 @@
     transition: all 0.2s ease;
 
     &__github{
-      color: #1f66a8;
+      color: #1890FF;
     }
   }
 }
 
 .active{
-    background-color: #1f66a8;
+    background-color: #1890FF;
     color: #fff;
     border-radius: 50%;
 }
@@ -65,7 +64,7 @@
   } 
 
   .ant-popover-title{
-    background-color: #1f66a8;
+    background-color: #1890FF;
     color: #fff;
     padding: 1rem;
     border-top-left-radius:  1rem;
@@ -73,7 +72,7 @@
   }
   
   .ant-popover-arrow-content {
-    --antd-arrow-background-color: #1f66a8;
+    --antd-arrow-background-color: #1890FF;
   }
 }
 
