@@ -6,6 +6,7 @@ import { UploadGraphService } from '../../../../../services/upload-graph/upload-
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { SigmaService } from '../../../../../services/sigma/sigma.service';
+import { MockBackService } from '../../../../../services/mock-back/mock-back.service';
 
 @Component({
   selector: 'app-get-graph',
@@ -23,7 +24,8 @@ export class GetGraphComponent implements OnInit {
     private fb: FormBuilder,
     private uploadGraphService: UploadGraphService,
     private sigmaService: SigmaService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private mockBackService : MockBackService
   ) {
     this.form = this.fb.group({
       SourceNodeCategoryName: ['', Validators.required],
@@ -56,6 +58,7 @@ export class GetGraphComponent implements OnInit {
     this.uploadGraphService.getGraph().subscribe({
       next: (data) => {
         this.sigmaService.setGetGraph(data);
+        this.mockBackService.setGraphData(data);
         this.notificationService.createNotification('success', 'Success', 'Graph data loaded successfully!');
        
       },

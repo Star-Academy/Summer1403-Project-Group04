@@ -107,7 +107,6 @@ export class UploadNodeComponent {
     this.uploadForm.get('File')?.updateValueAndValidity();
     this.msg.success(`${file.name} file selected successfully`);
 
-    console.log(this.uploadForm.value);
     return false;
   };
 

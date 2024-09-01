@@ -91,7 +91,6 @@ export class UploadEdgeComponent {
     this.uploadForm.get('File')?.updateValueAndValidity();
     this.msg.success(`${file.name} file selected successfully`);
 
-    console.log(this.uploadForm.value);
     return false;
   };
 
@@ -139,10 +138,8 @@ export class UploadEdgeComponent {
   }
 
   submit(){
-    console.log('fucking submit bech');
     
     if(this.uploadForm.valid){
-      console.log('raft too if');
       
       this.isPending = true;
       const formData = new FormData();
@@ -153,11 +150,7 @@ export class UploadEdgeComponent {
       formData.append('SourceNodeHeaderName', this.uploadForm.value.SourceNodeHeaderName);
       formData.append('TargetNodeHeaderName', this.uploadForm.value.TargetNodeHeaderName);
       formData.append('File', this.uploadForm.get('File')?.value as File);
-      formData.forEach((e)=>{
-        console.log(e);
-        
-      })
-
+     
       this.uploadGraphService.uploadEdgeData(formData).subscribe(({
         next: (response) => {
           this.notificationService.createNotification('success', 'Success', response.message);
