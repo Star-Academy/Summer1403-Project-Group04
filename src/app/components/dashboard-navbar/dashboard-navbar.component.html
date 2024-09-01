@@ -8,7 +8,7 @@
     </button>
   </div>
   <div class="navbar__right">
-    <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="navbar__right__menu-button">
+    <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzPlacement="bottomCenter" class="navbar__right__menu-button">
       {{ userData.firstName[0]?.toUpperCase() }}. {{ userData.lastName[0]?.toUpperCase()
       }}{{ userData.lastName.slice(1) }}
       <span nz-icon nzType="down" nzTheme="outline" class="navbar__right__menu-button__icon"></span>

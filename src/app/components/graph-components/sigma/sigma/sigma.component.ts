@@ -10,21 +10,16 @@ import { Coordinates, EdgeDisplayData, NodeDisplayData, PlainObject } from 'sigm
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { EdgeArrowProgram } from 'sigma/rendering';
 import { EdgeCurvedArrowProgram } from '@sigma/edge-curve';
-import { MockBackService } from '../../../../services/mock-back/mock-back.service';
 import { State } from '../../../../models/graph-state';
 import { GraphNode } from '../../../../models/graph-Nodes';
 import { GraphToolBarComponent } from '../../toolbarl/graph-tool-bar/graph-tool-bar.component';
-import { NzDrawerModule } from 'ng-zorro-antd/drawer';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { UploadGraphService } from '../../../../services/upload-graph/upload-graph.service';
-import { nodeData } from '../../../../models/node-data';
-import { CommonModule, NgFor } from '@angular/common';
-import { edgeData } from '../../../../models/edge-data';
-import { NzBadgeComponent } from 'ng-zorro-antd/badge';
+import { DataOverviewDrawerComponent } from "../../data-overview-drawer/data-overview-drawer.component";
 import { graphCategory } from '../../../../models/graph-category';
 import { graphRecords } from '../../../../models/graph-records';
+import { CommonModule, NgFor } from '@angular/common';
+import { nodeData } from '../../../../models/node-data';
+import { edgeData } from '../../../../models/edge-data';
+import { UploadGraphService } from '../../../../services/upload-graph/upload-graph.service';
 
 @Component({
   selector: 'app-sigma',
@@ -33,14 +28,10 @@ import { graphRecords } from '../../../../models/graph-records';
     NzIconModule,
     NzToolTipModule,
     GraphToolBarComponent,
-    NzDrawerModule,
-    NzInputModule,
-    NzButtonModule,
-    NzDividerModule,
     NgFor,
     CommonModule,
-    NzBadgeComponent,
-  ],
+    DataOverviewDrawerComponent
+],
   templateUrl: './sigma.component.html',
   styleUrl: './sigma.component.scss',
 })
@@ -53,7 +44,7 @@ export class SigmaComponent implements AfterViewInit {
   private state: State = { searchQuery: '' };
   private cancelCurrentAnimation: (() => void) | null = null;
   private nodesList: GraphNode[] = [];
-  protected visible = false;
+  protected drawerVisible = false;
   protected selectedNode: nodeData | null = null;
   protected selectedEdge: edgeData | null = null;
   protected selectedNodeId!: string;
@@ -62,7 +53,6 @@ export class SigmaComponent implements AfterViewInit {
 
   constructor(
     private sigmaService: SigmaService,
-    private mockBack: MockBackService,
     private uploadService: UploadGraphService
   ) {}
 
@@ -412,7 +402,6 @@ export class SigmaComponent implements AfterViewInit {
 
       this.uploadService.getNodeById(event.node).subscribe({
         next: (data) => {
-          console.log(data);
           this.selectedNode = data;
         },
       });
@@ -501,11 +490,11 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   protected open(): void {
-    this.visible = true;
+    this.drawerVisible = true;
   }
 
   protected close(): void {
-    this.visible = false;
+    this.drawerVisible = false;
     this.selectedEdge = null;
     this.selectedNode = null;
   }

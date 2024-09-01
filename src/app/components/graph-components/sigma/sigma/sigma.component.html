@@ -27,40 +27,16 @@
     >
       <span nz-icon nzType="zoom-out" nzTheme="outline"></span>
     </button>
-    <nz-drawer
-      [nzBodyStyle]="{ overflow: 'auto' }"
-      [nzMaskClosable]="false"
-      [nzWidth]="378"
-      [nzVisible]="visible"
-      nzTitle="Data Overview"
-      (nzOnClose)="close()"
-    >
-      <div *nzDrawerContent>
-        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input type="text" nz-input placeholder="Search nodes" />
-        </nz-input-group>
-        <ng-template #suffixIconButton>
-          <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
-        </ng-template>
-        <nz-divider></nz-divider>
-        <div class="node-container">
-          @if(selectedNode){
-          <nz-badge nzStatus="processing" [nzText]="'Node ' + selectedNodeId"></nz-badge>
-          <div *ngFor="let entry of selectedNode | keyvalue" class="node-container__node-data">
-            <h3 class="node-container__node-data__header">{{ entry.key }}:</h3>
-            <h3 class="node-container__node-data__value">{{ entry.value }}</h3>
-          </div>
-          } @if (selectedEdge) {
-          <nz-badge nzStatus="processing" [nzText]="'Edge ' + selectedEdgeId"></nz-badge>
-          <div *ngFor="let entry of selectedEdge | keyvalue" class="node-container__node-data">
-            <h3 class="node-container__node-data__header">{{ entry.key }}:</h3>
-            <h3 class="node-container__node-data__value">{{ entry.value }}</h3>
-          </div>
-          }
-        </div>
-      </div>
-    </nz-drawer>
+    
   </div>
+  <app-data-overview-drawer
+    [visible]="drawerVisible"
+    (closeDrawer)="close()"
+    [selectedNode]="selectedNode"
+    [selectedEdge]="selectedEdge"
+    [selectedNodeId]="selectedNodeId"
+    [selectedEdgeId]="selectedEdgeId"
+  ></app-data-overview-drawer>
   <app-graph-tool-bar (openDrawer)="open()"></app-graph-tool-bar>
   <div id="sigma-container"></div>
 </div>
