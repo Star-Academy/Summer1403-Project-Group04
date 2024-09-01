@@ -9,15 +9,15 @@
   </div>
   <div class="navbar__right">
     <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzPlacement="bottomCenter" class="navbar__right__menu-button">
-      {{ userData.firstName[0]?.toUpperCase() }}. {{ userData.lastName[0]?.toUpperCase()
+      {{ userData.firstName[0].toUpperCase() }}. {{ userData.lastName[0].toUpperCase()
       }}{{ userData.lastName.slice(1) }}
       <span nz-icon nzType="down" nzTheme="outline" class="navbar__right__menu-button__icon"></span>
     </a>
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <div class="navbar__right__custom-menu">
         <div class="navbar__right__custom-menu__header">
-          {{ userData.firstName[0]?.toUpperCase() }}{{ userData.firstName.slice(1) }}
-          {{ userData.lastName[0]?.toUpperCase() }}{{ userData.lastName.slice(1) }}
+          {{ userData.firstName[0].toUpperCase() }}{{ userData.firstName.slice(1) }}
+          {{ userData.lastName[0].toUpperCase() }}{{ userData.lastName.slice(1) }}
         </div>
         <ul nz-menu class="navbar__right__custom-menu__list">
           <li nz-menu-item class="navbar__right__custom-menu__list__item" routerLink="/dashboard/profile">

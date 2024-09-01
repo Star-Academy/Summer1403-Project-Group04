@@ -17,7 +17,7 @@ describe('NavbarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('SHOULD be created WHEN ever', () => {
     expect(component).toBeTruthy();
   });
 });
