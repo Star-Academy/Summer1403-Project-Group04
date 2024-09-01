@@ -19,7 +19,7 @@ import { graphRecords } from '../../../../models/graph-records';
 import { CommonModule, NgFor } from '@angular/common';
 import { nodeData } from '../../../../models/node-data';
 import { edgeData } from '../../../../models/edge-data';
-import { UploadGraphService } from '../../../../services/upload-graph/upload-graph.service';
+import { GraphService } from '../../../../services/graph/graph.service';
 
 @Component({
   selector: 'app-sigma',
@@ -53,7 +53,7 @@ export class SigmaComponent implements AfterViewInit {
 
   constructor(
     private sigmaService: SigmaService,
-    private uploadService: UploadGraphService
+    private uploadService: GraphService
   ) {}
 
   ngAfterViewInit() {

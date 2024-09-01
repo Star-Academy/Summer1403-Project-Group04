@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, firstValueFrom, map, of, throwError } from 'rxjs';
 import { UserData } from '../../models/user-data';
-import { loginResponse } from '../../models/login-response';
+import { APIResponse } from '../../models/api-response';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -70,9 +70,9 @@ export class UserService {
     );
   }
 
-  deleteUser(userId: number): Observable<loginResponse> {
+  deleteUser(userId: number): Observable<APIResponse> {
     const apiUrl = `${this.URL}/api/Admin/users/${userId}`;
-    return this.http.delete<loginResponse>(apiUrl, { withCredentials: true }).pipe(
+    return this.http.delete<APIResponse>(apiUrl, { withCredentials: true }).pipe(
       catchError((error) => {
         console.error('Error deleting user', error);
         return throwError(() => new Error('Error deleting user'));
@@ -86,7 +86,7 @@ export class UserService {
     const apiUrl = `${this.URL}/api/Admin/users`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<loginResponse>(apiUrl, value, { headers, withCredentials: true });
+    return this.http.post<APIResponse>(apiUrl, value, { headers, withCredentials: true });
   }
 
   updateUser(id: number | null, formGroup: FormGroup, isProfile: boolean) {
@@ -95,7 +95,7 @@ export class UserService {
     const apiUrl = isProfile ? `${this.URL}/api/User` : `${this.URL}/api/Admin/users/${id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.put<loginResponse>(apiUrl, value, { headers, withCredentials: true });
+    return this.http.put<APIResponse>(apiUrl, value, { headers, withCredentials: true });
   }
 
   updatePassword(id: number | null, formGroup: FormGroup, isProfile: boolean) {
@@ -107,14 +107,14 @@ export class UserService {
     const apiUrl = isProfile ? `${this.URL}/api/User/password` : `${this.URL}/api/Admin/users/${id}/password`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.patch<loginResponse>(apiUrl, value, { headers, withCredentials: true });
+    return this.http.patch<APIResponse>(apiUrl, value, { headers, withCredentials: true });
   }
 
   updateRole(roles: string[], id: number) {
     const apiUrl = `${this.URL}/api/Admin/users/${id}/roles`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.patch<loginResponse>(apiUrl, roles, { headers, withCredentials: true });
+    return this.http.patch<APIResponse>(apiUrl, roles, { headers, withCredentials: true });
   }
 
   getRoles(): Observable<string[]> {
@@ -124,10 +124,10 @@ export class UserService {
     return this.http.get<string[]>(apiUrl, { headers, withCredentials: true });
   }
 
-  logout(): Observable<loginResponse> {
+  logout(): Observable<APIResponse> {
     const apiUrl = `${this.URL}/api/User/logout`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<loginResponse>(apiUrl, null, { headers, withCredentials: true });
+    return this.http.post<APIResponse>(apiUrl, null, { headers, withCredentials: true });
   }
 }

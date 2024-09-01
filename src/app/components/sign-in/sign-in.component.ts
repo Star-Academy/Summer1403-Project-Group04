@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { RouterModule, Router } from '@angular/router';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 import { LoginService } from '../../services/login/login.service';
-import { loginResponse } from '../../models/login-response';
+import { APIResponse } from '../../models/api-response';
 import { NotificationService } from '../../services/notification/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -51,7 +51,7 @@ export class SignInComponent {
       const { username, password } = this.signInForm.value;
 
       this.loginService.login(username, password).subscribe({
-        next: (response: loginResponse) => {
+        next: (response: APIResponse) => {
           this.notificationService.createNotification('success', 'Successful Login', response.message);
           setTimeout(() => this.router.navigate(['/dashboard']), 2000);
         },

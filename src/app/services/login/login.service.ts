@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { loginResponse } from '../../models/login-response';
+import { APIResponse } from '../../models/api-response';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -18,14 +18,14 @@ export class LoginService {
   login(
     username: string,
     password: string
-  ): Observable<loginResponse | HttpErrorResponse> {
+  ): Observable<APIResponse | HttpErrorResponse> {
     const apiUrl = `${this.URL}/api/Auth/Login`;
 
     const body = { username, password };
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<loginResponse | HttpErrorResponse>(apiUrl, body, {
+    return this.http.post<APIResponse | HttpErrorResponse>(apiUrl, body, {
       headers,
       withCredentials: true,
     });
