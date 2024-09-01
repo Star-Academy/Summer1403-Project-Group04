@@ -29,7 +29,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   styleUrl: './data-overview-drawer.component.scss'
 })
 export class DataOverviewDrawerComponent {
-  @Input() visible: boolean = false;
+  @Input() visible = false;
   @Input() selectedNode: nodeData | null = null;
   @Input() selectedEdge: edgeData | null = null;
   @Input() selectedNodeId!: string;

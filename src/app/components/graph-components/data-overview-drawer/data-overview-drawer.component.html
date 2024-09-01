@@ -29,11 +29,11 @@
         </button>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul class="node-container__header__custom-menu-list" nz-menu>
-            <li nz-menu-item class="node-container__header__custom-menu-list__item" (click)="expand()">
+            <li nz-menu-item class="node-container__header__custom-menu-list__item" ((keyup))="expand()">
               <span>Expand</span>
               <i nz-icon nzType="arrows-alt" nzTheme="outline"></i>
             </li>
-            <li nz-menu-item class="node-container__header__custom-menu-list__item" (click)="delete()">
+            <li nz-menu-item class="node-container__header__custom-menu-list__item" ((keyup))="delete()">
               <span>Delete</span>
               <i nz-icon nzType="delete" nzTheme="outline"></i>
             </li>
