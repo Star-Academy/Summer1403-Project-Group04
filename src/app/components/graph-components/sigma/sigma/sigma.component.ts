@@ -280,69 +280,38 @@ export class SigmaComponent implements AfterViewInit {
 
   private expandNode(id: string, neighbors: graphRecords) {
     console.log(id, neighbors);
+    const centerCordinate = {
+      x: this.graph.getNodeAttribute(id, 'x'),
+      y: this.graph.getNodeAttribute(id, 'y'),
+    };
+    const newPositions: PlainObject<PlainObject<number>> = {};
 
-    // const centerX = this.graph.getNodeAttribute(id, 'x');
-    // const centerY = this.graph.getNodeAttribute(id, 'y');
-    // const newPositions: PlainObject<PlainObject<number>> = {};
-    // const hasOtherNeighbors = (nodeId: string, clickedNodeId: string) => {
-    //   const allNeighbors = this.graph.neighbors(nodeId);
-    //   return allNeighbors.some((neighborId: string) => neighborId !== clickedNodeId);
-    // };
+    neighbors.nodes.forEach((neighbour, index) => {
+      this.graph.addNode(neighbour.id, {
+        label: neighbour.label,
+        x: centerCordinate.x,
+        y: centerCordinate.y,
+        size: 20,
+        color: '#000',
+        expanded: true,
+      });
 
-    // if (this.graph.getNodeAttribute(id, 'expanded') === true) {
-    //   neighbors.nodes.forEach((node: any) => {
-    //     console.log(node);
+      const angle = (index * (2 * Math.PI)) / neighbors.nodes.length;
+      const radius = 0.5;
 
-    //     if (!hasOtherNeighbors(node.id, id)) {
-    //       newPositions[node.id] = {
-    //         x: centerX,
-    //         y: centerY,
-    //       };
-    //       setTimeout(() => {
-    //         this.graph.dropNode(node.id);
-    //       }, 300);
-    //     }
-    //   });
-    //   this.graph.setNodeAttribute(id, 'expanded', false);
-    //   animateNodes(this.graph, newPositions, { duration: 300 });
-    // } else {
-    //   if (centerX !== undefined && centerY !== undefined) {
-    //     neighbors.nodes.forEach((node: any, index: number) => {
-    //       const angle = (index * (2 * Math.PI)) / neighbors.nodes.length;
-    //       const radius = 0.2;
+      const newX = centerCordinate.x + radius * Math.cos(angle);
+      const newY = centerCordinate.y + radius * Math.sin(angle);
 
-    //       const newX = centerX + radius * Math.cos(angle);
-    //       const newY = centerY + radius * Math.sin(angle);
+      newPositions[neighbour.id] = {
+        x: newX,
+        y: newY,
+      };
+      console.log(newPositions);
+    });
 
-    //       if (!this.graph.hasNode(node.id)) {
-    //         this.graph.addNode(node.id, {
-    //           label: node.label,
-    //           x: node.x,
-    //           y: node.y,
-    //           size: node.size,
-    //           color: node.color,
-    //           expanded: true,
-    //         });
-    //         this.graph.setNodeAttribute(node.id, 'x', centerX);
-    //         this.graph.setNodeAttribute(node.id, 'y', centerY);
-    //         newPositions[node.id] = {
-    //           x: newX,
-    //           y: newY,
-    //         };
-    //       }
-
-    //       this.sigmaInstance.refresh();
-    //       this.graph.setNodeAttribute(node.id, 'hidden', false);
-    //     });
-
-    //     this.mockBack.getEdgesForNeighbors(id).forEach((edge) => {
-    //       this.graph.addEdge(edge.source, edge.target, edge.attr);
-    //     });
-
-    //     this.graph.setNodeAttribute(id, 'expanded', true);
-    //     animateNodes(this.graph, newPositions, { duration: 300 });
-    //   }
-    // }
+    this.addEdges(neighbors.edges);
+    this.graph.setNodeAttribute(id, 'expanded', true);
+    animateNodes(this.graph, newPositions, { duration: 300 });
   }
 
   private initializeGraph() {
@@ -439,6 +408,9 @@ export class SigmaComponent implements AfterViewInit {
         this.collapseNode(event.node);
       } else {
         console.log('it is not expandded');
+        this.mockBack.getNeighbourById(event.node).subscribe((data) => {
+          this.expandNode(event.node, data);
+        });
       }
     });
     this.sigmaInstance.on('doubleClickStage', (e) => {
@@ -505,6 +477,8 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   collapseNode(id: string) {
+    console.log(`we gonna collapse ${id}`);
+
     const centerCordinate = {
       x: this.graph.getNodeAttribute(id, 'x'),
       y: this.graph.getNodeAttribute(id, 'y'),
@@ -523,6 +497,7 @@ export class SigmaComponent implements AfterViewInit {
       }, 550);
     });
 
+    this.graph.setNodeAttribute(id, 'expanded', false);
     animateNodes(this.graph, newPositions, { duration: 500 });
   }
 }

@@ -13,7 +13,7 @@ export class MockBackService {
   sigmaInstance!: Sigma;
   graphRecords!: graphRecords;
 
-  private neighbourNodesSubject = new BehaviorSubject<{ id: string; label: string }[]>([]);
+  private neighbourNodesSubject = new BehaviorSubject<graphRecords>({nodes: [], edges: []});
 
   constructor() {
     this.graph = new MultiGraph();
@@ -41,13 +41,21 @@ export class MockBackService {
 
   getNeighbourById(id: string) {
     const neighboursId = this.graph.neighbors(id);
-
     const neighbourNodes = neighboursId.map((neighbourId) => {
       const label = this.graph.getNodeAttribute(neighbourId, 'label');
       return { id: neighbourId, label };
     });
 
-    this.neighbourNodesSubject.next(neighbourNodes); 
+   const edges = this.graphRecords.edges.filter((edge)=>{
+    return edge.source === id || edge.target === id
+   });
+ console.log(edges);
+ 
+   
+
+    
+
+    this.neighbourNodesSubject.next({nodes:neighbourNodes , edges: edges}); 
 
     return this.neighbourNodesSubject.asObservable();
   }
