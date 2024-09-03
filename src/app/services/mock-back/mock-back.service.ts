@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MultiGraph } from 'graphology';
 import Sigma from 'sigma';
-import { GraphData } from '../../models/graph-data';
 import { graphRecords } from '../../models/graph-records';
 import { BehaviorSubject } from 'rxjs';
 
