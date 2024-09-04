@@ -11,7 +11,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 describe('UsersTableComponent', () => {
   let component: UsersTableComponent;
   let fixture: ComponentFixture<UsersTableComponent>;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   const mockActivatedRoute = {
     params: of({ id: 1 }),
@@ -55,13 +54,12 @@ describe('UsersTableComponent', () => {
       ],
     }).compileComponents();
 
-    httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
     fixture = TestBed.createComponent(UsersTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('SHOULD create the UsersTableComponent WHEN ever', () => {
+  it('SHOULD be created WHEN ever', () => {
     expect(component).toBeTruthy();
   });
 

@@ -15,12 +15,14 @@ import { of, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { UserData } from '../../models/user-data';
+import { DashboardGuardService } from '../../services/gaurds/dashboard-guard/dashboard-guard.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let mockUserService: Partial<UserService>;
   let userDataSubject: BehaviorSubject<UserData>;
+  const dashboardGuardSpy = jasmine.createSpyObj('DashboardGuardService', ['canActivate']);
 
   const mockActivatedRoute = {
     params: of({ id: 1 }),
@@ -41,6 +43,7 @@ describe('DashboardComponent', () => {
     mockUserService = {
       userData$: userDataSubject.asObservable(),
     };
+    dashboardGuardSpy.canActivate.and.returnValue(of(true));
 
     await TestBed.configureTestingModule({
       imports: [DashboardComponent],
@@ -60,6 +63,7 @@ describe('DashboardComponent', () => {
           ],
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: DashboardGuardService, useValue: dashboardGuardSpy },
       ],
     }).compileComponents();
 

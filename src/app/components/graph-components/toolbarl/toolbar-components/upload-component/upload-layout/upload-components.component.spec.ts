@@ -11,7 +11,7 @@ describe('UploadComponentsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UploadComponentsComponent],
-      providers: [provideAnimationsAsync(), HttpClient , HttpHandler]
+      providers: [provideAnimationsAsync(), HttpClient, HttpHandler]
     })
     .compileComponents();
 

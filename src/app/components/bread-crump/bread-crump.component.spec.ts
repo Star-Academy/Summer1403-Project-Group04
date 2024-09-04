@@ -20,13 +20,11 @@ describe('BreadCrumpComponent', () => {
       events: new Subject<any>(),
       url: '/',
       createUrlTree: jasmine.createSpy('createUrlTree').and.callFake((commands: any[]) => {
-        // Create a mock UrlTree object for the purpose of testing
         return {
           toString: () => commands.join('/'),
         } as any as UrlTree;
       }),
       serializeUrl: jasmine.createSpy('serializeUrl').and.callFake((urlTree: UrlTree) => {
-        // Return the URL string representation for the mock UrlTree
         return urlTree.toString();
       }),
     };
@@ -42,7 +40,7 @@ describe('BreadCrumpComponent', () => {
 
     fixture = TestBed.createComponent(BreadCrumpComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();  // Trigger ngOnInit
+    fixture.detectChanges();
   });
 
   it('SHOULD be created WHEN ever', () => {
