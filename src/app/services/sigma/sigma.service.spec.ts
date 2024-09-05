@@ -10,7 +10,7 @@ describe('SigmaService', () => {
     service = TestBed.inject(SigmaService);
   });
 
-  it('should be created', () => {
+  it('SHOULD be created WHEN ever', () => {
     expect(service).toBeTruthy();
   });
 });

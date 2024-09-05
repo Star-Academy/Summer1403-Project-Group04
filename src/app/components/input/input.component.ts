@@ -34,7 +34,6 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   @Output() tagChange: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   protected value = '';
-  protected isDisabled = false;
   protected control: FormControl = new FormControl();
   protected passwordVisible = false;
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgClass, NgIf, NgFor, CommonModule } from '@angular/common';
 import { UserService } from '../../../services/user/user.service';
@@ -18,7 +18,7 @@ import { formInput } from '../../../models/form-input';
   templateUrl: './edit-role.component.html',
   styleUrl: './edit-role.component.scss',
 })
-export class EditRoleComponent implements OnChanges {
+export class EditRoleComponent implements OnChanges, OnInit {
   @Input({ required: true }) userData: UserData | undefined;
 
   protected roleForm!: FormGroup;
@@ -43,7 +43,18 @@ export class EditRoleComponent implements OnChanges {
     this.roleForm = this.fb.group({
       roles: ['', [Validators.required, Validators.minLength(1)]],
     });
+  }
 
+  ngOnChanges() {
+    if (this.userData) {
+      this.roleForm = this.fb.group({
+        roles: [this.userData.roles, [Validators.required]],
+      });
+      this.listOfTagOptions = this.userData.roles;
+    }
+  }
+
+  ngOnInit(): void {
     this.userService.getRoles().subscribe({
       next: (response) => {
         const temp: userRoles[] = [];
@@ -59,15 +70,6 @@ export class EditRoleComponent implements OnChanges {
         });
       },
     });
-  }
-
-  ngOnChanges() {
-    if (this.userData) {
-      this.roleForm = this.fb.group({
-        roles: [this.userData.roles, [Validators.required]],
-      });
-      this.listOfTagOptions = this.userData.roles;
-    }
   }
 
   protected onSubmit() {

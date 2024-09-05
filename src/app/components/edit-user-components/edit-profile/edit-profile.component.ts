@@ -43,12 +43,11 @@ export class EditProfileComponent implements OnChanges, OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.subscribeToQueryParams();
   }
 
   ngOnChanges(): void {
     this.initializeForm();
-
-    this.subscribeToQueryParams();
   }
 
   private subscribeToQueryParams() {

@@ -18,8 +18,6 @@ export class DashboardContentComponent implements OnInit {
   protected commentList: commentType[] = [];
 
   ngOnInit(): void {
-    console.log(comments);
-    
     this.commentList = comments;
   }
 }
