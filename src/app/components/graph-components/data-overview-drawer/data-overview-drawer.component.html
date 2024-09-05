@@ -1,0 +1,56 @@
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="false"
+  [nzWidth]="378"
+  [nzVisible]="visible"
+  nzTitle="Data Overview"
+  (nzOnClose)="close()"
+>
+  <div *nzDrawerContent>
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" nz-input placeholder="Search nodes" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+    </ng-template>
+    <nz-divider></nz-divider>
+    <div class="node-container">
+      @if(selectedNode){
+      <div class="node-container__header">
+        <nz-badge nzStatus="processing" [nzText]="'Node ' + selectedNodeId"></nz-badge>
+        <button
+          nz-dropdown
+          nzTrigger="click"
+          [nzDropdownMenu]="menu"
+          nzPlacement="bottomRight"
+          class="node-container__header__options"
+        >
+          ⋮
+        </button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul class="node-container__header__custom-menu-list" nz-menu>
+            <li nz-menu-item class="node-container__header__custom-menu-list__item" ((keyup))="expand()">
+              <span>Expand</span>
+              <i nz-icon nzType="arrows-alt" nzTheme="outline"></i>
+            </li>
+            <li nz-menu-item class="node-container__header__custom-menu-list__item" ((keyup))="delete()">
+              <span>Delete</span>
+              <i nz-icon nzType="delete" nzTheme="outline"></i>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+      <div *ngFor="let entry of selectedNode | keyvalue" class="node-container__node-data">
+        <h3 class="node-container__node-data__header">{{ entry.key }}:</h3>
+        <h3 class="node-container__node-data__value">{{ entry.value }}</h3>
+      </div>
+      } @if (selectedEdge) {
+      <nz-badge nzStatus="processing" [nzText]="'Edge ' + selectedEdgeId"></nz-badge>
+      <div *ngFor="let entry of selectedEdge | keyvalue" class="node-container__node-data">
+        <h3 class="node-container__node-data__header">{{ entry.key }}:</h3>
+        <h3 class="node-container__node-data__value">{{ entry.value }}</h3>
+      </div>
+      }
+    </div>
+  </div>
+</nz-drawer>

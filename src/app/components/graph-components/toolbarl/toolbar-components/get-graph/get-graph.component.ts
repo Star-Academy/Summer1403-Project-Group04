@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { UploadGraphService } from '../../../../../services/upload-graph/upload-graph.service';
+import { GraphService } from '../../../../../services/graph/graph.service';
 import { NotificationService } from '../../../../../services/notification/notification.service';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { SigmaService } from '../../../../../services/sigma/sigma.service';
@@ -22,7 +22,7 @@ export class GetGraphComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private uploadGraphService: UploadGraphService,
+    private GraphService: GraphService,
     private sigmaService: SigmaService,
     private notificationService: NotificationService,
     private mockBackService : MockBackService
@@ -35,7 +35,7 @@ export class GetGraphComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.uploadGraphService.getNodeCategories().subscribe({
+    this.GraphService.getNodeCategories().subscribe({
       next: (data) => {
         this.nodeCategoryList = data;
       },
@@ -44,7 +44,7 @@ export class GetGraphComponent implements OnInit {
       },
     });
 
-    this.uploadGraphService.getEdgeCategories().subscribe({
+    this.GraphService.getEdgeCategories().subscribe({
       next: (data) => {
         this.edgeCategoryList = data;
       },
@@ -55,7 +55,7 @@ export class GetGraphComponent implements OnInit {
   }
 
   protected submit() {
-    this.uploadGraphService.getGraph().subscribe({
+    this.GraphService.getGraph().subscribe({
       next: (data) => {
         this.sigmaService.setGetGraph(data);
         this.mockBackService.setGraphData(data);

@@ -10,7 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UploadGraphService } from '../../../../../../services/upload-graph/upload-graph.service';
+import { GraphService } from '../../../../../../services/graph/graph.service';
 import { NotificationService } from '../../../../../../services/notification/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -46,7 +46,7 @@ export class UploadEdgeComponent {
 
   constructor(
     private msg: NzMessageService,
-    private uploadGraphService: UploadGraphService,
+    private GraphService: GraphService,
     private notificationService: NotificationService,
     private fb: FormBuilder
   ) {
@@ -95,7 +95,7 @@ export class UploadEdgeComponent {
   };
 
   addEdgeCategory() {
-    this.uploadGraphService.addEdgeCategory(this.edgeCategory).subscribe({
+    this.GraphService.addEdgeCategory(this.edgeCategory).subscribe({
       next: (response) => {
         const successMessage = 'Success';
         this.notificationService.createNotification('success', successMessage, response.message);
@@ -116,7 +116,7 @@ export class UploadEdgeComponent {
   }
 
   getEdgeCategory() {
-    this.uploadGraphService.getEdgeCategories().subscribe({
+    this.GraphService.getEdgeCategories().subscribe({
       next: (response) => {
         this.edgeCategoryList = response;
       },
@@ -127,7 +127,7 @@ export class UploadEdgeComponent {
   }
 
   getNodeCategory() {
-    this.uploadGraphService.getNodeCategories().subscribe({
+    this.GraphService.getNodeCategories().subscribe({
       next: (response) => {
         this.nodeCategoryList = response;
       },
@@ -150,8 +150,12 @@ export class UploadEdgeComponent {
       formData.append('SourceNodeHeaderName', this.uploadForm.value.SourceNodeHeaderName);
       formData.append('TargetNodeHeaderName', this.uploadForm.value.TargetNodeHeaderName);
       formData.append('File', this.uploadForm.get('File')?.value as File);
+
      
       this.uploadGraphService.uploadEdgeData(formData).subscribe(({
+
+      
+
         next: (response) => {
           this.notificationService.createNotification('success', 'Success', response.message);
           this.isPending = false;

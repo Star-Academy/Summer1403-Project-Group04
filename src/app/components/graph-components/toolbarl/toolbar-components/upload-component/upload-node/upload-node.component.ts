@@ -9,7 +9,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NgIf } from '@angular/common';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { UploadGraphService } from '../../../../../../services/upload-graph/upload-graph.service';
+import { GraphService } from '../../../../../../services/graph/graph.service';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotificationService } from '../../../../../../services/notification/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -48,7 +48,7 @@ export class UploadNodeComponent {
   constructor(
     private fb: FormBuilder,
     private msg: NzMessageService,
-    private uploadGraphService: UploadGraphService,
+    private GraphService: GraphService,
     private notificationService: NotificationService
   ) {
     this.uploadForm = this.fb.group({
@@ -70,7 +70,7 @@ export class UploadNodeComponent {
   }
 
   addNodeCategory() {
-    this.uploadGraphService.addNodeCategory(this.nodecategory).subscribe({
+    this.GraphService.addNodeCategory(this.nodecategory).subscribe({
       next: (response) => {
         const successMessage = 'Success';
         this.notificationService.createNotification('success', successMessage, response.message);
@@ -91,7 +91,7 @@ export class UploadNodeComponent {
   }
 
   getNodeCategory() {
-    this.uploadGraphService.getNodeCategories().subscribe({
+    this.GraphService.getNodeCategories().subscribe({
       next: (response) => {
         this.nodeCategoryList = response;
       },
@@ -119,7 +119,7 @@ export class UploadNodeComponent {
       formData.append('File', this.uploadForm.get('File')?.value as File);
       
       
-      this.uploadGraphService.uploadNodeData(formData).subscribe({
+      this.GraphService.uploadNodeData(formData).subscribe({
         next: (response) => {
           this.notificationService.createNotification('success', 'Success', response.message);
           this.isPending = false;

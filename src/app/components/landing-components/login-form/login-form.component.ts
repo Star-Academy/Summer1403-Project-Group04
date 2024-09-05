@@ -4,7 +4,7 @@ import { NzFormModule, NzFormControlComponent } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NgIf } from '@angular/common';
 import { LoginService } from '../../../services/login/login.service';
-import { loginResponse } from '../../../models/login-response';
+import { APIResponse } from '../../../models/api-response';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -54,7 +54,7 @@ export class LoginFormComponent {
       this.loginService
         .login(username, password)
         .subscribe({
-          next: (response: loginResponse) => {
+          next: (response: APIResponse) => {
             this.notificationService.createNotification('success', 'Successful Login', response.message);
             setTimeout(() => this.router.navigate(['/dashboard']), 2000);
           },

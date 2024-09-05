@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { loginResponse } from '../../models/login-response';
+import { APIResponse } from '../../models/api-response';
 import { environment } from '../../../environments/environment';
 import { nodeData } from '../../models/node-data';
 import { edgeData } from '../../models/edge-data';
@@ -10,7 +10,7 @@ import { graphCategory } from '../../models/graph-category';
 @Injectable({
   providedIn: 'root',
 })
-export class UploadGraphService {
+export class GraphService {
   private URL = environment.API_URL;
   constructor(private http: HttpClient) {}
 
@@ -18,7 +18,7 @@ export class UploadGraphService {
     const data = { nodeCategoryName: nodeCategory };
     const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.post<loginResponse>(`${this.URL}/api/Node/categories`, data, { headers, withCredentials: true });
+    return this.http.post<APIResponse>(`${this.URL}/api/Node/categories`, data, { headers, withCredentials: true });
   }
 
   getNodeCategories() {
@@ -28,14 +28,14 @@ export class UploadGraphService {
   }
 
   uploadNodeData(data: FormData) {
-    return this.http.post<loginResponse>(`${this.URL}/api/Node`, data, { withCredentials: true });
+    return this.http.post<APIResponse>(`${this.URL}/api/Node`, data, { withCredentials: true });
   }
 
   addEdgeCategory(edgeCategory: string) {
     const data = { edgeCategoryName: edgeCategory };
     const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.post<loginResponse>(`${this.URL}/api/Edge/categories`, data, { headers, withCredentials: true });
+    return this.http.post<APIResponse>(`${this.URL}/api/Edge/categories`, data, { headers, withCredentials: true });
   }
 
   getEdgeCategories() {
@@ -45,7 +45,7 @@ export class UploadGraphService {
   }
 
   uploadEdgeData(data: FormData) {
-    return this.http.post<loginResponse>(`${this.URL}/api/Edge`, data, { withCredentials: true });
+    return this.http.post<APIResponse>(`${this.URL}/api/Edge`, data, { withCredentials: true });
   }
 
   getGraph() {
