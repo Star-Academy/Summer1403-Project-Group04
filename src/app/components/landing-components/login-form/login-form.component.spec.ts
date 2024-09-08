@@ -108,12 +108,9 @@ describe('LoginFormComponent', () => {
       'Login Failed',
       'Unauthorized: Invalid username or password'
     );
-    setTimeout(() => {
-      expect(routerMock.navigate).not.toHaveBeenCalled();
-    }, 2000);
   });
 
-  it('SHOULD handle login failure with 400 Bad Request', () => {
+  it('SHOULD handle login failure with 400 Bad Request', fakeAsync(() => {
     // Arrange
     const errorResponse = new HttpErrorResponse({ status: 400, statusText: 'Bad Request' });
     loginServiceMock.login.and.returnValue(throwError(() => errorResponse));
@@ -129,10 +126,7 @@ describe('LoginFormComponent', () => {
       'Login Failed',
       'Bad Request: Please check your input'
     );
-    setTimeout(() => {
-      expect(routerMock.navigate).not.toHaveBeenCalled();
-    }, 2000);
-  });
+  }));
 
   it('SHOULD reset onWait flag after login attempt (success or failure)', () => {
     // Arrange

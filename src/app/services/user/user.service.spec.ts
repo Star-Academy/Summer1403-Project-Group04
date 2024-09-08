@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -10,7 +10,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 describe('UserService', () => {
   let service: UserService;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
-  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
     const httpSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete', 'patch']);
@@ -22,7 +21,6 @@ describe('UserService', () => {
 
     service = TestBed.inject(UserService);
     httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
-    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
   it('SHOULD be created WHEN ever', () => {
