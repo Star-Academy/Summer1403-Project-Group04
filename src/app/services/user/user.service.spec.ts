@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -10,7 +10,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 describe('UserService', () => {
   let service: UserService;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
-  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
     const httpSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete', 'patch']);
@@ -22,7 +21,6 @@ describe('UserService', () => {
 
     service = TestBed.inject(UserService);
     httpClientSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
-    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
   it('SHOULD be created WHEN ever', () => {
@@ -202,23 +200,19 @@ describe('UserService', () => {
     expect(httpClientSpy.get.calls.mostRecent().args[0]).toContain('/api/Admin/roles');
   });
 
-  it('SHOULD navigate to the login page WHEN logout is called', () => {
+  it('SHOULD logout successfuly WHEN logout is called', fakeAsync(() => {
     // Arrange
     const mockResponse: APIResponse = { message: 'Logged out successfully' };
     httpClientSpy.post.and.returnValue(of(mockResponse));
-
+    
     // Act
-
-    // Assert
     service.logout().subscribe((response) => {
+      // Assert
       expect(response).toEqual(mockResponse);
-
-      setTimeout(() => {
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
-      }, 2000);
     });
-
+  
+    // Assert
     expect(httpClientSpy.post.calls.count()).toBe(1);
     expect(httpClientSpy.post.calls.mostRecent().args[0]).toContain('/api/User/logout');
-  });
+  }));
 });

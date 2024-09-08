@@ -48,7 +48,8 @@ export class UploadEdgeComponent {
     private msg: NzMessageService,
     private GraphService: GraphService,
     private notificationService: NotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private uploadGraphService : GraphService
   ) {
     this.uploadForm = this.fb.group({
       EdgeCategoryName: ['', Validators.required],
@@ -91,7 +92,6 @@ export class UploadEdgeComponent {
     this.uploadForm.get('File')?.updateValueAndValidity();
     this.msg.success(`${file.name} file selected successfully`);
 
-    console.log(this.uploadForm.value);
     return false;
   };
 
@@ -139,10 +139,8 @@ export class UploadEdgeComponent {
   }
 
   submit(){
-    console.log('fucking submit bech');
     
     if(this.uploadForm.valid){
-      console.log('raft too if');
       
       this.isPending = true;
       const formData = new FormData();
@@ -153,12 +151,9 @@ export class UploadEdgeComponent {
       formData.append('SourceNodeHeaderName', this.uploadForm.value.SourceNodeHeaderName);
       formData.append('TargetNodeHeaderName', this.uploadForm.value.TargetNodeHeaderName);
       formData.append('File', this.uploadForm.get('File')?.value as File);
-      formData.forEach((e)=>{
-        console.log(e);
-        
-      })
 
-      this.GraphService.uploadEdgeData(formData).subscribe(({
+     
+      this.uploadGraphService.uploadEdgeData(formData).subscribe(({
         next: (response) => {
           this.notificationService.createNotification('success', 'Success', response.message);
           this.isPending = false;

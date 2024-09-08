@@ -127,7 +127,6 @@ export class AddUserComponent {
 
   protected onSubmitModal(): void {
     if (this.userForm.invalid) {
-      console.log(this.userForm.value);
       this.isSubmitted = true;
       this.userForm.markAllAsTouched();
       return;

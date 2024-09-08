@@ -90,8 +90,6 @@ export class SigmaService {
   }
 
   setGetGraph(data: {nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}) {
-    console.log(data);
-    
     this.getGraph.next(data);
   }
 
