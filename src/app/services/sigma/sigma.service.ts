@@ -50,9 +50,9 @@ export class SigmaService {
   getGraph$ = this.getGraph.asObservable();
 
   private selectedGraphCategories = new BehaviorSubject<graphCategory>( {
-    sourceCategoryName: '',
-    targetCategoryName: '',
-    edgeCategoryName: '',
+    SourceNodeCategoryName: '',
+    TargetNodeCategoryName: '',
+    EdgeCategoryName: '',
   });
   selectedGraphCategories$ = this.selectedGraphCategories.asObservable();
 

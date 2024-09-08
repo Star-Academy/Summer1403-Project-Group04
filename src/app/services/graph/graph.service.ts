@@ -74,7 +74,7 @@ export class GraphService {
     const headers = { 'Content-Type': 'application/json' };
 
     return this.http.get<graphRecords>(
-      `${this.URL}/api/Graph/expansion?nodeId=${id}&sourceCategoryName=${categories.sourceCategoryName}&targetCategoryName=${categories.targetCategoryName}&edgeCategoryName=${categories.edgeCategoryName}`,
+      `${this.URL}/api/Graph/expansion?nodeId=${id}&sourceCategoryName=${categories.SourceNodeCategoryName}&targetCategoryName=${categories.TargetNodeCategoryName}&edgeCategoryName=${categories.EdgeCategoryName}`,
       { headers, withCredentials: true }
     );
   }

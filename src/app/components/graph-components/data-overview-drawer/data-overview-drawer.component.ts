@@ -59,9 +59,9 @@ export class DataOverviewDrawerComponent implements AfterViewInit {
   search(): void {
     console.log(this.selectedCategories)
     const data: searchGraphNode = {
-      sourceCategoryName: this.selectedCategories.sourceCategoryName,
-      targetCategoryName: this.selectedCategories.targetCategoryName,
-      edgeCategoryName: this.selectedCategories.edgeCategoryName,
+      sourceCategoryName: this.selectedCategories.SourceNodeCategoryName,
+      targetCategoryName: this.selectedCategories.TargetNodeCategoryName,
+      edgeCategoryName: this.selectedCategories.EdgeCategoryName,
       sourceCategoryClauses: {
         AccountID: this.searchTerm,
       },
@@ -85,9 +85,12 @@ export class DataOverviewDrawerComponent implements AfterViewInit {
   }
 
   subsctibeToServices() {
+    console.log('subscribed');
+    
     this.sigmaService.selectedGraphCategories$.subscribe({
       next: (data) => {
-        this.selectedCategories.sourceCategoryName = data.sourceCategoryName;
+        console.log(data);
+        this.selectedCategories = data
       },
     });
   }
