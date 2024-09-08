@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { LoginFormComponent } from './login-form.component';
@@ -72,7 +72,7 @@ describe('LoginFormComponent', () => {
     expect((component as any).loginForm.get('password')?.invalid).toBeTrue();
   });
 
-  it('SHOULD call login service and navigate to dashboard WHEN successfully loggedin', () => {
+  it('SHOULD call login service and navigate to dashboard WHEN successfully loggedin', fakeAsync(() => {
     // Arrange
     const response: APIResponse = { message: 'Login successful' };
     loginServiceMock.login.and.returnValue(of(response));
@@ -88,10 +88,9 @@ describe('LoginFormComponent', () => {
       'Successful Login',
       response.message
     );
-    setTimeout(() => {
-      expect(routerMock.navigate).toHaveBeenCalledWith(['/dashboard']);
-    }, 2000);
-  });
+    tick(2000);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/dashboard']);
+  }));
 
   it('SHOULD handle login failure with 401 Unauthorized', () => {
     // Arrange
