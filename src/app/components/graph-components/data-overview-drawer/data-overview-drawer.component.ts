@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -36,7 +36,7 @@ import { NotificationService } from '../../../services/notification/notification
   styleUrl: './data-overview-drawer.component.scss',
 })
 export class DataOverviewDrawerComponent implements AfterViewInit {
-  protected searchTerm: string = '';
+  protected searchTerm = '';
   private selectedCategories!: graphCategory;
 
   @Input() visible = false;
@@ -81,7 +81,7 @@ export class DataOverviewDrawerComponent implements AfterViewInit {
         this.sigmaService.setGetGraph(data);
       },
       error: (error) => {
-        this.notificationService.createNotification('error', 'Error', error);
+        this.notificationService.createNotification('error', 'Error', error.message);
       }
     });
   }
