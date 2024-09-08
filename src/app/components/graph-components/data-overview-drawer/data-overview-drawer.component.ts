@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -12,7 +12,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GraphService } from '../../../services/graph/graph.service';
 import { SigmaService } from '../../../services/sigma/sigma.service';
 import { graphCategory } from '../../../models/graph-category';
-import { da, th } from '@faker-js/faker';
+import { FormsModule } from '@angular/forms';
+import { searchGraphNode } from '../../../models/search-graph-node';
 
 @Component({
   selector: 'app-data-overview-drawer',
@@ -28,16 +29,14 @@ import { da, th } from '@faker-js/faker';
     NzIconModule,
     NzDropdownMenuComponent,
     NzDropDownModule,
+    FormsModule,
   ],
   templateUrl: './data-overview-drawer.component.html',
   styleUrl: './data-overview-drawer.component.scss',
 })
-export class DataOverviewDrawerComponent implements OnInit {
-  constructor(private graphService: GraphService, private sigmaService: SigmaService) {}
-
-  ngOnInit(): void {
-   this.subscribeToServices();
-  }
+export class DataOverviewDrawerComponent implements AfterViewInit {
+  protected searchTerm: string = '';
+  private selectedCategories!: graphCategory;
 
   @Input() visible = false;
   @Input() selectedNode: nodeData | null = null;
@@ -47,28 +46,34 @@ export class DataOverviewDrawerComponent implements OnInit {
 
   @Output() closeDrawer = new EventEmitter<void>();
 
-  private sourceNodeProp!: string[]; 
-  private targetNodeProp!: string[];
-  private edgeProp!: string[]; 
-  private selectedCategories! : graphCategory; //Ino niaz nadarim chon tooye get-graph component line 68 be bad ok kardim
+  constructor(private graphService: GraphService, private sigmaService: SigmaService) {}
+
+  ngAfterViewInit(): void {
+    this.subsctibeToServices();
+  }
 
   close(): void {
     this.closeDrawer.emit();
   }
-  
+
   search(): void {
-    // Logic for searching the node
-    const searchParam = {
+    console.log(this.selectedCategories)
+    const data: searchGraphNode = {
       sourceCategoryName: this.selectedCategories.sourceCategoryName,
       targetCategoryName: this.selectedCategories.targetCategoryName,
-      sourceCategoryClauses: this.sourceNodeProp,
-      targetCategoryClauses: this.targetNodeProp,
-      edgeCategoryClauses: this.edgeProp
-    }//I have no idea if this the right format
+      edgeCategoryName: this.selectedCategories.edgeCategoryName,
+      sourceCategoryClauses: {
+        AccountID: this.searchTerm,
+      },
+      targetCategoryClauses: {
+        AccountID: this.searchTerm,
+      },
+      edgeCategoryClauses: {},
+    };
 
-    this.graphService.searchNode(searchParam)
+    this.graphService.searchNode(data);
   }
-
+  
   expand(): void {
     // Logic for expanding the node
     console.log('Expand clicked for node:', this.selectedNodeId);
@@ -79,27 +84,11 @@ export class DataOverviewDrawerComponent implements OnInit {
     console.log('Delete clicked for node:', this.selectedNodeId);
   }
 
-  subscribeToServices(){
-    // this.sigmaService.selectedGraphCategories$.subscribe({
-    //   next: (data)=>{
-    //     this.selectedCategories = data
-    //   }
-    // }) va hamintor in
-    this.sigmaService.sourceNodeProp$.subscribe({
-      next: (data)=>{
-        this.sourceNodeProp = data
-      }
-    })
-    this.sigmaService.targetNodeProp$.subscribe({
-      next: (data)=>{
-        this.targetNodeProp = data
-      }
-    })
-    this.sigmaService.edgeProp$.subscribe({
-      next: (data)=>{
-        this.edgeProp = data
-      }
-    })
-    
+  subsctibeToServices() {
+    this.sigmaService.selectedGraphCategories$.subscribe({
+      next: (data) => {
+        this.selectedCategories.sourceCategoryName = data.sourceCategoryName;
+      },
+    });
   }
 }

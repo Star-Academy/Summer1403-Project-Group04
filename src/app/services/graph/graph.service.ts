@@ -6,6 +6,7 @@ import { nodeData } from '../../models/node-data';
 import { edgeData } from '../../models/edge-data';
 import { graphRecords } from '../../models/graph-records';
 import { graphCategory } from '../../models/graph-category';
+import { searchGraphNode } from '../../models/search-graph-node';
 
 @Injectable({
   providedIn: 'root',
@@ -77,20 +78,10 @@ export class GraphService {
       { headers, withCredentials: true }
     );
   }
-
-  getNodeProperties(nodeCategory: string) {
-    const headers = { 'Content-Type': 'application/json' };
-
-    return this.http.get<string[]>(`${this.URL}api/Attributes/nodes?nodeCategoryName=${nodeCategory}`, { headers, withCredentials: true });
-  }
-
-  getEdgeProperties(edgeCategory: string) {
-    const headers = { 'Content-Type': 'application/json' };
-
-    return this.http.get<string[]>(`${this.URL}api/Attributes/edges?edgeCategoryName=${edgeCategory}`, { headers, withCredentials: true });
-  }
-
-  searchNode(data:any){
+  
+  searchNode(data: searchGraphNode){
+    console.log(data)//test kon 👌 Is it working ? (。_。)nope why nottt chi chi mige ?? (°ー°〃)
+    // telegram
     
   }
 }
