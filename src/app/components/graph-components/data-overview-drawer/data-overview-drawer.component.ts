@@ -71,7 +71,11 @@ export class DataOverviewDrawerComponent implements AfterViewInit {
       edgeCategoryClauses: {},
     };
 
-    this.graphService.searchNode(data);
+    this.graphService.searchNode(data).subscribe({
+      next: (data) => {
+        console.log(data);
+      }
+    });
   }
   
   expand(): void {
@@ -85,11 +89,8 @@ export class DataOverviewDrawerComponent implements AfterViewInit {
   }
 
   subsctibeToServices() {
-    console.log('subscribed');
-    
     this.sigmaService.selectedGraphCategories$.subscribe({
       next: (data) => {
-        console.log(data);
         this.selectedCategories = data
       },
     });

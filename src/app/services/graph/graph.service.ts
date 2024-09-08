@@ -78,10 +78,10 @@ export class GraphService {
       { headers, withCredentials: true }
     );
   }
-  
-  searchNode(data: searchGraphNode){
-    console.log(data)//test kon 👌 Is it working ? (。_。)nope why nottt chi chi mige ?? (°ー°〃)
-    // telegram
-    
+
+  searchNode(data: searchGraphNode) {
+    const headers = { 'Content-Type': 'application/json' };
+
+    return this.http.post(`${this.URL}/api/Graph`, data, { headers, withCredentials: true });
   }
 }
