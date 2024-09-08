@@ -14,6 +14,7 @@ import { SigmaService } from '../../../services/sigma/sigma.service';
 import { graphCategory } from '../../../models/graph-category';
 import { FormsModule } from '@angular/forms';
 import { searchGraphNode } from '../../../models/search-graph-node';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-data-overview-drawer',
@@ -46,7 +47,7 @@ export class DataOverviewDrawerComponent implements AfterViewInit {
 
   @Output() closeDrawer = new EventEmitter<void>();
 
-  constructor(private graphService: GraphService, private sigmaService: SigmaService) {}
+  constructor(private graphService: GraphService, private sigmaService: SigmaService, private notificationService: NotificationService) {}
 
   ngAfterViewInit(): void {
     this.subsctibeToServices();
@@ -73,7 +74,14 @@ export class DataOverviewDrawerComponent implements AfterViewInit {
 
     this.graphService.searchNode(data).subscribe({
       next: (data) => {
-        console.log(data);
+        if (data.nodes.length === 0) {
+          this.notificationService.createNotification('info', 'Info', 'No results found');
+          return;
+        }
+        this.sigmaService.setGetGraph(data);
+      },
+      error: (error) => {
+        this.notificationService.createNotification('error', 'Error', error);
       }
     });
   }

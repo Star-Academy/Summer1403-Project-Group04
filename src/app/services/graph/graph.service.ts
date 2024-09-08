@@ -82,6 +82,6 @@ export class GraphService {
   searchNode(data: searchGraphNode) {
     const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.post(`${this.URL}/api/Graph`, data, { headers, withCredentials: true });
+    return this.http.post<graphRecords>(`${this.URL}/api/Graph`, data, { headers, withCredentials: true });
   }
 }

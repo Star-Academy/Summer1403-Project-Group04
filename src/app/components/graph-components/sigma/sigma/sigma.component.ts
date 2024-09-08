@@ -44,7 +44,7 @@ export class SigmaComponent implements AfterViewInit {
   private graph!: MultiGraph;
   private state: State = { searchQuery: '' };
   private cancelCurrentAnimation: (() => void) | null = null;
-  private nodesList: GraphNode[] = [];
+  private nodesList: GraphNode[] = [];// bia tel \\hastam پیاممو ببین خب
   protected drawerVisible = false;
   protected selectedNode: nodeData | null = null;
   protected selectedEdge: edgeData | null = null;
@@ -343,6 +343,7 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaService.getGraph$.subscribe((data) => {
       const nodes = data['nodes'];
       const edges = data['edges'];
+      this.nodesList = [];
       
       nodes.forEach((element: { id: string; label: string }) => {
         this.nodesList.push({
@@ -355,7 +356,8 @@ export class SigmaComponent implements AfterViewInit {
           expanded: true,
         });
       });
-
+      this.graph.clear();
+      this.sigmaInstance.refresh();
       this.addNodes(this.nodesList);
       this.addEdges(edges);
     });

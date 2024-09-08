@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { GraphData } from '../../models/graph-data';
 import { graphCategory } from '../../models/graph-category';
+import { graphRecords } from '../../models/graph-records';
 
 @Injectable({
   providedIn: 'root',
@@ -98,7 +99,7 @@ export class SigmaService {
     this.searchedNode.next(node);
   }
 
-  setGetGraph(data: {nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}) {
+  setGetGraph(data: graphRecords) {
     this.getGraph.next(data);
   }
 
