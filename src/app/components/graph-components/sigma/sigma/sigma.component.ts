@@ -196,13 +196,16 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   private addEdges(edges: { id: string; source: string; target: string }[]) {
-    const attr = {
-      label: 'test',
-      size: 10,
-    };
+   
     edges.forEach((edge: { id: string; source: string; target: string }) => {
+      const attr = {
+        id: edge.id,
+        label: 'test',
+        size: 10,
+      };
       this.graph.addEdge(edge.source, edge.target, attr);
     });
+    
   }
 
   private addDragNodeFuntionality() {
@@ -340,7 +343,7 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaService.getGraph$.subscribe((data) => {
       const nodes = data['nodes'];
       const edges = data['edges'];
-
+      
       nodes.forEach((element: { id: string; label: string }) => {
         this.nodesList.push({
           id: element.id,
@@ -381,8 +384,8 @@ export class SigmaComponent implements AfterViewInit {
   private edgeClickHandler() {
     this.sigmaInstance.on('clickEdge', (event) => {
       this.selectedEdgeId = (parseInt(event.edge.charAt(event.edge.length - 1)) + 1).toString();
-
-      this.uploadService.getEdgeById(event.edge.charAt(event.edge.length - 1)).subscribe({
+      
+      this.uploadService.getEdgeById(this.graph.getEdgeAttributes(event.edge)['id']).subscribe({
         next: (data) => {
           this.selectedEdge = data;
         },
