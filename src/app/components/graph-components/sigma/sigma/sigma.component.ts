@@ -20,6 +20,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { nodeData } from '../../../../models/node-data';
 import { edgeData } from '../../../../models/edge-data';
 import { GraphService } from '../../../../services/graph/graph.service';
+import { MockBackService } from '../../../../services/mock-back/mock-back.service';
 
 @Component({
   selector: 'app-sigma',
@@ -53,7 +54,8 @@ export class SigmaComponent implements AfterViewInit {
 
   constructor(
     private sigmaService: SigmaService,
-    private uploadService: GraphService
+    private uploadService: GraphService,
+    private mockBack : MockBackService
   ) {}
 
   ngAfterViewInit() {

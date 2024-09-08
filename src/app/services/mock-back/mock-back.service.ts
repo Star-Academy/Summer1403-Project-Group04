@@ -48,11 +48,6 @@ export class MockBackService {
    const edges = this.graphRecords.edges.filter((edge)=>{
     return edge.source === id || edge.target === id
    });
- console.log(edges);
- 
-   
-
-    
 
     this.neighbourNodesSubject.next({nodes:neighbourNodes , edges: edges}); 
 

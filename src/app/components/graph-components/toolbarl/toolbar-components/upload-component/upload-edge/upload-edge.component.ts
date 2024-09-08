@@ -48,7 +48,8 @@ export class UploadEdgeComponent {
     private msg: NzMessageService,
     private GraphService: GraphService,
     private notificationService: NotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private uploadGraphService : GraphService
   ) {
     this.uploadForm = this.fb.group({
       EdgeCategoryName: ['', Validators.required],
@@ -153,9 +154,6 @@ export class UploadEdgeComponent {
 
      
       this.uploadGraphService.uploadEdgeData(formData).subscribe(({
-
-      
-
         next: (response) => {
           this.notificationService.createNotification('success', 'Success', response.message);
           this.isPending = false;
