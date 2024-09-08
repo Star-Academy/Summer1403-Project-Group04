@@ -56,6 +56,15 @@ export class SigmaService {
   });
   selectedGraphCategories$ = this.selectedGraphCategories.asObservable();
 
+  private sourceNodeProp = new BehaviorSubject(['']);
+  sourceNodeProp$ = this.sourceNodeProp.asObservable();
+
+  private targetNodeProp = new BehaviorSubject(['']);
+  targetNodeProp$ = this.targetNodeProp.asObservable();
+
+  private edgeProp = new BehaviorSubject(['']);
+  edgeProp$ = this.edgeProp.asObservable();
+
   changeData(data: GraphData) {
     this.graphData.next(data);
   }
@@ -95,6 +104,17 @@ export class SigmaService {
 
   setSelectedCategories(data:graphCategory){
     this.selectedGraphCategories.next(data);
-    
+  }
+
+  setSourceNodeProperties(data: string[]) {
+    this.sourceNodeProp.next(data)
+  }
+
+  setTargetNodeProperties(data: string[]) {
+    this.targetNodeProp.next(data)
+  }
+
+  setEdgeProperties(data: string[]) {
+    this.edgeProp.next(data)
   }
 }

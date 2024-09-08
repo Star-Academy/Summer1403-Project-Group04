@@ -64,5 +64,32 @@ export class GetGraphComponent implements OnInit {
       },
     });
     this.sigmaService.setSelectedCategories(this.form.value)
+
+    this.GraphService.getNodeProperties(this.form.value.SourceNodeCategoryName).subscribe({
+      next: (data) => {
+        this.sigmaService.setSourceNodeProperties(data);
+      },
+      error: () => {
+        return;
+      }
+    });
+
+    this.GraphService.getNodeProperties(this.form.value.TargetNodeCategoryName).subscribe({
+      next: (data) => {
+        this.sigmaService.setTargetNodeProperties(data);
+      },
+      error: () => {
+        return;
+      }
+    });
+
+    this.GraphService.getEdgeProperties(this.form.value.EdgeCategoryName).subscribe({
+      next: (data) => {
+        this.sigmaService.setEdgeProperties(data);
+      },
+      error: () => {
+        return;
+      }
+    });
   }
 }

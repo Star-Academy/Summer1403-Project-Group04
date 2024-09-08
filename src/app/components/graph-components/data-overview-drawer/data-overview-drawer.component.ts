@@ -9,6 +9,8 @@ import { NzBadgeComponent } from 'ng-zorro-antd/badge';
 import { nodeData } from '../../../models/node-data';
 import { edgeData } from '../../../models/edge-data';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { GraphService } from '../../../services/graph/graph.service';
+import { SigmaService } from '../../../services/sigma/sigma.service';
 
 @Component({
   selector: 'app-data-overview-drawer',
@@ -23,12 +25,14 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzBadgeComponent,
     NzIconModule,
     NzDropdownMenuComponent,
-    NzDropDownModule
+    NzDropDownModule,
   ],
   templateUrl: './data-overview-drawer.component.html',
-  styleUrl: './data-overview-drawer.component.scss'
+  styleUrl: './data-overview-drawer.component.scss',
 })
 export class DataOverviewDrawerComponent {
+  constructor(private graphService: GraphService, private sigmaService: SigmaService) {}
+
   @Input() visible = false;
   @Input() selectedNode: nodeData | null = null;
   @Input() selectedEdge: edgeData | null = null;
@@ -37,8 +41,16 @@ export class DataOverviewDrawerComponent {
 
   @Output() closeDrawer = new EventEmitter<void>();
 
+  private sourceNodeProp!: string[]; 
+  private targetNodeProp!: string[];
+  private edgeProp!: string[];
+
   close(): void {
     this.closeDrawer.emit();
+  }
+  
+  search(): void {
+    // Logic for searching the node
   }
 
   expand(): void {

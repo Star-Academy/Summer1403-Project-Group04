@@ -77,4 +77,20 @@ export class GraphService {
       { headers, withCredentials: true }
     );
   }
+
+  getNodeProperties(nodeCategory: string) {
+    const headers = { 'Content-Type': 'application/json' };
+
+    return this.http.get<string[]>(`${this.URL}api/Attributes/nodes?nodeCategoryName=${nodeCategory}`, { headers, withCredentials: true });
+  }
+
+  getEdgeProperties(edgeCategory: string) {
+    const headers = { 'Content-Type': 'application/json' };
+
+    return this.http.get<string[]>(`${this.URL}api/Attributes/edges?edgeCategoryName=${edgeCategory}`, { headers, withCredentials: true });
+  }
+
+  searchNode(data:any){
+    
+  }
 }
