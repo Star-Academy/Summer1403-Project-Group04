@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DataOverviewDrawerComponent } from './data-overview-drawer.component';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('DataOverviewDrawerComponent', () => {
   let component: DataOverviewDrawerComponent;
@@ -8,7 +9,8 @@ describe('DataOverviewDrawerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DataOverviewDrawerComponent]
+      imports: [DataOverviewDrawerComponent],
+      providers: [provideHttpClient()]
     })
     .compileComponents();
 

@@ -8,10 +8,12 @@
 >
   <div *nzDrawerContent>
     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-      <input type="text" nz-input placeholder="Search nodes" />
+      <input type="text" nz-input placeholder="Search nodes" [(ngModel)]="searchTerm" />
     </nz-input-group>
     <ng-template #suffixIconButton>
-      <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+      <button nz-button nzType="primary" nzSearch (click)="search()">
+        <span nz-icon nzType="search"></span>
+      </button>
     </ng-template>
     <nz-divider></nz-divider>
     <div class="node-container">

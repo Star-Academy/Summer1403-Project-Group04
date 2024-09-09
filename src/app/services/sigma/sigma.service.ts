@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { GraphData } from '../../models/graph-data';
 import { graphCategory } from '../../models/graph-category';
+import { graphRecords } from '../../models/graph-records';
 
 @Injectable({
   providedIn: 'root',
@@ -50,11 +51,26 @@ export class SigmaService {
   getGraph$ = this.getGraph.asObservable();
 
   private selectedGraphCategories = new BehaviorSubject<graphCategory>( {
-    sourceCategoryName: '',
-    targetCategoryName: '',
-    edgeCategoryName: '',
+    SourceNodeCategoryName: '',
+    TargetNodeCategoryName: '',
+    EdgeCategoryName: '',
   });
   selectedGraphCategories$ = this.selectedGraphCategories.asObservable();
+
+  private sourceNodeProp = new BehaviorSubject(['']);
+  sourceNodeProp$ = this.sourceNodeProp.asObservable();
+
+  private targetNodeProp = new BehaviorSubject(['']);
+  targetNodeProp$ = this.targetNodeProp.asObservable();
+
+  private edgeProp = new BehaviorSubject(['']);
+  edgeProp$ = this.edgeProp.asObservable();
+
+  private renderEdgeLabel = new BehaviorSubject<boolean>(true);
+  renderEdgeLabel$ = this.renderEdgeLabel.asObservable();
+
+  private toggleHover = new BehaviorSubject<boolean>(false);
+  toggleHover$ = this.toggleHover.asObservable();
 
   changeData(data: GraphData) {
     this.graphData.next(data);
@@ -89,12 +105,31 @@ export class SigmaService {
     this.searchedNode.next(node);
   }
 
-  setGetGraph(data: {nodes: {id:string , label:string}[] , edges: {id:string , source:string , target: string}[]}) {
+  setGetGraph(data: graphRecords) {
     this.getGraph.next(data);
   }
 
   setSelectedCategories(data:graphCategory){
     this.selectedGraphCategories.next(data);
-    
+  }
+
+  setSourceNodeProperties(data: string[]) {
+    this.sourceNodeProp.next(data)
+  }
+
+  setTargetNodeProperties(data: string[]) {
+    this.targetNodeProp.next(data)
+  }
+
+  setEdgeProperties(data: string[]) {
+    this.edgeProp.next(data)
+  }
+
+  toggleRenderEdgeLabel(){
+    this.renderEdgeLabel.next(!this.renderEdgeLabel.value);
+  }
+
+  toggleNodeHover(){
+    this.toggleHover.next(!this.toggleHover.value);
   }
 }

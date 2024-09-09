@@ -45,12 +45,15 @@ export class SigmaComponent implements AfterViewInit {
   private state: State = { searchQuery: '' };
   private cancelCurrentAnimation: (() => void) | null = null;
   private nodesList: GraphNode[] = [];
+  private renderEdgeLabel = true;
+  private toggleHover = false;
   protected drawerVisible = false;
   protected selectedNode: nodeData | null = null;
   protected selectedEdge: edgeData | null = null;
   protected selectedNodeId!: string;
   protected selectedEdgeId!: string;
   protected selectedCategories!: graphCategory;
+  
 
   constructor(
     private sigmaService: SigmaService,
@@ -88,15 +91,15 @@ export class SigmaComponent implements AfterViewInit {
 
     this.addDragNodeFuntionality();
 
+   
+
     this.sigmaInstance.getMouseCaptor().on('mousedown', () => {
       if (!this.sigmaInstance.getCustomBBox()) this.sigmaInstance.setCustomBBox(this.sigmaInstance.getBBox());
     });
 
     this.handleLeaveNode();
 
-    this.nodeSetting();
-
-    this.setReducerSetting();
+   
   }
 
   protected resetCamera() {
@@ -196,13 +199,16 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   private addEdges(edges: { id: string; source: string; target: string }[]) {
-    const attr = {
-      label: 'test',
-      size: 10,
-    };
+   
     edges.forEach((edge: { id: string; source: string; target: string }) => {
+      const attr = {
+        id: edge.id,
+        label: 'test',
+        size: 10,
+      };
       this.graph.addEdge(edge.source, edge.target, attr);
     });
+    
   }
 
   private addDragNodeFuntionality() {
@@ -271,7 +277,6 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   private expandNode(id: string, neighbors: graphRecords) {
-    console.log(id, neighbors);
     const centerCordinate = {
       x: this.graph.getNodeAttribute(id, 'x'),
       y: this.graph.getNodeAttribute(id, 'y'),
@@ -279,6 +284,7 @@ export class SigmaComponent implements AfterViewInit {
     const newPositions: PlainObject<PlainObject<number>> = {};
 
     neighbors.nodes.forEach((neighbour, index) => {
+      if (!this.graph.hasNode(neighbour.id)) {
       this.graph.addNode(neighbour.id, {
         label: neighbour.label,
         x: centerCordinate.x,
@@ -297,8 +303,7 @@ export class SigmaComponent implements AfterViewInit {
       newPositions[neighbour.id] = {
         x: newX,
         y: newY,
-      };
-      console.log(newPositions);
+      };}
     });
 
     this.addEdges(neighbors.edges);
@@ -311,7 +316,7 @@ export class SigmaComponent implements AfterViewInit {
       allowInvalidContainer: true,
       enableEdgeEvents: true,
       defaultEdgeType: 'curved',
-      renderEdgeLabels: true,
+      renderEdgeLabels: this.renderEdgeLabel,
       edgeProgramClasses: {
         straight: EdgeArrowProgram,
         curved: EdgeCurvedArrowProgram,
@@ -324,6 +329,20 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaService.circularLayoutTrigger$.subscribe(() => {
       this.circularLayout();
     });
+
+    this.sigmaService.renderEdgeLabel$.subscribe((data)=>{
+      this.renderEdgeLabel = data;
+      this.sigmaInstance.setSetting('renderEdgeLabels', this.renderEdgeLabel);
+      this.sigmaInstance.refresh();
+    })
+
+    this.sigmaService.toggleHover$.subscribe((data)=>{
+      this.toggleHover = data
+      
+      if(data){
+        this.handleEnterNode()
+      }
+    })
 
     this.sigmaService.randomLayoutTrigger$.subscribe(() => {
       this.randomLayout();
@@ -340,7 +359,8 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaService.getGraph$.subscribe((data) => {
       const nodes = data['nodes'];
       const edges = data['edges'];
-
+      this.nodesList = [];
+      
       nodes.forEach((element: { id: string; label: string }) => {
         this.nodesList.push({
           id: element.id,
@@ -352,7 +372,8 @@ export class SigmaComponent implements AfterViewInit {
           expanded: true,
         });
       });
-
+      this.graph.clear();
+      this.sigmaInstance.refresh();
       this.addNodes(this.nodesList);
       this.addEdges(edges);
     });
@@ -381,8 +402,8 @@ export class SigmaComponent implements AfterViewInit {
   private edgeClickHandler() {
     this.sigmaInstance.on('clickEdge', (event) => {
       this.selectedEdgeId = (parseInt(event.edge.charAt(event.edge.length - 1)) + 1).toString();
-
-      this.uploadService.getEdgeById(event.edge.charAt(event.edge.length - 1)).subscribe({
+      
+      this.uploadService.getEdgeById(this.graph.getEdgeAttributes(event.edge)['id']).subscribe({
         next: (data) => {
           this.selectedEdge = data;
         },
@@ -394,16 +415,18 @@ export class SigmaComponent implements AfterViewInit {
 
   private doubleClickHandler() {
     this.sigmaInstance.on('doubleClickNode', (event) => {
+      let neighborData : graphRecords = {nodes: [] , edges:[]}
       event.preventSigmaDefault();
       if (this.graph.getNodeAttribute(event.node, 'expanded')) {
-        console.log('its expanded');
         this.collapseNode(event.node);
       } else {
-        console.log('it is not expandded');
         this.mockBack.getNeighbourById(event.node).subscribe((data) => {
-          this.expandNode(event.node, data);
+          neighborData = data
+         
         });
+        this.expandNode(event.node, neighborData);
       }
+      
     });
     this.sigmaInstance.on('doubleClickStage', (e) => {
       e.preventSigmaDefault();
@@ -429,8 +452,14 @@ export class SigmaComponent implements AfterViewInit {
 
   private handleEnterNode() {
     this.sigmaInstance.on('enterNode', ({ node }) => {
-      this.setHoveredNode(node);
+      if (this.toggleHover) {
+        this.setHoveredNode(node);
+      }
     });
+
+    this.nodeSetting();
+
+    this.setReducerSetting();
   }
 
   private handleLeaveNode() {
@@ -469,24 +498,28 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   collapseNode(id: string) {
-    console.log(`we gonna collapse ${id}`);
-
     const centerCordinate = {
       x: this.graph.getNodeAttribute(id, 'x'),
       y: this.graph.getNodeAttribute(id, 'y'),
     };
     const newPositions: PlainObject<PlainObject<number>> = {};
     const neighbours = this.graph.neighbors(id);
+    
 
     neighbours.forEach((neighbour) => {
-      newPositions[neighbour] = {
-        x: centerCordinate.x,
-        y: centerCordinate.y,
-      };
-
-      setTimeout(() => {
-        this.graph.dropNode(neighbour);
-      }, 550);
+      const neighborNeighbors = this.graph.neighbors(neighbour);
+      const hasOnlyClickedNodeAsNeighbor = neighborNeighbors.length === 1 && neighborNeighbors[0] === id;
+      if (hasOnlyClickedNodeAsNeighbor) {
+        newPositions[neighbour] = {
+          x: centerCordinate.x,
+          y: centerCordinate.y,
+        };
+  
+        setTimeout(() => {
+          this.graph.dropNode(neighbour);
+        }, 550);
+      }
+      
     });
 
     this.graph.setNodeAttribute(id, 'expanded', false);

@@ -6,6 +6,7 @@ import { nodeData } from '../../models/node-data';
 import { edgeData } from '../../models/edge-data';
 import { graphRecords } from '../../models/graph-records';
 import { graphCategory } from '../../models/graph-category';
+import { searchGraphNode } from '../../models/search-graph-node';
 
 @Injectable({
   providedIn: 'root',
@@ -73,8 +74,14 @@ export class GraphService {
     const headers = { 'Content-Type': 'application/json' };
 
     return this.http.get<graphRecords>(
-      `${this.URL}/api/Graph/expansion?nodeId=${id}&sourceCategoryName=${categories.sourceCategoryName}&targetCategoryName=${categories.targetCategoryName}&edgeCategoryName=${categories.edgeCategoryName}`,
+      `${this.URL}/api/Graph/expansion?nodeId=${id}&sourceCategoryName=${categories.SourceNodeCategoryName}&targetCategoryName=${categories.TargetNodeCategoryName}&edgeCategoryName=${categories.EdgeCategoryName}`,
       { headers, withCredentials: true }
     );
+  }
+
+  searchNode(data: searchGraphNode) {
+    const headers = { 'Content-Type': 'application/json' };
+
+    return this.http.post<graphRecords>(`${this.URL}/api/Graph`, data, { headers, withCredentials: true });
   }
 }

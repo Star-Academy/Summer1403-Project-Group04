@@ -1,5 +1,5 @@
 export interface graphCategory {
-  sourceCategoryName: string;
-  targetCategoryName: string;
-  edgeCategoryName: string;
+  SourceNodeCategoryName: string;
+  TargetNodeCategoryName: string;
+  EdgeCategoryName: string;
 }
