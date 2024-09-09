@@ -66,6 +66,12 @@ export class SigmaService {
   private edgeProp = new BehaviorSubject(['']);
   edgeProp$ = this.edgeProp.asObservable();
 
+  private renderEdgeLabel = new BehaviorSubject<boolean>(true);
+  renderEdgeLabel$ = this.renderEdgeLabel.asObservable();
+
+  private toggleHover = new BehaviorSubject<boolean>(false);
+  toggleHover$ = this.toggleHover.asObservable();
+
   changeData(data: GraphData) {
     this.graphData.next(data);
   }
@@ -117,5 +123,13 @@ export class SigmaService {
 
   setEdgeProperties(data: string[]) {
     this.edgeProp.next(data)
+  }
+
+  toggleRenderEdgeLabel(){
+    this.renderEdgeLabel.next(!this.renderEdgeLabel.value);
+  }
+
+  toggleNodeHover(){
+    this.toggleHover.next(!this.toggleHover.value);
   }
 }

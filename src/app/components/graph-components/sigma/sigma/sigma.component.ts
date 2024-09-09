@@ -44,13 +44,16 @@ export class SigmaComponent implements AfterViewInit {
   private graph!: MultiGraph;
   private state: State = { searchQuery: '' };
   private cancelCurrentAnimation: (() => void) | null = null;
-  private nodesList: GraphNode[] = [];// bia tel \\hastam پیاممو ببین خب
+  private nodesList: GraphNode[] = [];
+  private renderEdgeLabel = true;
+  private toggleHover = false;
   protected drawerVisible = false;
   protected selectedNode: nodeData | null = null;
   protected selectedEdge: edgeData | null = null;
   protected selectedNodeId!: string;
   protected selectedEdgeId!: string;
   protected selectedCategories!: graphCategory;
+  
 
   constructor(
     private sigmaService: SigmaService,
@@ -88,15 +91,15 @@ export class SigmaComponent implements AfterViewInit {
 
     this.addDragNodeFuntionality();
 
+   
+
     this.sigmaInstance.getMouseCaptor().on('mousedown', () => {
       if (!this.sigmaInstance.getCustomBBox()) this.sigmaInstance.setCustomBBox(this.sigmaInstance.getBBox());
     });
 
     this.handleLeaveNode();
 
-    this.nodeSetting();
-
-    this.setReducerSetting();
+   
   }
 
   protected resetCamera() {
@@ -274,7 +277,6 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   private expandNode(id: string, neighbors: graphRecords) {
-    console.log(id, neighbors);
     const centerCordinate = {
       x: this.graph.getNodeAttribute(id, 'x'),
       y: this.graph.getNodeAttribute(id, 'y'),
@@ -301,7 +303,6 @@ export class SigmaComponent implements AfterViewInit {
         x: newX,
         y: newY,
       };
-      console.log(newPositions);
     });
 
     this.addEdges(neighbors.edges);
@@ -314,7 +315,7 @@ export class SigmaComponent implements AfterViewInit {
       allowInvalidContainer: true,
       enableEdgeEvents: true,
       defaultEdgeType: 'curved',
-      renderEdgeLabels: true,
+      renderEdgeLabels: this.renderEdgeLabel,
       edgeProgramClasses: {
         straight: EdgeArrowProgram,
         curved: EdgeCurvedArrowProgram,
@@ -327,6 +328,20 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaService.circularLayoutTrigger$.subscribe(() => {
       this.circularLayout();
     });
+
+    this.sigmaService.renderEdgeLabel$.subscribe((data)=>{
+      this.renderEdgeLabel = data;
+      this.sigmaInstance.setSetting('renderEdgeLabels', this.renderEdgeLabel);
+      this.sigmaInstance.refresh();
+    })
+
+    this.sigmaService.toggleHover$.subscribe((data)=>{
+      this.toggleHover = data
+      
+      if(data){
+        this.handleEnterNode()
+      }
+    })
 
     this.sigmaService.randomLayoutTrigger$.subscribe(() => {
       this.randomLayout();
@@ -401,10 +416,8 @@ export class SigmaComponent implements AfterViewInit {
     this.sigmaInstance.on('doubleClickNode', (event) => {
       event.preventSigmaDefault();
       if (this.graph.getNodeAttribute(event.node, 'expanded')) {
-        console.log('its expanded');
         this.collapseNode(event.node);
       } else {
-        console.log('it is not expandded');
         this.mockBack.getNeighbourById(event.node).subscribe((data) => {
           this.expandNode(event.node, data);
         });
@@ -434,8 +447,14 @@ export class SigmaComponent implements AfterViewInit {
 
   private handleEnterNode() {
     this.sigmaInstance.on('enterNode', ({ node }) => {
-      this.setHoveredNode(node);
+      if (this.toggleHover) {
+        this.setHoveredNode(node);
+      }
     });
+
+    this.nodeSetting();
+
+    this.setReducerSetting();
   }
 
   private handleLeaveNode() {
@@ -474,8 +493,6 @@ export class SigmaComponent implements AfterViewInit {
   }
 
   collapseNode(id: string) {
-    console.log(`we gonna collapse ${id}`);
-
     const centerCordinate = {
       x: this.graph.getNodeAttribute(id, 'x'),
       y: this.graph.getNodeAttribute(id, 'y'),

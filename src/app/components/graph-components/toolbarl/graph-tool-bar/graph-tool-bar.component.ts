@@ -10,7 +10,8 @@ import { LayoutsComponent } from '../toolbar-components/layouts/layouts.componen
 import { UploadComponentsComponent } from '../toolbar-components/upload-component/upload-layout/upload-components.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { RouterLink } from '@angular/router';
-import { GetGraphComponent } from "../toolbar-components/get-graph/get-graph.component";
+import { GetGraphComponent } from '../toolbar-components/get-graph/get-graph.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-graph-tool-bar',
@@ -26,13 +27,17 @@ import { GetGraphComponent } from "../toolbar-components/get-graph/get-graph.com
     LayoutsComponent,
     UploadComponentsComponent,
     NzSwitchModule,
-    GetGraphComponent
-],
+    GetGraphComponent,
+    FormsModule,
+  ],
   providers: [],
   templateUrl: './graph-tool-bar.component.html',
   styleUrl: './graph-tool-bar.component.scss',
 })
 export class GraphToolBarComponent {
+  protected isSwitchChecked = true;
+  protected hoverToggle = false;
+
   constructor(private sigmaService: SigmaService) {}
   activeButton: number | null = null;
   @Output() openDrawer: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -41,8 +46,16 @@ export class GraphToolBarComponent {
     this.activeButton = index;
   }
 
-  openMenu(){
+  openMenu() {
     this.setActiveButton(4);
     this.openDrawer.emit(true);
+  }
+
+  toggleRenderEdgeLabel() {
+    this.sigmaService.toggleRenderEdgeLabel();
+  }
+
+  toggleNodeHover(){
+    this.sigmaService.toggleNodeHover();
   }
 }
