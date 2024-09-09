@@ -203,9 +203,9 @@ describe('GraphService', () => {
     // Arrange
     const id = 1;
     const categories: graphCategory = {
-      sourceCategoryName: 'Category1',
-      targetCategoryName: 'Category2',
-      edgeCategoryName: 'EdgeCategory1',
+      SourceNodeCategoryName: 'Category1',
+      TargetNodeCategoryName: 'Category2',
+      EdgeCategoryName: 'EdgeCategory1',
     };
     const mockResponse: graphRecords = { nodes: [], edges: [] };
     httpClientSpy.get.and.returnValue(of(mockResponse));
@@ -219,7 +219,7 @@ describe('GraphService', () => {
 
     expect(httpClientSpy.get.calls.count()).toBe(1);
     expect(httpClientSpy.get.calls.mostRecent().args[0]).toBe(
-      `${API_URL}/api/Graph/expansion?nodeId=${id}&sourceCategoryName=${categories.sourceCategoryName}&targetCategoryName=${categories.targetCategoryName}&edgeCategoryName=${categories.edgeCategoryName}`
+      `${API_URL}/api/Graph/expansion?nodeId=${id}&sourceCategoryName=${categories.SourceNodeCategoryName}&targetCategoryName=${categories.TargetNodeCategoryName}&edgeCategoryName=${categories.EdgeCategoryName}`
     );
   });
 });
