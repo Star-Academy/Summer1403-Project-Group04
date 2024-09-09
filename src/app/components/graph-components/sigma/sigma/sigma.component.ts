@@ -284,6 +284,7 @@ export class SigmaComponent implements AfterViewInit {
     const newPositions: PlainObject<PlainObject<number>> = {};
 
     neighbors.nodes.forEach((neighbour, index) => {
+      if (!this.graph.hasNode(neighbour.id)) {
       this.graph.addNode(neighbour.id, {
         label: neighbour.label,
         x: centerCordinate.x,
@@ -302,7 +303,7 @@ export class SigmaComponent implements AfterViewInit {
       newPositions[neighbour.id] = {
         x: newX,
         y: newY,
-      };
+      };}
     });
 
     this.addEdges(neighbors.edges);
@@ -414,14 +415,18 @@ export class SigmaComponent implements AfterViewInit {
 
   private doubleClickHandler() {
     this.sigmaInstance.on('doubleClickNode', (event) => {
+      let neighborData : graphRecords = {nodes: [] , edges:[]}
       event.preventSigmaDefault();
       if (this.graph.getNodeAttribute(event.node, 'expanded')) {
         this.collapseNode(event.node);
       } else {
         this.mockBack.getNeighbourById(event.node).subscribe((data) => {
-          this.expandNode(event.node, data);
+          neighborData = data
+         
         });
+        this.expandNode(event.node, neighborData);
       }
+      
     });
     this.sigmaInstance.on('doubleClickStage', (e) => {
       e.preventSigmaDefault();
@@ -499,16 +504,22 @@ export class SigmaComponent implements AfterViewInit {
     };
     const newPositions: PlainObject<PlainObject<number>> = {};
     const neighbours = this.graph.neighbors(id);
+    
 
     neighbours.forEach((neighbour) => {
-      newPositions[neighbour] = {
-        x: centerCordinate.x,
-        y: centerCordinate.y,
-      };
-
-      setTimeout(() => {
-        this.graph.dropNode(neighbour);
-      }, 550);
+      const neighborNeighbors = this.graph.neighbors(neighbour);
+      const hasOnlyClickedNodeAsNeighbor = neighborNeighbors.length === 1 && neighborNeighbors[0] === id;
+      if (hasOnlyClickedNodeAsNeighbor) {
+        newPositions[neighbour] = {
+          x: centerCordinate.x,
+          y: centerCordinate.y,
+        };
+  
+        setTimeout(() => {
+          this.graph.dropNode(neighbour);
+        }, 550);
+      }
+      
     });
 
     this.graph.setNodeAttribute(id, 'expanded', false);
